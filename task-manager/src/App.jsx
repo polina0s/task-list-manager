@@ -1,23 +1,54 @@
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 
 export default function App() {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  const onSubmit = data => console.log(data);
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm({
+    mode: 'onBlur',
+  });
 
-  console.log(watch("example")); // watch input value by passing the name of it
+  const onSubmit = (data) => {
+    alert(JSON.stringify(data));
+    reset();
+  };
 
   return (
-    /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* register your input into the hook by invoking the "register" function */}
-      <input defaultValue="test" {...register("example")} />
-      
-      {/* include validation with required or other standard HTML validation rules */}
-      <input {...register("exampleRequired", { required: true })} />
-      {/* errors will return when field validation fails  */}
-      {errors.exampleRequired && <span>This field is required</span>}
-      
-      <input type="submit" />
-    </form>
+    <div>
+      <h1>Form</h1>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <label>
+          First Name:
+          <input
+            {...register('firstName', {
+              required: 'обязательно к заполнению',
+              minLength: { value: 5, message: 'минимум 5 символов' },
+            })}
+          />
+        </label>
+
+        <div style={{ height: 40 }}>
+          {errors?.firstName && <p>{errors?.firstName.message || 'Error!'}</p>}
+        </div>
+
+        <label>
+          Last Name:
+          <input
+            {...register('lastName', {
+              required: 'обязательно к заполнению',
+              minLength: { value: 5, message: 'минимум 5 символов' },
+            })}
+          />
+        </label>
+
+        <div style={{ height: 40 }}>
+          {errors?.lastName && <p>{errors?.lastName.message || 'Error!'}</p>}
+        </div>
+
+        <input type="submit" />
+      </form>
+    </div>
   );
 }
