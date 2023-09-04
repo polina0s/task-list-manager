@@ -38,12 +38,11 @@ export function Form({ header, btn }) {
               {...register('login', {
                 required: 'required to fill out',
                 minLength: { value: 1, message: 'minimum 1 characters' },
-                // maxLength: { value: 10, message: 'maximum 10 characters' },
               })}
               required
+              id="outlined-required"
               label="Login"
-              id="custom-css-outlined-input"
-              className={form.textField}
+              color="secondary"
             />
             <div className={form.inputErrorMessageCont}>
               {' '}
@@ -59,12 +58,11 @@ export function Form({ header, btn }) {
               {...register('password', {
                 required: 'required to fill out',
                 minLength: { value: 8, message: 'minimum 8 characters' },
-                // maxLength: { value: 10, message: 'maximum 10 characters' },
               })}
               required
+              id="outlined-required"
               label="Password"
-              id="custom-css-outlined-input"
-              className={form.textField}
+              color="secondary"
             />
             <div className={form.inputErrorMessageCont}>
               {' '}

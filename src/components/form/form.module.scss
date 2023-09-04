@@ -39,23 +39,3 @@
   font-family: Roboto;
   color: #cf0234;
 }
-
-.textField {
-    & label.Mui-focused {
-      color: #96063d
-    }
-    & .MuiInput-underline:after {
-      borderBottomColor: #e6c1cf
-    }
-    & .MuiOutlinedInput-root {
-      & fieldset {
-        borderColor: #e6c1cf
-      }
-      &:hover fieldset {
-        borderColor: #e6c1cf
-      }
-      &.Mui-focused fieldset {
-        borderColor: #96063d
-      }
-    }
-}

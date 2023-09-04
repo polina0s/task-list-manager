@@ -2,11 +2,17 @@ import { createTheme } from '@mui/material';
 
 export const orange = createTheme({
   palette: {
+    background: {
+      beige: '#fff0ea',
+    },
     orange: {
       main: '#ffb99e',
-      light: '#ffba9eb6',
-      dark: '#f69873b6',
-      contrastText: '#242105',
+    },
+    primary: {
+      main: '#fff0ea',
+    },
+    secondary: {
+      main: '#4c031f',
     },
   },
 });

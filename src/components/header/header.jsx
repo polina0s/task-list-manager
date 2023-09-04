@@ -1,29 +1,23 @@
-import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-// import header from './header.module.scss';
-
+import header from './header.module.scss';
+// sx={{ bgcolor: 'background.beige' }}
 export function Header() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
+          <img className={header.headerLogo} src="/src/pictures/logo.png" />
+          <Typography
+            variant="h4"
+            component="div"
+            sx={{ flexGrow: 1, fontFamily: 'Cookie', color: '#4c031f' }}
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            Task Manager
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>
