@@ -37,8 +37,8 @@ export function Form({ header, btn }) {
             <TextField
               {...register('login', {
                 required: 'required to fill out',
-                minLength: { value: 5, message: 'minimum 5 characters' },
-                maxLength: { value: 10, message: 'maximum 10 characters' },
+                minLength: { value: 1, message: 'minimum 1 characters' },
+                // maxLength: { value: 10, message: 'maximum 10 characters' },
               })}
               required
               label="Login"
@@ -58,8 +58,8 @@ export function Form({ header, btn }) {
             <TextField
               {...register('password', {
                 required: 'required to fill out',
-                minLength: { value: 5, message: 'minimum 5 characters' },
-                maxLength: { value: 10, message: 'maximum 10 characters' },
+                minLength: { value: 8, message: 'minimum 8 characters' },
+                // maxLength: { value: 10, message: 'maximum 10 characters' },
               })}
               required
               label="Password"
