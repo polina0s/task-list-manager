@@ -11,27 +11,27 @@ import form from './form.module.scss';
 export function Form({ header, btn }) {
   const CssTextField = styled(TextField)({
     '& label.Mui-focused': {
-      color: '#A0AAB4',
+      color: '#96063d',
     },
     '& .MuiInput-underline:after': {
-      borderBottomColor: '#B2BAC2',
+      borderBottomColor: '#e6c1cf',
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: '#E0E3E7',
+        borderColor: '#e6c1cf',
       },
       '&:hover fieldset': {
-        borderColor: '#B2BAC2',
+        borderColor: '#e6c1cf',
       },
       '&.Mui-focused fieldset': {
-        borderColor: '#6F7E8C',
+        borderColor: '#96063d',
       },
     },
   });
 
-  const blue = createTheme({
+  const orange = createTheme({
     palette: {
-      lightBlue: {
+      orange: {
         main: '#ffb99e',
         light: '#ffba9eb6',
         dark: '#f69873b6',
@@ -50,15 +50,16 @@ export function Form({ header, btn }) {
   });
 
   const onSubmit = (data) => {
-    alert(JSON.stringify(data));
+    console.log(JSON.stringify(data));
     reset();
   };
 
   return (
-    <ThemeProvider theme={blue}>
+    <ThemeProvider theme={orange}>
       <div className={form.formCont}>
         <Box
           component="form"
+          onSubmit={handleSubmit(onSubmit)}
           sx={{
             '& .MuiTextField-root': { m: 1, width: '25ch' },
           }}
@@ -69,34 +70,50 @@ export function Form({ header, btn }) {
           <div className={form.formInputCont}>
             <div className={form.formInput}>
               <CssTextField
-                {...register('firstName', {
+                {...register('login', {
                   required: 'required to fill out',
                   minLength: { value: 5, message: 'minimum 5 characters' },
+                  maxLength: { value: 10, message: 'maximum 10 characters' },
                 })}
                 required
-                onSubmit={handleSubmit(onSubmit)}
                 label="Login"
                 id="custom-css-outlined-input"
               />
-            </div>
-            <div style={{ height: 20 }}>
-              {' '}
-              {errors?.firstName && (
-                <p>{errors?.firstName.message || 'Error!'}</p>
-              )}{' '}
+              <div className={form.inputErrorMessageCont}>
+                {' '}
+                {errors?.login && (
+                  <p className={form.inputErrorMessage}>
+                    {errors?.login.message || 'Error!'}
+                  </p>
+                )}{' '}
+              </div>
             </div>
             <div className={form.formInput}>
               <CssTextField
+                {...register('password', {
+                  required: 'required to fill out',
+                  minLength: { value: 5, message: 'minimum 5 characters' },
+                  maxLength: { value: 10, message: 'maximum 10 characters' },
+                })}
                 required
                 label="Password"
                 id="custom-css-outlined-input"
               />
+              <div className={form.inputErrorMessageCont}>
+                {' '}
+                {errors?.password && (
+                  <p className={form.inputErrorMessage}>
+                    {errors?.password.message || 'Error!'}
+                  </p>
+                )}{' '}
+              </div>
             </div>
           </div>
           <div>
             <Button
               variant="contained"
-              color="lightBlue"
+              color="orange"
+              type="submit"
               className={form.formBtn}
             >
               {btn}
@@ -107,53 +124,3 @@ export function Form({ header, btn }) {
     </ThemeProvider>
   );
 }
-
-// const {
-//   register,
-//   formState: { errors },
-//   handleSubmit,
-//   reset,
-// } = useForm({
-//   mode: 'onBlur',
-// });
-
-// const onSubmit = (data) => {
-//   alert(JSON.stringify(data));
-//   reset();
-// };
-
-// <div>
-//   <h1>Form</h1>
-//   <form onSubmit={handleSubmit(onSubmit)}>
-//     <label>
-//       First Name:
-//       <TextField label="Outlined secondary" color="secondary" />
-//       <input
-//         {...register('firstName', {
-//           required: 'обязательно к заполнению',
-//           minLength: { value: 5, message: 'минимум 5 символов' },
-//         })}
-//       />
-//     </label>
-
-//     <div style={{ height: 40 }}>
-//       {errors?.firstName && <p>{errors?.firstName.message || 'Error!'}</p>}
-//     </div>
-
-//     <label>
-//       Last Name:
-//       <input
-//         {...register('lastName', {
-//           required: 'обязательно к заполнению',
-//           minLength: { value: 5, message: 'минимум 5 символов' },
-//         })}
-//       />
-//     </label>
-
-//     <div style={{ height: 40 }}>
-//       {errors?.lastName && <p>{errors?.lastName.message || 'Error!'}</p>}
-//     </div>
-
-//     <input type="submit" />
-//   </form>
-// </div>

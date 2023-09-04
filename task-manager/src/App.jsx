@@ -1,5 +1,5 @@
-import { Form } from './components/form';
+import { Registration } from './pages/registration';
 
 export function App() {
-  return <Form header="Registration" btn="Register" />;
+  return <Registration />;
 }
