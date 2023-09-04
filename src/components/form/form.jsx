@@ -77,7 +77,7 @@ export function Form({ header, btn }) {
         <div>
           <Button
             variant="contained"
-            color="orange"
+            color="secondary"
             type="submit"
             className={form.formBtn}
           >
