@@ -36,7 +36,6 @@ export function Form({ header, btn }) {
         <div className={form.formInputCont}>
           <div className={form.formInput}>
             <Input
-              color="secondary"
               id="outlined-required"
               required
               label="login"
@@ -45,17 +44,15 @@ export function Form({ header, btn }) {
               })}
             />
             <div className={form.inputErrorMessageCont}>
-              {' '}
               {errors?.login && (
                 <p className={form.inputErrorMessage}>
                   {errors?.login.message || 'Error!'}
                 </p>
-              )}{' '}
+              )}
             </div>
           </div>
           <div className={form.formInput}>
             <Input
-              color="secondary"
               id="outlined-required"
               required
               label="password"
@@ -65,18 +62,15 @@ export function Form({ header, btn }) {
               })}
             />
             <div className={form.inputErrorMessageCont}>
-              {' '}
               {errors?.password && (
                 <p className={form.inputErrorMessage}>
                   {errors?.password.message || 'Error!'}
                 </p>
-              )}{' '}
+              )}
             </div>
           </div>
         </div>
-        <div>
-          <Btn name={btn} />
-        </div>
+        <Btn name={btn} />
       </Box>
     </div>
   );

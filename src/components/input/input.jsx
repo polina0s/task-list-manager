@@ -6,7 +6,7 @@ export const Input = forwardRef(function Input(props, ref) {
 
   return (
     <>
-      <TextField {...otherProps} ref={ref} />
+      <TextField {...otherProps} ref={ref} color="secondary" />
     </>
   );
 });
