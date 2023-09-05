@@ -1,8 +1,9 @@
-import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import { useForm } from 'react-hook-form';
 
+import { Btn } from '../button';
+import { Input } from '../input';
 import form from './form.module.scss';
 
 export function Form({ header, btn }) {
@@ -31,18 +32,29 @@ export function Form({ header, btn }) {
         noValidate
         autoComplete="off"
       >
-        <p className={form.formHeader}>{header}</p>
+        <Typography
+          variant="h5"
+          component="div"
+          sx={{
+            flexGrow: 1,
+            fontFamily: 'Pacifico',
+            color: '#4c031f',
+            fontSize: '40px',
+            marginBottom: '20px',
+          }}
+        >
+          {header}
+        </Typography>
         <div className={form.formInputCont}>
           <div className={form.formInput}>
-            <TextField
+            <Input
+              color="secondary"
+              id="outlined-required"
+              required
+              label="login"
               {...register('login', {
                 required: 'required to fill out',
-                minLength: { value: 1, message: 'minimum 1 characters' },
               })}
-              required
-              id="outlined-required"
-              label="Login"
-              color="secondary"
             />
             <div className={form.inputErrorMessageCont}>
               {' '}
@@ -54,15 +66,15 @@ export function Form({ header, btn }) {
             </div>
           </div>
           <div className={form.formInput}>
-            <TextField
+            <Input
+              color="secondary"
+              id="outlined-required"
+              required
+              label="password"
               {...register('password', {
                 required: 'required to fill out',
-                minLength: { value: 8, message: 'minimum 8 characters' },
+                minLength: { value: 8, message: 'minimum 1 characters' },
               })}
-              required
-              id="outlined-required"
-              label="Password"
-              color="secondary"
             />
             <div className={form.inputErrorMessageCont}>
               {' '}
@@ -75,14 +87,7 @@ export function Form({ header, btn }) {
           </div>
         </div>
         <div>
-          <Button
-            variant="contained"
-            color="secondary"
-            type="submit"
-            className={form.formBtn}
-          >
-            {btn}
-          </Button>
+          <Btn name={btn} />
         </div>
       </Box>
     </div>

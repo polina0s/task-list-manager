@@ -13,9 +13,9 @@ export function Header() {
         <Toolbar>
           <img className={header.headerLogo} src="/src/pictures/logo.png" />
           <Typography
-            variant="h4"
+            variant="h5"
             component="div"
-            sx={{ flexGrow: 1, fontFamily: 'Cookie', color: '#4c031f' }}
+            sx={{ flexGrow: 1, fontFamily: 'Pacifico', color: '#4c031f' }}
           >
             Task Manager
           </Typography>
