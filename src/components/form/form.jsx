@@ -1,9 +1,9 @@
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import { useForm } from 'react-hook-form';
 
 import { Btn } from '../button';
 import { Input } from '../input';
+import { Title } from '../title';
 import form from './form.module.scss';
 
 export function Form({ header, btn }) {
@@ -32,19 +32,7 @@ export function Form({ header, btn }) {
         noValidate
         autoComplete="off"
       >
-        <Typography
-          variant="h5"
-          component="div"
-          sx={{
-            flexGrow: 1,
-            fontFamily: 'Pacifico',
-            color: '#4c031f',
-            fontSize: '40px',
-            marginBottom: '20px',
-          }}
-        >
-          {header}
-        </Typography>
+        <Title size="h4" name={header} marginBottom="20px" />
         <div className={form.formInputCont}>
           <div className={form.formInput}>
             <Input
@@ -73,7 +61,7 @@ export function Form({ header, btn }) {
               label="password"
               {...register('password', {
                 required: 'required to fill out',
-                minLength: { value: 8, message: 'minimum 1 characters' },
+                minLength: { value: 8, message: 'minimum 8 characters' },
               })}
             />
             <div className={form.inputErrorMessageCont}>
