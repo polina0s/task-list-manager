@@ -12,18 +12,14 @@
 }
 
 .formInputCont {
-  margin-bottom: 25px;
-}
-
-.inputErrorMessageCont{
   display: flex;
-  justify-content: flex-start;
-  padding-left: 8px;
-  height: 18px;
-} 
-
-.inputErrorMessage {
-  margin: 0;
-  font-family: Roboto;
-  color: #cf0234;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 20px;
 }
+
+  // .formTitle { 
+  //   & {
+  //     margin-bottom: 20px;
+  //   }
+  // }

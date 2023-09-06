@@ -26,49 +26,32 @@ export function Form({ header, btn }) {
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
-        sx={{
-          '& .MuiTextField-root': { m: 1, width: '25ch' },
-        }}
         noValidate
         autoComplete="off"
       >
-        <Title size="h4" name={header} marginBottom="20px" />
+        <Title className={form.formTitle} size="h4" name={header} />
         <div className={form.formInputCont}>
-          <div className={form.formInput}>
-            <Input
-              id="outlined-required"
-              required
-              label="login"
-              {...register('login', {
-                required: 'required to fill out',
-              })}
-            />
-            <div className={form.inputErrorMessageCont}>
-              {errors?.login && (
-                <p className={form.inputErrorMessage}>
-                  {errors?.login.message || 'Error!'}
-                </p>
-              )}
-            </div>
-          </div>
-          <div className={form.formInput}>
-            <Input
-              id="outlined-required"
-              required
-              label="password"
-              {...register('password', {
-                required: 'required to fill out',
-                minLength: { value: 8, message: 'minimum 8 characters' },
-              })}
-            />
-            <div className={form.inputErrorMessageCont}>
-              {errors?.password && (
-                <p className={form.inputErrorMessage}>
-                  {errors?.password.message || 'Error!'}
-                </p>
-              )}
-            </div>
-          </div>
+          <Input
+            // {errors?.login ? error helperText={errors?.login.message} :
+            id="outlined-required"
+            required
+            label="login"
+            helperText={errors?.login?.message || ''}
+            {...register('login', {
+              required: 'required to fill out',
+            })}
+          />
+
+          <Input
+            id="outlined-required"
+            required
+            label="password"
+            helperText={errors?.password?.message || ''}
+            {...register('password', {
+              required: 'required to fill out',
+              minLength: { value: 8, message: 'minimum 8 characters' },
+            })}
+          />
         </div>
         <Btn name={btn} />
       </Box>

@@ -12,7 +12,7 @@ export const orange = createTheme({
       main: '#fff0ea',
     },
     secondary: {
-      main: '#4c031f',
+      main: '#370202',
     },
   },
 });

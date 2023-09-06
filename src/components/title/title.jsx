@@ -1,15 +1,16 @@
 import Typography from '@mui/material/Typography';
 
-export function Title({ size, marginBottom, name }) {
+export function Title({ size, name, className }) {
   return (
     <Typography
+      className={className}
       variant={size}
       component="div"
       sx={{
         flexGrow: 1,
         fontFamily: 'Pacifico',
         color: '#4c031f',
-        marginBottom: { marginBottom },
+        marginBottom: '20px',
       }}
     >
       {name}
