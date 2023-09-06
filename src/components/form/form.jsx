@@ -29,10 +29,14 @@ export function Form({ header, btn }) {
         noValidate
         autoComplete="off"
       >
-        <Title className={form.formTitle} size="h4" name={header} />
+        <Title
+          className={form.formTitle}
+          size="h4"
+          name={header}
+          color="secondary"
+        />
         <div className={form.formInputCont}>
           <Input
-            // {errors?.login ? error helperText={errors?.login.message} :
             id="outlined-required"
             required
             label="login"
@@ -40,8 +44,10 @@ export function Form({ header, btn }) {
             {...register('login', {
               required: 'required to fill out',
             })}
+            sx={{
+              marginTop: '20px',
+            }}
           />
-
           <Input
             id="outlined-required"
             required

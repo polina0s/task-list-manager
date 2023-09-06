@@ -6,24 +6,16 @@ import '@fontsource/roboto/700.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
+// import { createBrowserRouter } from 'react-router-dom';
 import { App } from './App.jsx';
+// import { Registration } from './pages/registration/registration.jsx';
 
 // const router = createBrowserRouter([
 //   {
-//     path: '/',
-//     element: <Catalog />,
-//     errorElement: <ErrorPage />,
+//     path: '/registration',
+//     element: <Registration />,
+//     errorElement: <ErrorPage />
 //   },
-// {
-//   path: 'cat/:catId',
-//   element: <CatPage />,
-//   errorElement: <ErrorPage />,
-// },
-
-// {
-//   path: 'error',
-//   element: <ErrorPage />,
-// },
 // ]);
 
 // export function App() {
