@@ -8,32 +8,3 @@ import ReactDOM from 'react-dom/client';
 import { App } from './App.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-
-// import React from 'react';
-// import ReactDOM from 'react-dom/client';
-
-// import { createBrowserRouter } from 'react-router-dom';
-// import { App } from './App.jsx';
-// import { Registration } from './pages/registration/registration.jsx';
-
-// const router = createBrowserRouter([
-//   {
-//     path: '/registration',
-//     element: <Registration />,
-//     errorElement: <ErrorPage />
-//   },
-// ]);
-
-// export function App() {
-//   return (
-//     <React.StrictMode>
-//       <RouterProvider router={router} />
-//     </React.StrictMode>
-//   );
-// }
-
-// ReactDOM.createRoot(document.getElementById('root')).render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>,
-// );

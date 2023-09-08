@@ -1,5 +1,5 @@
-import { Form } from '../../components/form/form';
+import { AuthForm } from '../../components/auth-form';
 
 export function RegForm() {
-  return <Form header="Registration" btn="Register" />;
+  return <AuthForm header="Registration" btnText="Register" />;
 }

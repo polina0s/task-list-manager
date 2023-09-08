@@ -1,8 +1,9 @@
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 
+import logo from '../../pictures/logo.png';
+import { Button } from '../button';
 import { Title } from '../title';
 import header from './header.module.scss';
 
@@ -11,14 +12,15 @@ export function Header() {
     <Box>
       <AppBar position="static">
         <Toolbar>
-          <img className={header.headerLogo} src="/src/pictures/logo.png" />
+          <img className={header.headerLogo} src={logo} />
           <Title
             size="h5"
             color="secondary"
             className={header.headerTitle}
             name="Task Manager"
+            component="div"
           />
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" name="Login" />
         </Toolbar>
       </AppBar>
     </Box>

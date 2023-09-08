@@ -1,12 +1,13 @@
 import Box from '@mui/material/Box';
 import { useForm } from 'react-hook-form';
 
-import { Btn } from '../button';
+import { VALIDATION } from '../../config/validation';
+import { Button } from '../button';
 import { Input } from '../input';
 import { Title } from '../title';
-import form from './form.module.scss';
+import authForm from './authForm.module.scss';
 
-export function Form({ header, btn }) {
+export function AuthForm({ header, btnText }) {
   const {
     register,
     formState: { errors },
@@ -22,7 +23,7 @@ export function Form({ header, btn }) {
   };
 
   return (
-    <div className={form.formCont}>
+    <div className={authForm.authFormCont}>
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
@@ -30,36 +31,37 @@ export function Form({ header, btn }) {
         autoComplete="off"
       >
         <Title
-          className={form.formTitle}
+          className={authForm.authFormTitle}
           size="h4"
           name={header}
           color="secondary"
+          component="div"
         />
-        <div className={form.formInputCont}>
+        <div className={authForm.authFormInputCont}>
           <Input
-            id="outlined-required"
+            id="outlined-error-helper-text"
             required
             label="login"
-            helperText={errors?.login?.message || ''}
+            helperText={errors?.login?.message}
             {...register('login', {
-              required: 'required to fill out',
+              ...VALIDATION,
             })}
             sx={{
               marginTop: '20px',
             }}
           />
           <Input
-            id="outlined-required"
+            id="outlined-error-helper-text"
             required
             label="password"
-            helperText={errors?.password?.message || ''}
+            helperText={errors?.password?.message}
             {...register('password', {
-              required: 'required to fill out',
+              ...VALIDATION,
               minLength: { value: 8, message: 'minimum 8 characters' },
             })}
           />
         </div>
-        <Btn name={btn} />
+        <Button name={btnText} type="submit" />
       </Box>
     </div>
   );
