@@ -39,7 +39,6 @@ export function AuthForm({ header, btnText }) {
         />
         <div className={authForm.authFormInputCont}>
           <Input
-            id="outlined-error-helper-text"
             required
             label="login"
             helperText={errors?.login?.message}
@@ -51,7 +50,6 @@ export function AuthForm({ header, btnText }) {
             }}
           />
           <Input
-            id="outlined-error-helper-text"
             required
             label="password"
             helperText={errors?.password?.message}

@@ -1,3 +1,5 @@
+import { Link as RouterLink } from 'react-router-dom';
+
 import { Button } from '../../components/button';
 import { Title } from '../../components/title';
 import logo from '../../pictures/logo.png';
@@ -13,7 +15,12 @@ export function ErrorPage() {
         component="div"
       />
       <img src={logo} className={error.errorImg} />
-      <Button name="Go to home page" size="large" href="./" />
+      <Button
+        component={RouterLink}
+        to="/"
+        name="Go to home page"
+        size="large"
+      />
     </div>
   );
 }
