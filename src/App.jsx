@@ -4,6 +4,7 @@ import './styles/main.scss';
 // import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { fetchCustomers } from './store/user/asyncAction/customers';
 import {
   addCustomerAction,
   removeCustomerAction,
@@ -62,20 +63,26 @@ export function App() {
         <button onClick={() => addCash(+prompt())}>пополнить счет</button>
         <button onClick={() => getCash(+prompt())}>снять co счета</button>
         <button onClick={() => addCustomer(prompt())}>добавить клиента</button>
+        <button onClick={() => dispatch(fetchCustomers())}>
+          Получить клиентов из базы
+        </button>
       </div>
-      <div>
-        {customers.length > 0 ? (
-          <div>
-            {customers.map((customer) => (
-              <div onClick={() => removeCustomer(customer)}>
-                {customer.name}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div>Клиенты отсутствуют</div>
-        )}
-      </div>
+
+      {customers.length > 0 ? (
+        <div>
+          {customers.map((customer) => (
+            <div
+              style={{ fontSize: '2rem', border: '1px solid black' }}
+              key={customer.id}
+              onClick={() => removeCustomer(customer)}
+            >
+              {customer.name}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div>Клиенты отсутствуют</div>
+      )}
     </>
   );
   // return (
