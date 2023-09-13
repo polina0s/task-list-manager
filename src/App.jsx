@@ -4,15 +4,10 @@ import './styles/main.scss';
 // import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchCustomers } from './store/user/asyncAction/customers';
-import {
-  addCustomerAction,
-  removeCustomerAction,
-} from './store/user/customerReducer';
 // import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-
 // import { ErrorPage } from './pages/error-page';
 // import { Registration } from './pages/registration';
+import { decrementCreator, incrementCreator } from './store/user/countReducer';
 // import { theme } from './styles/theme';
 
 // const router = createBrowserRouter([
@@ -33,56 +28,23 @@ import {
 // ]);
 
 export function App() {
+  const count = useSelector((state) => state.countReducer.count);
+  const users = useSelector((state) => state.userReducer.users);
   const dispatch = useDispatch();
-  const cash = useSelector((state) => state.cash.cash);
-  const customers = useSelector((state) => state.customers.customers);
-  console.log(cash);
-
-  const addCash = (cash) => {
-    dispatch({ type: 'ADD_CASH', payload: cash });
-  };
-  const getCash = (cash) => {
-    dispatch({ type: 'GET_CASH', payload: cash });
-  };
-
-  const addCustomer = (name) => {
-    const customer = {
-      name,
-      id: Date.now(),
-    };
-    dispatch(addCustomerAction(customer));
-  };
-  const removeCustomer = (customer) => {
-    dispatch(removeCustomerAction(customer.id));
-  };
 
   return (
     <>
-      <div style={{ display: 'flex' }}>
-        <div>{cash}</div>
-        <button onClick={() => addCash(+prompt())}>пополнить счет</button>
-        <button onClick={() => getCash(+prompt())}>снять co счета</button>
-        <button onClick={() => addCustomer(prompt())}>добавить клиента</button>
-        <button onClick={() => dispatch(fetchCustomers())}>
-          Получить клиентов из базы
-        </button>
+      <div>{count}</div>
+      <div>
+        <button onClick={() => dispatch(incrementCreator())}>INCREMENT</button>
+        <button onClick={() => dispatch(decrementCreator())}>DECREMENT</button>
+        <button>GET USERS</button>
       </div>
-
-      {customers.length > 0 ? (
-        <div>
-          {customers.map((customer) => (
-            <div
-              style={{ fontSize: '2rem', border: '1px solid black' }}
-              key={customer.id}
-              onClick={() => removeCustomer(customer)}
-            >
-              {customer.name}
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div>Клиенты отсутствуют</div>
-      )}
+      <div>
+        {users.map((user) => (
+          <div key={user.name}>{user.name}</div>
+        ))}
+      </div>
     </>
   );
   // return (
