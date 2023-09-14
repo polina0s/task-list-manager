@@ -4,13 +4,7 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
 
 import { App } from './App';
-import { store } from './store/user/index';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-);
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
