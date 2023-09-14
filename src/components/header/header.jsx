@@ -20,7 +20,7 @@ export function Header() {
             name="Task Manager"
             component="div"
           />
-          <Button color="inherit" name="Login" />
+          <Button name="Login" />
         </Toolbar>
       </AppBar>
     </Box>

@@ -7,7 +7,7 @@ import { Input } from '../input';
 import { Title } from '../title';
 import authForm from './authForm.module.scss';
 
-export function AuthForm({ header, btnText }) {
+export function AuthForm({ header, btnText, onSubmit, isLoading }) {
   const {
     register,
     formState: { errors },
@@ -17,10 +17,10 @@ export function AuthForm({ header, btnText }) {
     mode: 'onBlur',
   });
 
-  const onSubmit = (data) => {
-    console.log(JSON.stringify(data));
-    reset();
-  };
+  // const onSubmit = (data) => {
+  //   console.log(JSON.stringify(data));
+  //   reset();
+  // };
 
   return (
     <div className={authForm.authFormCont}>
@@ -59,7 +59,7 @@ export function AuthForm({ header, btnText }) {
             })}
           />
         </div>
-        <Button name={btnText} type="submit" />
+        <Button name={btnText} type="submit" disabled={isLoading} />
       </Box>
     </div>
   );
