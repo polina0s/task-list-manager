@@ -1,9 +1,12 @@
 import Cookies from 'js-cookie';
-
+import jwt_decode from 'jwt-decode';
 class TokenService {
   saveTokens({ access, refresh }) {
-    Cookies.set('access', access);
-    Cookies.set('refresh', refresh);
+    const decodeAccess = jwt_decode(access);
+    Cookies.set('access', access, { expires: decodeAccess.exp });
+
+    const decodeRefresh = jwt_decode(refresh);
+    Cookies.set('refresh', refresh, { expires: decodeRefresh.exp });
   }
 
   getTokens() {

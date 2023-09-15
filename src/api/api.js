@@ -6,7 +6,7 @@ export class Api {
     const { access, refresh } = tokenService.getTokens();
     this.access = access;
     this.refresh = refresh;
-    console.log(this.access, this.refresh);
+    // console.log(this.access, this.refresh);
   }
 
   async request(url, options = {}) {
