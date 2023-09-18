@@ -3,10 +3,10 @@ import { tokenService } from '../utils/tokenService';
 export class Api {
   constructor() {
     this.api = import.meta.env.VITE_API;
+
     const { access, refresh } = tokenService.getTokens();
     this.access = access;
     this.refresh = refresh;
-    // console.log(this.access, this.refresh);
   }
 
   async request(url, options = {}) {
