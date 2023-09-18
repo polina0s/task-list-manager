@@ -5,7 +5,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { login } from '../../store/user';
 import { tokenService } from '../../utils/tokenService';
 
-export function AuthLayout() {
+export function UnauthLayout() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const authToken = tokenService.getTokens().access;
@@ -14,7 +14,7 @@ export function AuthLayout() {
     if (authToken) dispatch(login());
   }, [authToken, dispatch]);
 
-  if (user.isLogged || authToken) return <Outlet />;
+  if (user.isLogged || authToken) return <Navigate to="/home" />;
 
-  return <Navigate to="/" />;
+  return <Outlet />;
 }
