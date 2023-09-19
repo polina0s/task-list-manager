@@ -64,6 +64,14 @@ export class Api {
 
     return json;
   }
+
+  async fetchUserById({ id }) {
+    const response = await this.request(`users/${id}`);
+
+    const json = await response.json();
+
+    return json;
+  }
 }
 
 export const api = new Api();

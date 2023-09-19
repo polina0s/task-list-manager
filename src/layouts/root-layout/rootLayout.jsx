@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
-import { login } from '../../store/user';
+import { getUserById, login } from '../../store/user';
 import { tokenService } from '../../utils/tokenService';
 
 export function RootLayout() {
@@ -10,7 +10,11 @@ export function RootLayout() {
   const authToken = tokenService.getTokens().access;
 
   useEffect(() => {
-    if (authToken) dispatch(login());
+    if (authToken) {
+      const decodedToken = tokenService.decodeToken(authToken);
+      dispatch(getUserById({ id: decodedToken.userId }));
+      dispatch(login());
+    }
   }, [authToken, dispatch]);
 
   return <Outlet />;

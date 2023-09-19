@@ -1,4 +1,5 @@
 import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 import { useForm } from 'react-hook-form';
 
 import { VALIDATION } from '../../config/validation';
@@ -19,15 +20,9 @@ export function AuthForm({
     register,
     formState: { errors },
     handleSubmit,
-    // reset,
   } = useForm({
     mode: 'onBlur',
   });
-
-  // const onSubmit = (data) => {
-  //   console.log(JSON.stringify(data));
-  //   reset();
-  // };
 
   return (
     <div className={authForm.authFormCont}>
@@ -66,10 +61,20 @@ export function AuthForm({
             })}
           />
         </div>
-        <Button name={btnText} type="submit" disabled={isLoading} />
-        <p>
-          or <a onClick={onClick}>{underBthText}</a>
-        </p>
+        <div className={authForm.authFormBtn}>
+          <Button name={btnText} type="submit" disabled={isLoading} />
+        </div>
+        <div>
+          <Link
+            className={authForm.authFormLink}
+            color="secondary"
+            onClick={onClick}
+            underline="hover"
+            fontFamily="Roboto"
+          >
+            or {underBthText}
+          </Link>
+        </div>
       </Box>
     </div>
   );

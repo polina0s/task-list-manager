@@ -25,3 +25,15 @@ export const loginUser = createAsyncThunk(
     }
   },
 );
+
+export const getUserById = createAsyncThunk(
+  'users/userId',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await api.fetchUserById(data);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);

@@ -28,6 +28,11 @@ class TokenService {
     return { access, refresh };
   }
 
+  decodeToken(token) {
+    const decodedToken = jwt_decode(token);
+    return decodedToken;
+  }
+
   removeTokens() {
     Cookies.remove('access');
     Cookies.remove('refresh');
