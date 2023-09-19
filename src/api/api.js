@@ -38,6 +38,24 @@ export class Api {
     });
 
     const json = await response.json();
+
+    if (!response.ok) {
+      throw new Error(json.error);
+    }
+
+    this.setTokens(json.data.accessToken, json.data.refreshToken);
+
+    return json;
+  }
+
+  async loginUser({ login, password }) {
+    const response = await this.request('auth/login', {
+      method: 'POST',
+      body: { login, password },
+    });
+
+    const json = await response.json();
+
     if (!response.ok) {
       throw new Error(json.error);
     }

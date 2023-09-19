@@ -4,19 +4,17 @@ import { ThemeProvider } from '@mui/material/styles';
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { UnauthLayout } from '.';
+import { Header } from './components/header';
 import { AuthLayout } from './layouts/auth-layout';
 import { RootLayout } from './layouts/root-layout';
+import { UnauthLayout } from './layouts/unauth-layout';
 import { ErrorPage } from './pages/error-page';
+import { Login } from './pages/login/login';
 import { Registration } from './pages/registration';
 import { theme } from './styles/theme';
 
 function HomePage() {
-  return (
-    <div
-      style={{ backgroundColor: 'black', width: '100px', height: '100px' }}
-    ></div>
-  );
+  return <Header btnText="Logout" />;
 }
 
 const router = createBrowserRouter([
@@ -43,6 +41,10 @@ const router = createBrowserRouter([
             element: <Registration />,
           },
         ],
+      },
+      {
+        path: '/login',
+        element: <Login />,
       },
       {
         path: 'error',

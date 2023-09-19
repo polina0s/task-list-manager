@@ -7,7 +7,7 @@ import { Button } from '../button';
 import { Title } from '../title';
 import header from './header.module.scss';
 
-export function Header() {
+export function Header({ btnText }) {
   return (
     <Box>
       <AppBar position="static">
@@ -20,7 +20,7 @@ export function Header() {
             name="Task Manager"
             component="div"
           />
-          <Button name="Login" />
+          <Button name={btnText} />
         </Toolbar>
       </AppBar>
     </Box>

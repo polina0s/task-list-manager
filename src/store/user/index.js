@@ -1,2 +1,2 @@
 export { login, logout, userReducer } from './user.reducer';
-export { registerUser } from './user.thunk';
+export { loginUser, registerUser } from './user.thunk';

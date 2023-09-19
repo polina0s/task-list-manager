@@ -1,5 +1,28 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import { AuthForm } from '../../components/auth-form';
+import { loginUser } from '../../store/user';
 
 export function LoginForm() {
-  return <AuthForm header="Login" btnText="Login" />;
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = (data) => {
+    dispatch(loginUser(data))
+      .unwrap()
+      .then(() => navigate('/home'));
+  };
+
+  return (
+    <AuthForm
+      isLoading={user.isLoading}
+      onSubmit={handleSubmit}
+      header="Login"
+      btnText="Login"
+      underBthText="register"
+      href="/"
+    />
+  );
 }

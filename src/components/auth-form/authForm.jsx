@@ -7,12 +7,19 @@ import { Input } from '../input';
 import { Title } from '../title';
 import authForm from './authForm.module.scss';
 
-export function AuthForm({ header, btnText, onSubmit, isLoading }) {
+export function AuthForm({
+  header,
+  btnText,
+  onSubmit,
+  isLoading,
+  underBthText,
+  href,
+}) {
   const {
     register,
     formState: { errors },
     handleSubmit,
-    reset,
+    // reset,
   } = useForm({
     mode: 'onBlur',
   });
@@ -60,6 +67,9 @@ export function AuthForm({ header, btnText, onSubmit, isLoading }) {
           />
         </div>
         <Button name={btnText} type="submit" disabled={isLoading} />
+        <p>
+          or <a href={href}>{underBthText}</a>
+        </p>
       </Box>
     </div>
   );

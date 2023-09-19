@@ -21,6 +21,8 @@ export function RegForm() {
       header="Registration"
       btnText="Register"
       onSubmit={handleSubmit}
+      underBthText="login"
+      href="/"
     />
   );
 }

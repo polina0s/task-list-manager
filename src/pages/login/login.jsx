@@ -1,5 +1,11 @@
+import { Header } from '../../components/header';
 import { LoginForm } from '../../widgets/login-form';
 
 export function Login() {
-  return <LoginForm />;
+  return (
+    <>
+      <Header btnText="Register" />
+      <LoginForm />
+    </>
+  );
 }

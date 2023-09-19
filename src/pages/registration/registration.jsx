@@ -4,7 +4,7 @@ import { RegForm } from '../../widgets/registration-form';
 export function Registration() {
   return (
     <>
-      <Header />
+      <Header btnText="Login" />
       <RegForm />
     </>
   );
