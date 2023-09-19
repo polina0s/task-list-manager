@@ -15,6 +15,10 @@ export function RegForm() {
       .then(() => navigate('/home'));
   };
 
+  const redirect = () => {
+    navigate('/login');
+  };
+
   return (
     <AuthForm
       isLoading={user.isLoading}
@@ -22,7 +26,7 @@ export function RegForm() {
       btnText="Register"
       onSubmit={handleSubmit}
       underBthText="login"
-      href="/"
+      onClick={redirect}
     />
   );
 }

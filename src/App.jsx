@@ -12,9 +12,11 @@ import { ErrorPage } from './pages/error-page';
 import { Login } from './pages/login/login';
 import { Registration } from './pages/registration';
 import { theme } from './styles/theme';
+import { useLogout } from './utils/logout';
 
 function HomePage() {
-  return <Header btnText="Logout" />;
+  const logout = useLogout();
+  return <Header btnText="Logout" onClick={logout} />;
 }
 
 const router = createBrowserRouter([

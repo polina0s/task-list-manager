@@ -15,6 +15,10 @@ export function LoginForm() {
       .then(() => navigate('/home'));
   };
 
+  const redirect = () => {
+    navigate('/');
+  };
+
   return (
     <AuthForm
       isLoading={user.isLoading}
@@ -22,7 +26,7 @@ export function LoginForm() {
       header="Login"
       btnText="Login"
       underBthText="register"
-      href="/"
+      onClick={redirect}
     />
   );
 }

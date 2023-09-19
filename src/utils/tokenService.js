@@ -27,6 +27,11 @@ class TokenService {
 
     return { access, refresh };
   }
+
+  removeTokens() {
+    Cookies.remove('access');
+    Cookies.remove('refresh');
+  }
 }
 
 export const tokenService = new TokenService();

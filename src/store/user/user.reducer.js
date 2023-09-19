@@ -11,8 +11,8 @@ const userSlice = createSlice({
     login(state) {
       state.isLogged = true;
     },
-    logout(state) {
-      state.isLogged = false;
+    logout() {
+      return initialState;
     },
   },
   extraReducers: (builder) => {

@@ -13,7 +13,7 @@ export function AuthForm({
   onSubmit,
   isLoading,
   underBthText,
-  href,
+  onClick,
 }) {
   const {
     register,
@@ -68,7 +68,7 @@ export function AuthForm({
         </div>
         <Button name={btnText} type="submit" disabled={isLoading} />
         <p>
-          or <a href={href}>{underBthText}</a>
+          or <a onClick={onClick}>{underBthText}</a>
         </p>
       </Box>
     </div>
