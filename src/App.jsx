@@ -58,10 +58,10 @@ const router = createBrowserRouter([
 
 export function App() {
   return (
-    <React.StrictMode>
-      <ThemeProvider theme={theme}>
-        <RouterProvider router={router} />
-      </ThemeProvider>
-    </React.StrictMode>
+    // <React.StrictMode>
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
+    // {/* </React.StrictMode> */}
   );
 }

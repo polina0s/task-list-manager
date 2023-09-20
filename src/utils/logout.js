@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { logout } from '../store/user';
+import { logout } from '../store/user/user.actions';
 import { tokenService } from './tokenService';
 
 export function useLogout() {

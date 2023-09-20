@@ -10,7 +10,7 @@ export class Api {
   }
 
   async request(url, options = {}) {
-    return fetch(`${this.api}/${url}`, {
+    const response = await fetch(`${this.api}/${url}`, {
       ...options,
       headers: {
         'Content-Type': 'application/json',
@@ -19,6 +19,12 @@ export class Api {
       },
       body: options.body ? JSON.stringify(options.body) : undefined,
     });
+
+    if (response.status === 401) {
+      this.onRefresh();
+    }
+
+    return response;
   }
 
   setTokens(access, refresh) {
@@ -67,11 +73,23 @@ export class Api {
 
   async fetchUserById({ id }) {
     const response = await this.request(`users/${id}`);
-
     const json = await response.json();
 
     return json;
   }
+
+  async refreshTokens() {
+    const response = await this.request('auth/refresh', {
+      method: 'POST',
+      body: { refreshToken: this.refresh },
+    });
+
+    const json = await response.json();
+
+    this.setTokens(json.data.accessToken, json.data.refreshToken);
+  }
+
+  onRefresh() {}
 }
 
 export const api = new Api();
