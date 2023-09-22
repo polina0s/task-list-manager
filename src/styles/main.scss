@@ -1,1 +1,23 @@
 @import './fonts.scss';
+@import './variables.scss';
+@import 'normalize.css';
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100vh;
+  font-size: 100%;
+} 
+
+body {
+  height: 100%;
+  background-image: url(../pictures/background.png);
+  background-size: cover;
+}

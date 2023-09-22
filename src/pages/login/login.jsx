@@ -1,18 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 
 import { Header } from '../../components/header';
-import { RegForm } from '../../widgets/registration-form';
+import { LoginForm } from '../../widgets/login-form';
 
-export function Registration() {
+export function Login() {
   const navigate = useNavigate();
   const redirect = () => {
-    navigate('/login');
+    navigate('./');
   };
 
   return (
     <>
-      <Header btnText="Login" onClick={redirect} />
-      <RegForm />
+      <Header btnText="Register" onClick={redirect} />
+      <LoginForm />
     </>
   );
 }

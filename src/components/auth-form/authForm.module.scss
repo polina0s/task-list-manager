@@ -1,0 +1,28 @@
+.authFormCont {
+  width: 400px;
+  height: 400px;
+  background-color: var(--milk);
+  display: flex;
+  text-align: center;
+  padding-top: 40px;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 150px;
+  border-radius: 10px;
+}
+
+.authFormInputCont {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.authFormBtn {
+  margin-bottom: 10px;
+}
+
+.authFormLink {
+  cursor: pointer;
+}

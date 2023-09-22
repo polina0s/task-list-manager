@@ -1,0 +1,19 @@
+.errorPageCont {
+  width: 500px;
+  height: 500px;
+  background-color: var(--milk);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 150px;
+  border-radius: 10px;
+}
+
+.errorImg {
+  width: 200px;
+  padding-left: 30px;
+}
