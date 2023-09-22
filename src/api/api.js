@@ -3,13 +3,14 @@ import { tokenService } from '../utils/tokenService';
 export class Api {
   constructor() {
     this.api = import.meta.env.VITE_API;
+    this.queue = [];
 
     const { access, refresh } = tokenService.getTokens();
     this.access = access;
     this.refresh = refresh;
   }
 
-  async request(url, options = {}) {
+  async request(url, options = {}, repeat = true) {
     const response = await fetch(`${this.api}/${url}`, {
       ...options,
       headers: {
@@ -21,7 +22,10 @@ export class Api {
     });
 
     if (response.status === 401) {
-      this.onRefresh();
+      if (repeat) {
+        this.queue.push(() => this.request(url, options, false));
+        this.onRefresh();
+      }
     }
 
     return response;
@@ -87,6 +91,18 @@ export class Api {
     const json = await response.json();
 
     this.setTokens(json.data.accessToken, json.data.refreshToken);
+  }
+
+  clearQueue() {
+    this.queue = [];
+  }
+
+  async enqueue() {
+    if (this.queue.length > 0) {
+      await Promise.all(this.queue.map((func) => func())).then(() => {
+        this.clearQueue();
+      });
+    }
   }
 
   onRefresh() {}

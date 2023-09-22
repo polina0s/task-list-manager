@@ -1,23 +1,16 @@
 import './styles/main.scss';
 
 import { ThemeProvider } from '@mui/material/styles';
-import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { Header } from './components/header';
 import { AuthLayout } from './layouts/auth-layout';
 import { RootLayout } from './layouts/root-layout';
 import { UnauthLayout } from './layouts/unauth-layout';
 import { ErrorPage } from './pages/error-page';
+import { HomePage } from './pages/home-page';
 import { Login } from './pages/login/login';
 import { Registration } from './pages/registration';
 import { theme } from './styles/theme';
-import { useLogout } from './utils/logout';
-
-function HomePage() {
-  const logout = useLogout();
-  return <Header btnText="Logout" onClick={logout} />;
-}
 
 const router = createBrowserRouter([
   {
@@ -45,7 +38,7 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: '/login',
+        path: '/',
         element: <Login />,
       },
       {
@@ -58,10 +51,8 @@ const router = createBrowserRouter([
 
 export function App() {
   return (
-    // <React.StrictMode>
     <ThemeProvider theme={theme}>
       <RouterProvider router={router} />
     </ThemeProvider>
-    // {/* </React.StrictMode> */}
   );
 }

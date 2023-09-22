@@ -13,11 +13,16 @@ import { logout } from './store/user/user.actions';
 import { tokenService } from './utils';
 
 api.onRefresh = async () => {
-  api.refreshTokens().catch((err) => {
-    console.log(err);
-    store.dispatch(logout());
-    tokenService.removeTokens();
-  });
+  api
+    .refreshTokens()
+    .then(async () => {
+      await api.enqueue();
+    })
+    .catch(() => {
+      store.dispatch(logout());
+      api.clearQueue();
+      tokenService.removeTokens();
+    });
 };
 
 ReactDOM.createRoot(document.getElementById('root')).render(

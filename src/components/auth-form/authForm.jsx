@@ -47,9 +47,6 @@ export function AuthForm({
             {...register('login', {
               ...VALIDATION,
             })}
-            sx={{
-              marginTop: '20px',
-            }}
           />
           <Input
             required
