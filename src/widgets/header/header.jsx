@@ -4,14 +4,14 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import { useSelector } from 'react-redux';
 
+import { Button } from '../../components/button';
+import { Title } from '../../components/title';
 import logo from '../../pictures/logo.png';
-import { Button } from '../button';
-import { Title } from '../title';
 import header from './header.module.scss';
 
 export function Header({ btnText, onClick }) {
   const user = useSelector((state) => state.user);
-  // console.log(user.isLogged);
+  const avatar = user.login[0];
 
   return (
     <Box>
@@ -32,9 +32,9 @@ export function Header({ btnText, onClick }) {
                 fontFamily="Roboto"
                 variant="h6"
                 color="secondary"
-                name="sdfrgthyjuik"
+                name={user.login}
               />
-              <Avatar className={header.headerAvatar}>H</Avatar>
+              <Avatar className={header.headerAvatar}>{avatar}</Avatar>
             </>
           ) : null}
           <Button name={btnText} onClick={onClick} />
