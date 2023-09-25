@@ -10,14 +10,14 @@ import { useSelector } from 'react-redux';
 
 import { Button } from '../../components/button';
 // import Avatar from '@mui/material/Avatar';
-import { Menu } from '../../components/drawer/drawer';
+import { Menu } from '../../components/menu/menu';
 import { Title } from '../../components/title';
 import logo from '../../pictures/logo.png';
 import header from './header.module.scss';
 
 export function Header({ btnText, onClick }) {
   const user = useSelector((state) => state.user);
-  // const avatar = user.login?.[0];
+  const avatar = user.login?.[0];
   const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
@@ -78,7 +78,13 @@ export function Header({ btnText, onClick }) {
               >
                 <MenuIcon />
               </IconButton>
-              <Menu handleDrawerClose={handleDrawerClose} open={open} />
+              <Menu
+                handleDrawerClose={handleDrawerClose}
+                open={open}
+                onClick={onClick}
+                avatar={avatar}
+                name={user.login}
+              />
             </>
           ) : null}
         </Toolbar>

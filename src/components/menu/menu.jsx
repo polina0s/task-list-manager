@@ -2,6 +2,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MailIcon from '@mui/icons-material/Mail';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
+import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
@@ -11,6 +12,10 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { styled, useTheme } from '@mui/material/styles';
+
+import { Button } from '../button';
+import { Title } from '../title';
+import menu from './menu.module.scss';
 
 export function Menu({ ...props }) {
   const drawerWidth = 240;
@@ -47,6 +52,14 @@ export function Menu({ ...props }) {
             <ChevronRightIcon />
           )}
         </IconButton>
+        <Avatar className={menu.avatar}>{props.avatar}</Avatar>
+        <Title
+          // className={menu.user}
+          variant="h8"
+          fontFamily="Roboto"
+          color="secondary"
+          name={props.name}
+        />
       </DrawerHeader>
       <Divider />
       <List>
@@ -74,6 +87,7 @@ export function Menu({ ...props }) {
           </ListItem>
         ))}
       </List>
+      <Button name="Logout" onClick={props.onClick} />
     </Drawer>
   );
 }
