@@ -11,6 +11,7 @@ import header from './header.module.scss';
 
 export function Header({ btnText, onClick }) {
   const user = useSelector((state) => state.user);
+  // console.log(user.isLogged);
 
   return (
     <Box>
@@ -24,16 +25,18 @@ export function Header({ btnText, onClick }) {
             name="Task Manager"
             component="h5"
           />
-          {/* <Title
-            className={header.headerUser}
-            fontFamily="Roboto"
-            variant="h6"
-            color="secondary"
-            name="sdfrgthyjuik"
-          /> */}
-          {/* {user.isLogged
-            ? '<Avatar className={header.headerAvatar}>H</Avatar>'
-            : ''} */}
+          {user.isLogged ? (
+            <>
+              <Title
+                className={header.headerUser}
+                fontFamily="Roboto"
+                variant="h6"
+                color="secondary"
+                name="sdfrgthyjuik"
+              />
+              <Avatar className={header.headerAvatar}>H</Avatar>
+            </>
+          ) : null}
           <Button name={btnText} onClick={onClick} />
         </Toolbar>
       </AppBar>
