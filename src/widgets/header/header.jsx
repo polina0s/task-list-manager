@@ -11,7 +11,7 @@ import header from './header.module.scss';
 
 export function Header({ btnText, onClick }) {
   const user = useSelector((state) => state.user);
-  const avatar = user.login[0];
+  const avatar = user.login?.[0];
 
   return (
     <Box>
@@ -29,7 +29,6 @@ export function Header({ btnText, onClick }) {
             <>
               <Title
                 className={header.headerUser}
-                fontFamily="Roboto"
                 variant="h6"
                 color="secondary"
                 name={user.login}
