@@ -1,7 +1,14 @@
 .avatar {
   margin-right: 10px;
   margin-left: 5px;
-  & {
-  background-color: var(--brown)
+  background-color: var(--brown);
 }
+
+.btn {
+  width: 140px;
+  margin: 0 auto;
+}
+
+.divider {
+  margin-bottom: 15px;
 }

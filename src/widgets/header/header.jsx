@@ -1,7 +1,7 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-// import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,16 +9,56 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Button } from '../../components/button';
-// import Avatar from '@mui/material/Avatar';
 import { Menu } from '../../components/menu/menu';
 import { Title } from '../../components/title';
 import logo from '../../pictures/logo.png';
+import { useBreakpoints } from '../../utils/breakpoints';
 import header from './header.module.scss';
 
 export function Header({ btnText, onClick }) {
   const user = useSelector((state) => state.user);
   const avatar = user.login?.[0];
   const [open, setOpen] = useState(false);
+  const breakpoints = useBreakpoints();
+
+  const Aaa = () => {
+    if (breakpoints.sm) {
+      return (
+        <>
+          <IconButton
+            color="secondary"
+            aria-label="open drawer"
+            edge="end"
+            onClick={handleDrawerOpen}
+            sx={{ ...(open && { display: 'none' }) }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            handleDrawerClose={handleDrawerClose}
+            open={open}
+            onClick={onClick}
+            avatar={avatar}
+            name={user.login}
+          />
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Avatar className={header.avatar}>{avatar}</Avatar>
+          <Title
+            className={header.userLogin}
+            variant="h5"
+            fontFamily="Roboto"
+            color="secondary"
+            name={user.login}
+          />
+          <Button name={btnText} onClick={onClick} />
+        </>
+      );
+    }
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -50,43 +90,16 @@ export function Header({ btnText, onClick }) {
     <Box>
       <AppBar position="static">
         <Toolbar>
-          <img className={header.headerLogo} src={logo} />
+          <img className={header.logo} src={logo} />
           <Title
             variant="h5"
             color="secondary"
-            className={header.headerTitle}
+            className={header.title}
             name="Task Manager"
             component="h5"
           />
-          <Button name={btnText} onClick={onClick} />
-          {user.isLogged ? (
-            <>
-              {/* <Title
-                className={header.headerUser}
-                variant="h5"
-                fontFamily="Roboto"
-                color="secondary"
-                name={user.login}
-              />
-              <Avatar className={header.headerAvatar}>{avatar}</Avatar> */}
-              <IconButton
-                color="secondary"
-                aria-label="open drawer"
-                edge="end"
-                onClick={handleDrawerOpen}
-                sx={{ ...(open && { display: 'none' }) }}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                handleDrawerClose={handleDrawerClose}
-                open={open}
-                onClick={onClick}
-                avatar={avatar}
-                name={user.login}
-              />
-            </>
-          ) : null}
+          {/* <Button name={btnText} onClick={onClick} /> */}
+          {user.isLogged ? <Aaa /> : null}
         </Toolbar>
       </AppBar>
       <Main open={open}></Main>

@@ -1,14 +1,17 @@
-.headerLogo {
+.logo {
   width: 60px;
   margin-right: 15px;
 }
 
-.headerTitle {
+.title {
   flex-grow: 1;
 }
 
-.headerAvatar {
+.userLogin {
   margin-right: 20px;
-  margin-left: 15px;
+}
+
+.avatar {
+  margin-right: 10px;
   background-color: var(--brown);
 }
