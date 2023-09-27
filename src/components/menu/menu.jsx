@@ -24,11 +24,8 @@ export function Menu({ open, handleDrawerClose, avatar, name, onClick }) {
   return (
     <Drawer
       className={menu.drawer}
-      sx={{
-        '& .MuiDrawer-paper': {
-          width: '240px',
-          backgroundColor: '#f0e9e5',
-        },
+      PaperProps={{
+        className: menu.paper,
       }}
       variant="temporary"
       anchor="right"
