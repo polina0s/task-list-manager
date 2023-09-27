@@ -38,7 +38,7 @@ export function UserHeader({ ...props }) {
         <Avatar className={userHeader.avatar}>{props.avatar}</Avatar>
         <Title
           className={userHeader.userLogin}
-          variant="h5"
+          variant="h4"
           fontFamily="Roboto"
           color="secondary"
           name={props.login}
