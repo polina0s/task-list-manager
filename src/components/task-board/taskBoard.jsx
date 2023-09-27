@@ -8,9 +8,9 @@ export function TaskBoard() {
   return (
     <Box className={board.cont}>
       <Grid container spacing={2}>
-        <TaskList name="to do" />
-        <TaskList name="take in work" />
-        <TaskList name="done" />
+        <TaskList name="to do" id="toDo" />
+        <TaskList name="take in work" id="inWork" />
+        <TaskList name="done" id="done" />
       </Grid>
     </Box>
   );
