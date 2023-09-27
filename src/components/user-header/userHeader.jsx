@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 
 import { Button } from '../../components/button';
 import { Title } from '../../components/title';
-import { useBreakpoints } from '../../utils/breakpoints';
+import { useBreakpoints } from '../../utils/useBreakpoints';
 import { Menu } from '../menu';
 import userHeader from './userHeader.module.scss';
 
