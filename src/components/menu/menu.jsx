@@ -1,16 +1,16 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import GradeIcon from '@mui/icons-material/Grade';
+// import GradeIcon from '@mui/icons-material/Grade';
 import {
   Avatar,
   Divider,
   Drawer,
   IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
+  // List,
+  // ListItem,
+  // ListItemButton,
+  // ListItemIcon,
+  // ListItemText,
   useTheme,
 } from '@mui/material';
 
@@ -43,7 +43,7 @@ export function Menu({ open, handleDrawerClose, avatar, name, onClick }) {
         <Title variant="h6" color="secondary" name={name} />
       </div>
       <Divider />
-      <List>
+      {/* <List>
         {['Tasks'].map((text) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
@@ -54,7 +54,7 @@ export function Menu({ open, handleDrawerClose, avatar, name, onClick }) {
             </ListItemButton>
           </ListItem>
         ))}
-      </List>
+      </List> */}
       <Divider className={menu.divider} />
       <Button className={menu.btn} name="Logout" onClick={onClick} />
     </Drawer>
