@@ -13,9 +13,11 @@ export const theme = createTheme({
   typography: {
     fontFamily: 'Roboto',
     h5: {
+      fontSize: '1rem',
       fontFamily: 'Pacifico',
     },
     h4: {
+      fontSize: '1.5rem',
       fontFamily: 'Pacifico',
     },
   },

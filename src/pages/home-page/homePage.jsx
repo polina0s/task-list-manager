@@ -1,5 +1,5 @@
-import { Header } from '../../components/header';
 import { useLogout } from '../../utils/logout';
+import { Header } from '../../widgets/header';
 
 export function HomePage() {
   const logout = useLogout();

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { Header } from '../../components/header';
+import { Header } from '../../widgets/header';
 import { RegForm } from '../../widgets/registration-form';
 
 export function Registration() {

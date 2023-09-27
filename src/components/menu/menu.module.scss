@@ -1,0 +1,33 @@
+.avatar {
+  margin-right: 10px;
+  margin-left: 5px;
+  background-color: var(--brown);
+}
+
+.btn {
+  width: 140px;
+  margin: 0 auto;
+}
+
+.divider {
+  margin-bottom: 15px;
+}
+
+.drawer {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+.paper {
+  width: 240px;
+  background-color: var(--milk);
+
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  padding: 10px 5px;
+  justify-content: flex-start;
+
+}

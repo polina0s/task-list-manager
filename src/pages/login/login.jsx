@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 
-import { Header } from '../../components/header';
+import { Header } from '../../widgets/header';
 import { LoginForm } from '../../widgets/login-form';
 
 export function Login() {
   const navigate = useNavigate();
   const redirect = () => {
-    navigate('./');
+    navigate('/');
   };
 
   return (
