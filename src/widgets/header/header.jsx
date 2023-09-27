@@ -1,8 +1,8 @@
 import { AppBar, Box, Toolbar } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { Button } from '../../components/button';
 import { Title } from '../../components/title';
 import { UserHeader } from '../../components/user-header/userHeader';
 import logo from '../../pictures/logo.png';
@@ -20,36 +20,16 @@ export function Header({ btnText, onClick }) {
     setOpen(false);
   };
 
-  const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-      flexGrow: 1,
-      padding: theme.spacing(3),
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      marginRight: '-240px',
-      ...(open && {
-        transition: theme.transitions.create('margin', {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginRight: 0,
-      }),
-    }),
-  );
-
   return (
     <Box>
       <AppBar position="static">
         <Toolbar>
           <img className={header.logo} src={logo} />
           <Title
-            variant="h5"
+            variant="h4"
             color="secondary"
             className={header.title}
             name="Task Manager"
-            component="h5"
           />
           {user.isLogged ? (
             <UserHeader
@@ -61,10 +41,11 @@ export function Header({ btnText, onClick }) {
               login={user.login}
               btnText={btnText}
             />
-          ) : null}
+          ) : (
+            <Button name={btnText} onClick={onClick} />
+          )}
         </Toolbar>
       </AppBar>
-      <Main open={open}></Main>
     </Box>
   );
 }

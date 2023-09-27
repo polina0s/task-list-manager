@@ -34,7 +34,7 @@ export function AuthForm({
       >
         <Title
           className={authForm.authFormTitle}
-          variant="h5"
+          variant="h4"
           name={header}
           color="secondary"
           component="div"

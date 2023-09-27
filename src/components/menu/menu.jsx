@@ -11,7 +11,6 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  styled,
   useTheme,
 } from '@mui/material';
 
@@ -19,50 +18,33 @@ import { Button } from '../button';
 import { Title } from '../title';
 import menu from './menu.module.scss';
 
-export function Menu({ ...props }) {
-  const drawerWidth = 240;
-
-  const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-start',
-  }));
-
+export function Menu({ open, handleDrawerClose, avatar, name, onClick }) {
   const theme = useTheme();
 
   return (
     <Drawer
+      className={menu.drawer}
       sx={{
-        width: drawerWidth,
-        flexShrink: 0,
         '& .MuiDrawer-paper': {
-          width: drawerWidth,
+          width: '240px',
           backgroundColor: '#f0e9e5',
         },
       }}
       variant="temporary"
       anchor="right"
-      open={props.open}
+      open={open}
     >
-      <DrawerHeader>
-        <IconButton onClick={props.handleDrawerClose}>
+      <div className={menu.drawerHeader}>
+        <IconButton onClick={handleDrawerClose}>
           {theme.direction === 'rtl' ? (
             <ChevronLeftIcon />
           ) : (
             <ChevronRightIcon />
           )}
         </IconButton>
-        <Avatar className={menu.avatar}>{props.avatar}</Avatar>
-        <Title
-          // className={menu.user}
-          variant="h8"
-          fontFamily="Roboto"
-          color="secondary"
-          name={props.name}
-        />
-      </DrawerHeader>
+        <Avatar className={menu.avatar}>{avatar}</Avatar>
+        <Title variant="h6" color="secondary" name={name} />
+      </div>
       <Divider />
       <List>
         {['Tasks'].map((text) => (
@@ -77,7 +59,7 @@ export function Menu({ ...props }) {
         ))}
       </List>
       <Divider className={menu.divider} />
-      <Button className={menu.btn} name="Logout" onClick={props.onClick} />
+      <Button className={menu.btn} name="Logout" onClick={onClick} />
     </Drawer>
   );
 }

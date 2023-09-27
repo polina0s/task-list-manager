@@ -8,43 +8,51 @@ import { useBreakpoints } from '../../utils/useBreakpoints';
 import { Menu } from '../menu';
 import userHeader from './userHeader.module.scss';
 
-export function UserHeader({ ...props }) {
+export function UserHeader({
+  handleDrawerOpen,
+  handleDrawerClose,
+  open,
+  onClick,
+  login,
+  avatar,
+  btnText,
+}) {
   const breakpoints = useBreakpoints();
 
   if (breakpoints.md) {
     return (
       <>
-        <IconButton
-          color="secondary"
-          aria-label="open drawer"
-          edge="end"
-          onClick={props.handleDrawerOpen}
-          sx={{ ...(props.open && { display: 'none' }) }}
-        >
-          <MenuIcon />
-        </IconButton>
+        {open ? null : (
+          <IconButton
+            color="secondary"
+            aria-label="open drawer"
+            edge="end"
+            onClick={handleDrawerOpen}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
         <Menu
-          handleDrawerClose={props.handleDrawerClose}
-          open={props.open}
-          onClick={props.onClick}
-          avatar={props.avatar}
-          name={props.login}
+          handleDrawerClose={handleDrawerClose}
+          open={open}
+          onClick={onClick}
+          avatar={avatar}
+          name={login}
         />
-      </>
-    );
-  } else {
-    return (
-      <>
-        <Avatar className={userHeader.avatar}>{props.avatar}</Avatar>
-        <Title
-          className={userHeader.userLogin}
-          variant="h4"
-          fontFamily="Roboto"
-          color="secondary"
-          name={props.login}
-        />
-        <Button name={props.btnText} onClick={props.onClick} />
       </>
     );
   }
+
+  return (
+    <>
+      <Avatar className={userHeader.avatar}>{avatar}</Avatar>
+      <Title
+        className={userHeader.userLogin}
+        variant="h6"
+        color="secondary"
+        name={login}
+      />
+      <Button name={btnText} onClick={onClick} />
+    </>
+  );
 }

@@ -9,7 +9,7 @@ export function ErrorPage() {
   return (
     <div className={error.errorPageCont}>
       <Title
-        size="h4"
+        size="h5"
         color="secondary"
         name="Sorry, an unexpected error has occurred"
         component="div"

@@ -12,3 +12,21 @@
 .divider {
   margin-bottom: 15px;
 }
+
+// .MuiDrawer-paper {
+//   width: 240px;
+//   background-color: #f0e9e5;
+// }
+
+.drawer {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  padding: 10px 5px;
+  justify-content: flex-start;
+
+}
