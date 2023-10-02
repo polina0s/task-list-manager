@@ -9,7 +9,7 @@ export function TaskBoard() {
     <Box className={board.cont}>
       <Grid container spacing={2}>
         <TaskList name="to do" id="toDo" />
-        <TaskList name="take in work" id="inWork" />
+        <TaskList name="in progress" id="inProgress" />
         <TaskList name="done" id="done" />
       </Grid>
     </Box>
