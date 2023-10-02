@@ -1,0 +1,22 @@
+.cont {
+  padding: 10px;
+  margin: 10px 5px;
+  border-radius: 5px;
+  background-color: var(--milk);
+  cursor: pointer;
+}
+
+.titleCont {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.titleIcon {
+  padding-right: 5px;
+}
+
+
+.nameCont {
+  display: flex;
+}

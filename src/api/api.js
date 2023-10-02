@@ -105,6 +105,17 @@ export class Api {
     }
   }
 
+  async addTask({ text, tags = null }) {
+    const response = await this.request('tasks', {
+      method: 'POST',
+      body: { text: text, tags: tags },
+    });
+
+    const json = await response.json();
+
+    return json;
+  }
+
   onRefresh() {}
 }
 
