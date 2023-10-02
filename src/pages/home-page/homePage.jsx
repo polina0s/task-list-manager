@@ -1,6 +1,6 @@
-import { TaskBoard } from '../../components/task-board';
 import { useLogout } from '../../utils/logout';
 import { Header } from '../../widgets/header';
+import { TaskBoard } from '../../widgets/task-board';
 
 export function HomePage() {
   const logout = useLogout();

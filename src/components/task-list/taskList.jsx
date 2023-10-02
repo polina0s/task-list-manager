@@ -3,8 +3,8 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 
-import { Title } from '../../components/title';
 import { useBreakpoints } from '../../utils/useBreakpoints';
+import { Title } from '../title';
 import list from './taskList.module.scss';
 
 export function TaskList({ name, onAddClick, onMoreClick }) {
