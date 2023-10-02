@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
-import { TaskList } from '../task-list';
+import { TaskList } from '../../widgets/task-list';
 import board from './taskBoard.module.scss';
 
 export function TaskBoard() {

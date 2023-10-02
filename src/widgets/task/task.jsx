@@ -2,7 +2,7 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { IconButton } from '@mui/material';
 
-import { Title } from '../title';
+import { Title } from '../../components/title';
 import task from './task.module.scss';
 
 export function Task({ name, id }) {
