@@ -2,33 +2,46 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { useState } from 'react';
 
+import { api } from '../../api/api';
 import { TaskForm } from '../../components/task-form';
 import { TaskList } from '../../components/task-list';
 import board from './taskBoard.module.scss';
 
 export function TaskBoard() {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
+  const [openForm, setOpenForm] = useState(false);
+
+  const handleOpenForm = () => {
+    setOpenForm(true);
   };
-  const handleClose = () => {
-    setOpen(false);
+
+  const handleCloseForm = () => {
+    setOpenForm(false);
+  };
+
+  const handleAddTask = async ({ text, tags = null }) => {
+    const response = await api.addTask({ text: text, tags: tags });
+    // handleCloseForm();
+    return response;
   };
 
   return (
     <>
       <Box className={board.cont}>
         <Grid container spacing={2}>
-          <TaskList onAddClick={handleOpen} name="to do" id="toDo" />
+          <TaskList onAddClick={handleOpenForm} name="to do" id="toDo" />
           <TaskList
-            onAddClick={handleOpen}
+            onAddClick={handleOpenForm}
             name="in progress"
             id="inProgress"
           />
-          <TaskList onAddClick={handleOpen} name="done" id="done" />
+          <TaskList onAddClick={handleOpenForm} name="done" id="done" />
         </Grid>
       </Box>
-      <TaskForm onCloseClick={handleClose} open={open} />
+      <TaskForm
+        onCloseClick={handleCloseForm}
+        open={openForm}
+        onClick={handleAddTask}
+      />
     </>
   );
 }

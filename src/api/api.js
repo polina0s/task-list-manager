@@ -113,6 +113,7 @@ export class Api {
 
     const json = await response.json();
 
+    console.log(json);
     return json;
   }
 
