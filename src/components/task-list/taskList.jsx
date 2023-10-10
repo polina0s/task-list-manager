@@ -16,9 +16,11 @@ export function TaskList({ name, onAddClick, onMoreClick, child }) {
         <div className={list.header}>
           <Title className={list.name} variant="h6" name={name} />
           <div>
-            <IconButton color="primary" onClick={onAddClick}>
-              <AddIcon />
-            </IconButton>
+            {name === 'to do' ? (
+              <IconButton color="primary" onClick={onAddClick}>
+                <AddIcon />
+              </IconButton>
+            ) : null}
             <IconButton color="primary" onClick={onMoreClick}>
               <MoreHorizIcon />
             </IconButton>
