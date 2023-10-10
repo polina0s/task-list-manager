@@ -11,7 +11,7 @@ const initialState = {
   tasks: [],
 };
 
-export const taskSlice = createSlice({
+const taskSlice = createSlice({
   name: 'task',
   initialState,
   reducers: {
@@ -27,8 +27,11 @@ export const taskSlice = createSlice({
     builder.addCase(createTask.rejected, (state) => {
       state.isLoading = false;
     });
-    builder.addCase(createTask.fulfilled, (state) => {
+    builder.addCase(createTask.fulfilled, (state, action) => {
       state.isLoading = false;
+      state.tasks = [...state.tasks, action.payload.data];
     });
   },
 });
+
+export const taskReducer = taskSlice.reducer;

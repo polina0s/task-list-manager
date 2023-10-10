@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useForm } from 'react-hook-form';
 
-import { VALIDATION } from '../../config/validation';
 import { Button } from '../button/button';
 import { Input } from '../input/input';
 import { Title } from '../title';
@@ -16,13 +15,13 @@ export function TaskForm({ onCloseClick, onSubmit, open, id }) {
     register,
     formState: { errors },
     handleSubmit,
-    getValues,
+    // getValues,
   } = useForm({
     mode: 'onBlur',
     values: { text: '' },
   });
 
-  console.log(getValues());
+  // console.log(getValues());
 
   return (
     <div id={id}>
@@ -31,6 +30,8 @@ export function TaskForm({ onCloseClick, onSubmit, open, id }) {
           className={form.cont}
           component="form"
           onSubmit={handleSubmit(onSubmit)}
+          noValidate
+          autoComplete="off"
         >
           <div className={form.titleCont}>
             <Title color="secondary" variant="h6" name="Create task" />
@@ -42,10 +43,7 @@ export function TaskForm({ onCloseClick, onSubmit, open, id }) {
             className={form.input}
             label="task text"
             helperText={errors?.text?.message}
-            {...register('text', {
-              ...VALIDATION,
-              minLength: { value: 1, message: 'minimum 1 characters' },
-            })}
+            {...register('text')}
           />
           <Button type="submit" name="Add task" />
         </Box>
