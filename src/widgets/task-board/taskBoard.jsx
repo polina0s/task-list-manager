@@ -9,6 +9,7 @@ import { Task } from '../../components/task/task';
 import { TaskForm } from '../../components/task-form';
 import { TaskList } from '../../components/task-list';
 import { createTask } from '../../store/task';
+import { done, inProgress, todo } from '../../utils';
 import { filterTasks } from '../../utils';
 import board from './taskBoard.module.scss';
 
@@ -35,24 +36,31 @@ export function TaskBoard() {
       });
   };
 
-  const todoTasks = useMemo(() => filterTasks(tasks, 'todo'), [tasks]);
+  const todoTasks = useMemo(() => filterTasks(tasks, todo), [tasks]);
   const inProgressTasks = useMemo(
-    () => filterTasks(tasks, 'take-to-work'),
+    () => filterTasks(tasks, inProgress),
     [tasks],
   );
-  const doneTasks = useMemo(() => filterTasks(tasks, 'done'), [tasks]);
+  const doneTasks = useMemo(() => filterTasks(tasks, done), [tasks]);
+
+  const handleOpenMenu = () => {};
 
   return (
     <>
       <Box className={board.cont}>
         <Grid container spacing={2}>
-          <TaskList onAddClick={handleOpenForm} name="to do" id="toDo">
+          <TaskList
+            onAddClick={handleOpenForm}
+            onMoreClick={handleOpenMenu}
+            name="to do"
+            id="toDo"
+          >
             {todoTasks.map((el) => (
               <Task name={el.text} id={el.id} key={el.id} />
             ))}
           </TaskList>
           <TaskList
-            onAddClick={handleOpenForm}
+            onMoreClick={handleOpenMenu}
             name="in progress"
             id="inProgress"
           >
@@ -60,7 +68,7 @@ export function TaskBoard() {
               <Task name={el.text} id={el.id} key={el.id} />
             ))}
           </TaskList>
-          <TaskList onAddClick={handleOpenForm} name="done" id="done">
+          <TaskList onMoreClick={handleOpenMenu} name="done" id="done">
             {doneTasks.map((el) => (
               <Task name={el.text} id={el.id} key={el.id} />
             ))}

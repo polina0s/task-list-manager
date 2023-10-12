@@ -16,14 +16,24 @@ export function TaskList({ name, onAddClick, onMoreClick, children }) {
         <div className={list.header}>
           <Title className={list.name} variant="h6" name={name} />
           <div>
-            {name === 'to do' ? (
+            {onAddClick && (
               <IconButton color="primary" onClick={onAddClick}>
                 <AddIcon />
               </IconButton>
-            ) : null}
-            <IconButton color="primary" onClick={onMoreClick} type="submit">
+            )}
+            {onMoreClick && (
+              <IconButton color="primary" onClick={onMoreClick} type="submit">
+                <MoreHorizIcon />
+              </IconButton>
+            )}
+            {/* {name === 'to do' ? (
+              <IconButton color="primary" onClick={onAddClick}>
+                <AddIcon />
+              </IconButton>
+            ) : null} */}
+            {/* <IconButton color="primary" onClick={onMoreClick} type="submit">
               <MoreHorizIcon />
-            </IconButton>
+            </IconButton> */}
           </div>
         </div>
         {children}

@@ -15,7 +15,7 @@ const taskSlice = createSlice({
   name: 'task',
   initialState,
   reducers: {
-    login(state) {
+    task(state) {
       state.isLogged = true;
     },
   },

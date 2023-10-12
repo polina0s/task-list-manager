@@ -1,4 +1,3 @@
-// import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -21,30 +20,28 @@ export function TaskForm({ onCloseClick, onSubmit, open, id }) {
   });
 
   return (
-    <div id={id}>
-      <Modal open={open} onClose={onCloseClick}>
-        <Box
-          className={form.cont}
-          component="form"
-          onSubmit={handleSubmit(onSubmit)}
-          noValidate
-          autoComplete="off"
-        >
-          <div className={form.titleCont}>
-            <Title color="secondary" variant="h6" name="Create task" />
-            <IconButton onClick={onCloseClick}>
-              <CloseIcon color="secondary" />
-            </IconButton>
-          </div>
-          <Input
-            className={form.input}
-            label="task text"
-            helperText={errors?.text?.message}
-            {...register('text')}
-          />
-          <Button type="submit" name="Add task" />
-        </Box>
-      </Modal>
-    </div>
+    <Modal open={open} onClose={onCloseClick} id={id}>
+      <Box
+        className={form.cont}
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        autoComplete="off"
+      >
+        <div className={form.titleCont}>
+          <Title color="secondary" variant="h6" name="Create task" />
+          <IconButton onClick={onCloseClick}>
+            <CloseIcon color="secondary" />
+          </IconButton>
+        </div>
+        <Input
+          className={form.input}
+          label="task text"
+          helperText={errors?.text?.message}
+          {...register('text')}
+        />
+        <Button type="submit" name="Add task" />
+      </Box>
+    </Modal>
   );
 }
