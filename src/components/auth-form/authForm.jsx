@@ -10,8 +10,12 @@ import { Title } from '../title';
 import authForm from './authForm.module.scss';
 
 const schema = yup.object().shape({
-  login: yup.string().required().trim(),
-  password: yup.string().required().trim().min(8),
+  login: yup.string().required('this field is required').trim(),
+  password: yup
+    .string()
+    .required('this field is required')
+    .trim()
+    .min(8, 'minimum 8 characters'),
 });
 
 export function AuthForm({
