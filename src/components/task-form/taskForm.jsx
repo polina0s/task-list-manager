@@ -1,13 +1,19 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
 import { Button } from '../button/button';
 import { Input } from '../input/input';
 import { Title } from '../title';
 import form from './taskForm.module.scss';
+
+const schema = yup.object().shape({
+  text: yup.string().required().trim().min(1),
+});
 
 export function TaskForm({ onCloseClick, onSubmit, open, id }) {
   const {
@@ -18,6 +24,7 @@ export function TaskForm({ onCloseClick, onSubmit, open, id }) {
     mode: 'onBlur',
     defaultValues: { text: '' },
     shouldUnregister: true,
+    resolver: yupResolver(schema),
   });
 
   return (

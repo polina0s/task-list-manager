@@ -26,14 +26,6 @@ export function TaskList({ name, onAddClick, onMoreClick, children }) {
                 <MoreHorizIcon />
               </IconButton>
             )}
-            {/* {name === 'to do' ? (
-              <IconButton color="primary" onClick={onAddClick}>
-                <AddIcon />
-              </IconButton>
-            ) : null} */}
-            {/* <IconButton color="primary" onClick={onMoreClick} type="submit">
-              <MoreHorizIcon />
-            </IconButton> */}
           </div>
         </div>
         {children}

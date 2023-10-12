@@ -10,11 +10,6 @@ const initialState = {
 const taskSlice = createSlice({
   name: 'task',
   initialState,
-  reducers: {
-    task(state) {
-      state.isLogged = true;
-    },
-  },
 
   extraReducers: (builder) => {
     builder.addCase(createTask.pending, (state) => {

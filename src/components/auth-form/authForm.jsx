@@ -1,12 +1,18 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
-import { VALIDATION } from '../../config/validation';
 import { Button } from '../button';
 import { Input } from '../input';
 import { Title } from '../title';
 import authForm from './authForm.module.scss';
+
+const schema = yup.object().shape({
+  login: yup.string().required().trim(),
+  password: yup.string().required().trim().min(8),
+});
 
 export function AuthForm({
   header,
@@ -22,6 +28,7 @@ export function AuthForm({
     handleSubmit,
   } = useForm({
     mode: 'onBlur',
+    resolver: yupResolver(schema),
   });
 
   return (
@@ -44,18 +51,13 @@ export function AuthForm({
             required
             label="login"
             helperText={errors?.login?.message}
-            {...register('login', {
-              ...VALIDATION,
-            })}
+            {...register('login')}
           />
           <Input
             required
             label="password"
             helperText={errors?.password?.message}
-            {...register('password', {
-              ...VALIDATION,
-              minLength: { value: 8, message: 'minimum 8 characters' },
-            })}
+            {...register('password')}
           />
         </div>
         <div className={authForm.authFormBtn}>
