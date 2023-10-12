@@ -15,13 +15,10 @@ export function TaskForm({ onCloseClick, onSubmit, open, id }) {
     register,
     formState: { errors },
     handleSubmit,
-    // getValues,
   } = useForm({
     mode: 'onBlur',
     values: { text: '' },
   });
-
-  // console.log(getValues());
 
   return (
     <div id={id}>
