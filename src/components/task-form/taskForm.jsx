@@ -16,7 +16,8 @@ export function TaskForm({ onCloseClick, onSubmit, open, id }) {
     handleSubmit,
   } = useForm({
     mode: 'onBlur',
-    values: { text: '' },
+    defaultValues: { text: '' },
+    shouldUnregister: true,
   });
 
   return (

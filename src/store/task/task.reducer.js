@@ -3,11 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createTask } from './task.thunk';
 
 const initialState = {
-  text: '',
-  tags: '',
-  id: '',
   isLoading: false,
-  status: '',
   tasks: [],
 };
 
