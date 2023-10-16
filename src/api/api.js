@@ -1,5 +1,6 @@
-import { tokenService } from '../utils/tokenService';
+import queryString from 'query-string';
 
+import { tokenService } from '../utils/tokenService';
 export class Api {
   constructor() {
     this.api = import.meta.env.VITE_API;
@@ -105,11 +106,21 @@ export class Api {
     }
   }
 
-  async addTask({ text }) {
+  async createTask({ text }) {
     const response = await this.request('tasks', {
       method: 'POST',
       body: { text },
     });
+
+    const json = await response.json();
+
+    return json;
+  }
+
+  async getTasks({ offset = 0, limit = 10 }) {
+    const query = queryString.stringify({ limit, offset }, { skipNull: true });
+
+    const response = await this.request(`tasks?${query}`, { method: 'GET' });
 
     const json = await response.json();
 
