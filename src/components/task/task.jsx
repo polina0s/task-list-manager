@@ -5,7 +5,7 @@ import { IconButton } from '@mui/material';
 import { Title } from '../title';
 import task from './task.module.scss';
 
-export function Task({ name, id }) {
+export function Task({ name, id, onDeleteClick }) {
   return (
     <div className={task.cont} id={id}>
       <div className={task.titleCont}>
@@ -14,7 +14,7 @@ export function Task({ name, id }) {
           <Title name={name} color="secondary" />
         </div>
         <div>
-          <IconButton>
+          <IconButton onClick={onDeleteClick}>
             <DeleteOutlineIcon color="secondary" />
           </IconButton>
         </div>

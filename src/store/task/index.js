@@ -1,1 +1,1 @@
-export { createTask, getTasks } from './task.thunk';
+export { createTask, deleteTask, getTasks } from './task.thunk';

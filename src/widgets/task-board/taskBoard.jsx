@@ -8,9 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import { Task } from '../../components/task/task';
 import { TaskForm } from '../../components/task-form';
 import { TaskList } from '../../components/task-list';
-import { createTask, getTasks } from '../../store/task';
+import { createTask, deleteTask, getTasks } from '../../store/task';
 import { done, inProgress, todo } from '../../utils';
-import { filterTasks } from '../../utils';
+import { filterTasksByStatus } from '../../utils';
 import board from './taskBoard.module.scss';
 
 export function TaskBoard() {
@@ -40,14 +40,18 @@ export function TaskBoard() {
       });
   };
 
-  const todoTasks = useMemo(() => filterTasks(tasks, todo), [tasks]);
+  const todoTasks = useMemo(() => filterTasksByStatus(tasks, todo), [tasks]);
   const inProgressTasks = useMemo(
-    () => filterTasks(tasks, inProgress),
+    () => filterTasksByStatus(tasks, inProgress),
     [tasks],
   );
-  const doneTasks = useMemo(() => filterTasks(tasks, done), [tasks]);
+  const doneTasks = useMemo(() => filterTasksByStatus(tasks, done), [tasks]);
 
   const handleOpenMenu = () => {};
+
+  const handleDeleteTask = (id) => {
+    dispatch(deleteTask({ id: id }));
+  };
 
   return (
     <>
@@ -60,7 +64,12 @@ export function TaskBoard() {
             id="toDo"
           >
             {todoTasks.map((el) => (
-              <Task name={el.text} id={el.id} key={el.id} />
+              <Task
+                name={el.text}
+                id={el.id}
+                key={el.id}
+                onDeleteClick={() => handleDeleteTask(el.id)}
+              />
             ))}
           </TaskList>
           <TaskList
@@ -69,7 +78,12 @@ export function TaskBoard() {
             id="inProgress"
           >
             {inProgressTasks.map((el) => (
-              <Task name={el.text} id={el.id} key={el.id} />
+              <Task
+                name={el.text}
+                id={el.id}
+                key={el.id}
+                onDeleteClick={handleDeleteTask}
+              />
             ))}
           </TaskList>
           <TaskList onMoreClick={handleOpenMenu} name="done" id="done">
