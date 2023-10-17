@@ -5,6 +5,7 @@ import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { ConfirmModal } from '../../components/confirm-modal';
 import { Task } from '../../components/task/task';
 import { TaskForm } from '../../components/task-form';
 import { TaskList } from '../../components/task-list';
@@ -15,6 +16,7 @@ import board from './taskBoard.module.scss';
 
 export function TaskBoard() {
   const [openForm, setOpenForm] = useState(false);
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const tasks = useSelector((state) => state.task.tasks);
@@ -29,6 +31,14 @@ export function TaskBoard() {
 
   const handleCloseForm = () => {
     setOpenForm(false);
+  };
+
+  const handleOpenConfirmModal = () => {
+    setOpenConfirmModal(true);
+  };
+
+  const handleCloseConfirmModal = () => {
+    setOpenConfirmModal(false);
   };
 
   const handleSubmit = (data) => {
@@ -47,11 +57,16 @@ export function TaskBoard() {
   );
   const doneTasks = useMemo(() => filterTasksByStatus(tasks, done), [tasks]);
 
-  const handleOpenMenu = () => {};
-
   const handleDeleteTask = (id) => {
-    dispatch(deleteTask({ id: id }));
+    dispatch(deleteTask({ id: id }))
+      .unwrap()
+      .then(() => {
+        navigate('./home');
+        handleCloseConfirmModal();
+      });
   };
+
+  const handleOpenMenu = () => {};
 
   return (
     <>
@@ -68,7 +83,8 @@ export function TaskBoard() {
                 name={el.text}
                 id={el.id}
                 key={el.id}
-                onDeleteClick={() => handleDeleteTask(el.id)}
+                // onDeleteClick={() => handleDeleteTask(el.id)}
+                onDeleteClick={handleOpenConfirmModal}
               />
             ))}
           </TaskList>
@@ -97,6 +113,12 @@ export function TaskBoard() {
         onCloseClick={handleCloseForm}
         open={openForm}
         onSubmit={handleSubmit}
+      />
+      <ConfirmModal
+        onCloseClick={handleCloseConfirmModal}
+        // onDeleteClick={ }
+        onCancelClick={handleCloseConfirmModal}
+        open={openConfirmModal}
       />
     </>
   );
