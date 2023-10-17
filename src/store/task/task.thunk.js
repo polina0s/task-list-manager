@@ -19,7 +19,6 @@ export const getTasks = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await api.getTasks(data);
-      console.log(response.data.tasks);
       return response.data.tasks;
     } catch (error) {
       return rejectWithValue(error);

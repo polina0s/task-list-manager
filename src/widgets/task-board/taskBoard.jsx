@@ -20,7 +20,7 @@ export function TaskBoard() {
   const tasks = useSelector((state) => state.task.tasks);
 
   useEffect(() => {
-    dispatch(getTasks({ limit: 100 }));
+    dispatch(getTasks({ limit: 999 }));
   }, [dispatch]);
 
   const handleOpenForm = () => {
