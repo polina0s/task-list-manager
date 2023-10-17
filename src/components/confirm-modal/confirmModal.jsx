@@ -27,8 +27,10 @@ export function ConfirmModal({
             <CloseIcon color="secondary" />
           </IconButton>
         </div>
-        <Button name="DELETE" onClick={onDeleteClick} />
-        <Button name="CANCEL" onClick={onCancelClick} />
+        <div className={modal.btnCont}>
+          <Button name="DELETE" onClick={onDeleteClick} />
+          <Button name="CANCEL" onClick={onCancelClick} />
+        </div>
       </Box>
     </Modal>
   );
