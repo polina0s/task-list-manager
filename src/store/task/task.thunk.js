@@ -6,8 +6,20 @@ export const createTask = createAsyncThunk(
   'tasks/creteTask',
   async (data, { rejectWithValue }) => {
     try {
-      const response = await api.addTask(data);
+      const response = await api.createTask(data);
       return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export const getTasks = createAsyncThunk(
+  'tasks/getTasks',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await api.getTasks(data);
+      return response.data.tasks;
     } catch (error) {
       return rejectWithValue(error);
     }

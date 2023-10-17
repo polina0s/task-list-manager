@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Task } from '../../components/task/task';
 import { TaskForm } from '../../components/task-form';
 import { TaskList } from '../../components/task-list';
-import { createTask } from '../../store/task';
+import { createTask, getTasks } from '../../store/task';
 import { done, inProgress, todo } from '../../utils';
 import { filterTasks } from '../../utils';
 import board from './taskBoard.module.scss';
@@ -18,6 +18,10 @@ export function TaskBoard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const tasks = useSelector((state) => state.task.tasks);
+
+  useEffect(() => {
+    dispatch(getTasks({ limit: 999 }));
+  }, [dispatch]);
 
   const handleOpenForm = () => {
     setOpenForm(true);
