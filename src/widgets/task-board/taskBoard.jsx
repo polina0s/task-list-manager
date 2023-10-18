@@ -9,7 +9,7 @@ import { ConfirmModal } from '../../components/confirm-modal';
 import { Task } from '../../components/task/task';
 import { TaskForm } from '../../components/task-form';
 import { TaskList } from '../../components/task-list';
-import { createTask, deleteTask, getTasks } from '../../store/task';
+import { createTask, deleteTask, editTask, getTasks } from '../../store/task';
 import { done, inProgress, todo } from '../../utils';
 import { filterTasksByStatus } from '../../utils';
 import board from './taskBoard.module.scss';
@@ -34,22 +34,7 @@ export function TaskBoard() {
   const handleCloseCreate = () => {
     setCreate(false);
   };
-
-  const handleOpenEdit = () => {
-    setEdit(true);
-  };
-  const handleCloseEdit = () => {
-    setEdit(false);
-  };
-
-  const handleOpenConfirmModal = () => {
-    setOpenConfirmModal(true);
-  };
-  const handleCloseConfirmModal = () => {
-    setOpenConfirmModal(false);
-  };
-
-  const handleSubmit = (data) => {
+  const handleCreate = (data) => {
     dispatch(createTask(data))
       .unwrap()
       .then(() => {
@@ -58,13 +43,26 @@ export function TaskBoard() {
       });
   };
 
-  const todoTasks = useMemo(() => filterTasksByStatus(tasks, todo), [tasks]);
-  const inProgressTasks = useMemo(
-    () => filterTasksByStatus(tasks, inProgress),
-    [tasks],
-  );
-  const doneTasks = useMemo(() => filterTasksByStatus(tasks, done), [tasks]);
+  const handleOpenEdit = () => {
+    setEdit(true);
+  };
+  const handleCloseEdit = () => {
+    setEdit(false);
+  };
+  const handleEdit = () => {
+    dispatch(editTask({ id: idTask }))
+      .unwrap()
+      .then(() => {
+        handleCloseEdit();
+      });
+  };
 
+  const handleOpenConfirmModal = () => {
+    setOpenConfirmModal(true);
+  };
+  const handleCloseConfirmModal = () => {
+    setOpenConfirmModal(false);
+  };
   const handleDeleteTask = () => {
     dispatch(deleteTask({ id: idTask }))
       .unwrap()
@@ -77,6 +75,13 @@ export function TaskBoard() {
     setIdTask(id);
     handleOpenConfirmModal();
   };
+
+  const todoTasks = useMemo(() => filterTasksByStatus(tasks, todo), [tasks]);
+  const inProgressTasks = useMemo(
+    () => filterTasksByStatus(tasks, inProgress),
+    [tasks],
+  );
+  const doneTasks = useMemo(() => filterTasksByStatus(tasks, done), [tasks]);
 
   const handleOpenMenu = () => {};
 
@@ -98,7 +103,10 @@ export function TaskBoard() {
                 onDelete={() => {
                   handleDeleteTaskById(el.id);
                 }}
-                onEdit={handleOpenEdit}
+                onEdit={() => {
+                  setIdTask(el.id);
+                  handleOpenEdit();
+                }}
               />
             ))}
           </TaskList>
@@ -133,14 +141,14 @@ export function TaskBoard() {
       <TaskForm
         onClose={handleCloseCreate}
         open={openCreate}
-        onSubmit={handleSubmit}
+        onSubmit={handleCreate}
         title="Create task"
         btnText="Add task"
       />
       <TaskForm
         onClose={handleCloseEdit}
         open={openEdit}
-        onSubmit={handleSubmit}
+        onSubmit={handleEdit}
         title="Edit task"
         btnText="Save"
       />

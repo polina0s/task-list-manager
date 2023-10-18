@@ -37,3 +37,16 @@ export const deleteTask = createAsyncThunk(
     }
   },
 );
+
+export const editTask = createAsyncThunk(
+  'tasks/editTask',
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const response = await api.getTaskById({ id });
+      response.data.text = 'jbhjbh';
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
