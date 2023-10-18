@@ -62,7 +62,6 @@ export function TaskBoard() {
     dispatch(deleteTask({ id: idTask }))
       .unwrap()
       .then(() => {
-        // navigate('./home');
         handleCloseConfirmModal();
       });
   };
@@ -84,7 +83,6 @@ export function TaskBoard() {
                 name={el.text}
                 id={el.id}
                 key={el.id}
-                // onDeleteClick={() => handleDeleteTask(el.id)}
                 onDeleteClick={() => {
                   setIdTask(el.id);
                   handleOpenConfirmModal();
