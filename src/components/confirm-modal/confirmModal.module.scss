@@ -1,0 +1,24 @@
+.cont {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--milk);
+  border-radius: 5px;
+  padding: 15px 20px;
+  text-align: center;
+}
+
+.titleCont {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btnCont {
+  margin: 0 auto;
+  width: 180px;
+  display: flex;
+  justify-content: space-between;
+}

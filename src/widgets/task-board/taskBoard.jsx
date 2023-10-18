@@ -5,16 +5,19 @@ import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { ConfirmModal } from '../../components/confirm-modal';
 import { Task } from '../../components/task/task';
 import { TaskForm } from '../../components/task-form';
 import { TaskList } from '../../components/task-list';
-import { createTask, getTasks } from '../../store/task';
+import { createTask, deleteTask, getTasks } from '../../store/task';
 import { done, inProgress, todo } from '../../utils';
-import { filterTasks } from '../../utils';
+import { filterTasksByStatus } from '../../utils';
 import board from './taskBoard.module.scss';
 
 export function TaskBoard() {
   const [openForm, setOpenForm] = useState(false);
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
+  const [idTask, setIdTask] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const tasks = useSelector((state) => state.task.tasks);
@@ -31,6 +34,14 @@ export function TaskBoard() {
     setOpenForm(false);
   };
 
+  const handleOpenConfirmModal = () => {
+    setOpenConfirmModal(true);
+  };
+
+  const handleCloseConfirmModal = () => {
+    setOpenConfirmModal(false);
+  };
+
   const handleSubmit = (data) => {
     dispatch(createTask(data))
       .unwrap()
@@ -40,12 +51,26 @@ export function TaskBoard() {
       });
   };
 
-  const todoTasks = useMemo(() => filterTasks(tasks, todo), [tasks]);
+  const todoTasks = useMemo(() => filterTasksByStatus(tasks, todo), [tasks]);
   const inProgressTasks = useMemo(
-    () => filterTasks(tasks, inProgress),
+    () => filterTasksByStatus(tasks, inProgress),
     [tasks],
   );
-  const doneTasks = useMemo(() => filterTasks(tasks, done), [tasks]);
+  const doneTasks = useMemo(() => filterTasksByStatus(tasks, done), [tasks]);
+
+  const handleDeleteTask = () => {
+    dispatch(deleteTask({ id: idTask }))
+      .unwrap()
+      .then(() => {
+        handleCloseConfirmModal();
+        setIdTask('');
+      });
+  };
+
+  const handleDeleteTaskById = (id) => {
+    setIdTask(id);
+    handleOpenConfirmModal();
+  };
 
   const handleOpenMenu = () => {};
 
@@ -54,35 +79,57 @@ export function TaskBoard() {
       <Box className={board.cont}>
         <Grid container spacing={2}>
           <TaskList
-            onAddClick={handleOpenForm}
-            onMoreClick={handleOpenMenu}
+            onAdd={handleOpenForm}
+            onMore={handleOpenMenu}
             name="to do"
             id="toDo"
           >
             {todoTasks.map((el) => (
-              <Task name={el.text} id={el.id} key={el.id} />
+              <Task
+                name={el.text}
+                id={el.id}
+                key={el.id}
+                onDelete={() => {
+                  handleDeleteTaskById(el.id);
+                }}
+              />
             ))}
           </TaskList>
-          <TaskList
-            onMoreClick={handleOpenMenu}
-            name="in progress"
-            id="inProgress"
-          >
+          <TaskList onMore={handleOpenMenu} name="in progress" id="inProgress">
             {inProgressTasks.map((el) => (
-              <Task name={el.text} id={el.id} key={el.id} />
+              <Task
+                name={el.text}
+                id={el.id}
+                key={el.id}
+                onDelete={() => {
+                  handleDeleteTaskById(el.id);
+                }}
+              />
             ))}
           </TaskList>
-          <TaskList onMoreClick={handleOpenMenu} name="done" id="done">
+          <TaskList onMore={handleOpenMenu} name="done" id="done">
             {doneTasks.map((el) => (
-              <Task name={el.text} id={el.id} key={el.id} />
+              <Task
+                name={el.text}
+                id={el.id}
+                key={el.id}
+                onDelete={() => {
+                  handleDeleteTaskById(el.id);
+                }}
+              />
             ))}
           </TaskList>
         </Grid>
       </Box>
       <TaskForm
-        onCloseClick={handleCloseForm}
+        onClose={handleCloseForm}
         open={openForm}
         onSubmit={handleSubmit}
+      />
+      <ConfirmModal
+        onClose={handleCloseConfirmModal}
+        onDelete={handleDeleteTask}
+        open={openConfirmModal}
       />
     </>
   );

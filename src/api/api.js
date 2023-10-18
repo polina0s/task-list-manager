@@ -127,6 +127,10 @@ export class Api {
     return json;
   }
 
+  async deleteTask({ id }) {
+    await this.request(`tasks/${id}`, { method: 'DELETE' });
+  }
+
   onRefresh() {}
 }
 

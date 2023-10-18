@@ -1,9 +1,9 @@
 import { Button as ButtonMui } from '@mui/material';
 
-export function Button({ ...props }) {
+export function Button({ children, ...props }) {
   return (
     <ButtonMui variant="contained" color="secondary" {...props}>
-      {props.name}
+      {children}
     </ButtonMui>
   );
 }

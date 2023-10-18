@@ -28,11 +28,15 @@ export function Menu({ open, handleDrawerClose, avatar, name, onClick }) {
           )}
         </IconButton>
         <Avatar className={menu.avatar}>{avatar}</Avatar>
-        <Title variant="h6" color="secondary" name={name} />
+        <Title variant="h6" color="secondary">
+          {name}
+        </Title>
       </div>
       <Divider />
       <Divider className={menu.divider} />
-      <Button className={menu.btn} name="Logout" onClick={onClick} />
+      <Button className={menu.btn} onClick={onClick}>
+        Logout
+      </Button>
     </Drawer>
   );
 }

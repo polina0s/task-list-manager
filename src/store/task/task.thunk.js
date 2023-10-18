@@ -25,3 +25,15 @@ export const getTasks = createAsyncThunk(
     }
   },
 );
+
+export const deleteTask = createAsyncThunk(
+  'tasks/deleteTasks',
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      await api.deleteTask({ id });
+      return id;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);

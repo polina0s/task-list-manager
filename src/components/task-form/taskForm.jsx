@@ -15,7 +15,7 @@ const schema = yup.object().shape({
   text: yup.string().required('this field is required').trim().min(1),
 });
 
-export function TaskForm({ onCloseClick, onSubmit, open, id }) {
+export function TaskForm({ onClose, onSubmit, open }) {
   const {
     register,
     formState: { errors },
@@ -28,7 +28,7 @@ export function TaskForm({ onCloseClick, onSubmit, open, id }) {
   });
 
   return (
-    <Modal open={open} onClose={onCloseClick} id={id}>
+    <Modal open={open} onClose={onClose}>
       <Box
         className={form.cont}
         component="form"
@@ -37,8 +37,10 @@ export function TaskForm({ onCloseClick, onSubmit, open, id }) {
         autoComplete="off"
       >
         <div className={form.titleCont}>
-          <Title color="secondary" variant="h6" name="Create task" />
-          <IconButton onClick={onCloseClick}>
+          <Title color="secondary" variant="h6">
+            Create task
+          </Title>
+          <IconButton onClick={onClose}>
             <CloseIcon color="secondary" />
           </IconButton>
         </div>
@@ -48,7 +50,7 @@ export function TaskForm({ onCloseClick, onSubmit, open, id }) {
           helperText={errors?.text?.message}
           {...register('text')}
         />
-        <Button type="submit" name="Add task" />
+        <Button type="submit">Add task</Button>
       </Box>
     </Modal>
   );

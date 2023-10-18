@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography';
 
-export function Title({ ...props }) {
-  return <Typography {...props}>{props.name}</Typography>;
+export function Title({ children, ...props }) {
+  return <Typography {...props}>{children}</Typography>;
 }

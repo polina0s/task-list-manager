@@ -46,13 +46,10 @@ export function UserHeader({
   return (
     <>
       <Avatar className={userHeader.avatar}>{avatar}</Avatar>
-      <Title
-        className={userHeader.userLogin}
-        variant="h6"
-        color="secondary"
-        name={login}
-      />
-      <Button name={btnText} onClick={onClick} />
+      <Title className={userHeader.userLogin} variant="h6" color="secondary">
+        {login}
+      </Title>
+      <Button onClick={onClick}>{btnText}</Button>
     </>
   );
 }
