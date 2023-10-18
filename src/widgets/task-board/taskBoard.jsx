@@ -49,8 +49,8 @@ export function TaskBoard() {
   const handleCloseEdit = () => {
     setEdit(false);
   };
-  const handleEdit = () => {
-    dispatch(editTask({ id: idTask }))
+  const handleEdit = (data) => {
+    dispatch(editTask({ id: idTask, text: data.text }))
       .unwrap()
       .then(() => {
         handleCloseEdit();

@@ -127,11 +127,16 @@ export class Api {
     return json;
   }
 
-  async getTaskById({ id }) {
-    const response = await this.request(`tasks/${id}`, { method: 'GET' });
+  async editTask({ id, text }) {
+    const response = await this.request(`tasks/${id}`, {
+      method: 'PATCH',
+      body: {
+        text,
+      },
+    });
 
     const json = await response.json();
-    console.log(json);
+
     return json;
   }
 

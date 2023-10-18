@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { filterTasksById } from '../../utils';
-import { createTask, deleteTask, getTasks } from './task.thunk';
+import { createTask, deleteTask, editTask, getTasks } from './task.thunk';
 
 const initialState = {
   isLoading: false,
@@ -42,6 +42,23 @@ const taskSlice = createSlice({
     builder.addCase(deleteTask.fulfilled, (state, action) => {
       state.isLoading = false;
       state.tasks = filterTasksById(state.tasks, action.payload);
+    });
+    builder.addCase(editTask.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(editTask.rejected, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(editTask.fulfilled, (state, action) => {
+      state.isLoading = false;
+      console.log(action);
+      state.tasks = state.tasks.map((task) => {
+        if (task.id === action.payload.id) {
+          return action.payload;
+        } else {
+          return task;
+        }
+      });
     });
   },
 });
