@@ -7,22 +7,24 @@ import { useBreakpoints } from '../../utils/useBreakpoints';
 import { Title } from '../title';
 import list from './taskList.module.scss';
 
-export function TaskList({ name, onAddClick, onMoreClick, children }) {
+export function TaskList({ name, onAdd, onMore, children }) {
   const breakpoints = useBreakpoints();
 
   return (
     <Grid item xs={breakpoints.md ? 12 : 4}>
       <div className={list.cont}>
         <div className={list.header}>
-          <Title className={list.name} variant="h6" name={name} />
+          <Title className={list.name} variant="h6">
+            {name}
+          </Title>
           <div>
-            {onAddClick && (
-              <IconButton color="primary" onClick={onAddClick}>
+            {onAdd && (
+              <IconButton color="primary" onClick={onAdd}>
                 <AddIcon />
               </IconButton>
             )}
-            {onMoreClick && (
-              <IconButton color="primary" onClick={onMoreClick} type="submit">
+            {onMore && (
+              <IconButton color="primary" onClick={onMore} type="submit">
                 <MoreHorizIcon />
               </IconButton>
             )}

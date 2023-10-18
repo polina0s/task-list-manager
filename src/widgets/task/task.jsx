@@ -11,7 +11,7 @@ export function Task({ name, id }) {
       <div className={task.titleCont}>
         <div className={task.nameCont}>
           <AutoAwesomeIcon className={task.titleIcon} color="secondary" />
-          <Title name={name} color="secondary" />
+          <Title color="secondary"> {name} </Title>
         </div>
         <div>
           <IconButton>

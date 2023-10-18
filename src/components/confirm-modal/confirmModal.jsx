@@ -7,29 +7,21 @@ import { Button } from '../button/button';
 import { Title } from '../title';
 import modal from './confirmModal.module.scss';
 
-export function ConfirmModal({
-  onCloseClick,
-  onDeleteClick,
-  onCancelClick,
-  open,
-  id,
-}) {
+export function ConfirmModal({ onClose, onDelete, open, id }) {
   return (
-    <Modal open={open} onClose={onCloseClick} id={id}>
+    <Modal open={open} onClose={onClose} id={id}>
       <Box className={modal.cont}>
         <div className={modal.titleCont}>
-          <Title
-            color="secondary"
-            variant="h6"
-            name="Are you sure you want to delete the task?"
-          />
-          <IconButton onClick={onCloseClick}>
+          <Title color="secondary" variant="h6">
+            Are you sure you want to delete the task?
+          </Title>
+          <IconButton onClick={onClose}>
             <CloseIcon color="secondary" />
           </IconButton>
         </div>
         <div className={modal.btnCont}>
-          <Button name="DELETE" onClick={onDeleteClick} />
-          <Button name="CANCEL" onClick={onCancelClick} />
+          <Button onClick={onDelete}>DELETE</Button>
+          <Button onClick={onClose}>CANCEL</Button>
         </div>
       </Box>
     </Modal>

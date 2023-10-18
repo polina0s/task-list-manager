@@ -63,7 +63,13 @@ export function TaskBoard() {
       .unwrap()
       .then(() => {
         handleCloseConfirmModal();
+        setIdTask('');
       });
+  };
+
+  const handleDeleteTaskById = (id) => {
+    setIdTask(id);
+    handleOpenConfirmModal();
   };
 
   const handleOpenMenu = () => {};
@@ -73,8 +79,8 @@ export function TaskBoard() {
       <Box className={board.cont}>
         <Grid container spacing={2}>
           <TaskList
-            onAddClick={handleOpenForm}
-            onMoreClick={handleOpenMenu}
+            onAdd={handleOpenForm}
+            onMore={handleOpenMenu}
             name="to do"
             id="toDo"
           >
@@ -83,43 +89,46 @@ export function TaskBoard() {
                 name={el.text}
                 id={el.id}
                 key={el.id}
-                onDeleteClick={() => {
-                  setIdTask(el.id);
-                  handleOpenConfirmModal();
+                onDelete={() => {
+                  handleDeleteTaskById(el.id);
                 }}
               />
             ))}
           </TaskList>
-          <TaskList
-            onMoreClick={handleOpenMenu}
-            name="in progress"
-            id="inProgress"
-          >
+          <TaskList onMore={handleOpenMenu} name="in progress" id="inProgress">
             {inProgressTasks.map((el) => (
               <Task
                 name={el.text}
                 id={el.id}
                 key={el.id}
-                onDeleteClick={handleDeleteTask}
+                onDelete={() => {
+                  handleDeleteTaskById(el.id);
+                }}
               />
             ))}
           </TaskList>
-          <TaskList onMoreClick={handleOpenMenu} name="done" id="done">
+          <TaskList onMore={handleOpenMenu} name="done" id="done">
             {doneTasks.map((el) => (
-              <Task name={el.text} id={el.id} key={el.id} />
+              <Task
+                name={el.text}
+                id={el.id}
+                key={el.id}
+                onDelete={() => {
+                  handleDeleteTaskById(el.id);
+                }}
+              />
             ))}
           </TaskList>
         </Grid>
       </Box>
       <TaskForm
-        onCloseClick={handleCloseForm}
+        onClose={handleCloseForm}
         open={openForm}
         onSubmit={handleSubmit}
       />
       <ConfirmModal
-        onCloseClick={handleCloseConfirmModal}
-        onDeleteClick={handleDeleteTask}
-        onCancelClick={handleCloseConfirmModal}
+        onClose={handleCloseConfirmModal}
+        onDelete={handleDeleteTask}
         open={openConfirmModal}
       />
     </>

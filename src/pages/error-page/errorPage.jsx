@@ -8,19 +8,13 @@ import error from './errorPage.module.scss';
 export function ErrorPage() {
   return (
     <div className={error.errorPageCont}>
-      <Title
-        size="h5"
-        color="secondary"
-        name="Sorry, an unexpected error has occurred"
-        component="div"
-      />
+      <Title size="h5" color="secondary" component="div">
+        Sorry, an unexpected error has occurred
+      </Title>
       <img src={logo} className={error.errorImg} />
-      <Button
-        component={RouterLink}
-        to="/"
-        name="Go to home page"
-        size="large"
-      />
+      <Button component={RouterLink} to="/" size="large">
+        Go to home page
+      </Button>
     </div>
   );
 }

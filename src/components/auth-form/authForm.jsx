@@ -46,10 +46,11 @@ export function AuthForm({
         <Title
           className={authForm.authFormTitle}
           variant="h4"
-          name={header}
           color="secondary"
           component="div"
-        />
+        >
+          {header}
+        </Title>
         <div className={authForm.authFormInputCont}>
           <Input
             required
@@ -65,7 +66,9 @@ export function AuthForm({
           />
         </div>
         <div className={authForm.authFormBtn}>
-          <Button name={btnText} type="submit" disabled={isLoading} />
+          <Button type="submit" disabled={isLoading}>
+            {btnText}
+          </Button>
         </div>
         <div>
           <Link

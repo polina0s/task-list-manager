@@ -25,12 +25,9 @@ export function Header({ btnText, onClick }) {
       <AppBar position="static">
         <Toolbar>
           <img className={header.logo} src={logo} />
-          <Title
-            variant="h4"
-            color="secondary"
-            className={header.title}
-            name="Task Manager"
-          />
+          <Title variant="h4" color="secondary" className={header.title}>
+            Task Manager
+          </Title>
           {user.isLogged ? (
             <UserHeader
               handleDrawerOpen={handleDrawerOpen}
@@ -42,7 +39,7 @@ export function Header({ btnText, onClick }) {
               btnText={btnText}
             />
           ) : (
-            <Button name={btnText} onClick={onClick} />
+            <Button onClick={onClick}>{btnText}</Button>
           )}
         </Toolbar>
       </AppBar>
