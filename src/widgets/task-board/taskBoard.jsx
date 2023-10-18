@@ -17,6 +17,7 @@ import board from './taskBoard.module.scss';
 export function TaskBoard() {
   const [openForm, setOpenForm] = useState(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
+  const [idTask, setIdTask] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const tasks = useSelector((state) => state.task.tasks);
@@ -57,11 +58,11 @@ export function TaskBoard() {
   );
   const doneTasks = useMemo(() => filterTasksByStatus(tasks, done), [tasks]);
 
-  const handleDeleteTask = (id) => {
-    dispatch(deleteTask({ id: id }))
+  const handleDeleteTask = () => {
+    dispatch(deleteTask({ id: idTask }))
       .unwrap()
       .then(() => {
-        navigate('./home');
+        // navigate('./home');
         handleCloseConfirmModal();
       });
   };
@@ -84,7 +85,10 @@ export function TaskBoard() {
                 id={el.id}
                 key={el.id}
                 // onDeleteClick={() => handleDeleteTask(el.id)}
-                onDeleteClick={handleOpenConfirmModal}
+                onDeleteClick={() => {
+                  setIdTask(el.id);
+                  handleOpenConfirmModal();
+                }}
               />
             ))}
           </TaskList>
@@ -116,7 +120,7 @@ export function TaskBoard() {
       />
       <ConfirmModal
         onCloseClick={handleCloseConfirmModal}
-        // onDeleteClick={ }
+        onDeleteClick={handleDeleteTask}
         onCancelClick={handleCloseConfirmModal}
         open={openConfirmModal}
       />

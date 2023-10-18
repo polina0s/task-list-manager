@@ -15,7 +15,7 @@ const schema = yup.object().shape({
   text: yup.string().required('this field is required').trim().min(1),
 });
 
-export function TaskForm({ onCloseClick, onSubmit, open, id }) {
+export function TaskForm({ onCloseClick, onSubmit, open }) {
   const {
     register,
     formState: { errors },
@@ -28,7 +28,7 @@ export function TaskForm({ onCloseClick, onSubmit, open, id }) {
   });
 
   return (
-    <Modal open={open} onClose={onCloseClick} id={id}>
+    <Modal open={open} onClose={onCloseClick}>
       <Box
         className={form.cont}
         component="form"
