@@ -12,11 +12,16 @@ import { TaskList } from '../../components/task-list';
 import { createTask, deleteTask, editTask, getTasks } from '../../store/task';
 import { done, inProgress, todo } from '../../utils';
 import { filterTasksByStatus } from '../../utils';
+import { TASK_FORM } from '../../utils';
 import board from './taskBoard.module.scss';
 
 export function TaskBoard() {
-  const [openCreate, setCreate] = useState(false);
-  const [openEdit, setEdit] = useState(false);
+  const [taskForm, setTaskForm] = useState(false);
+
+  const handleCloseForm = () => setTaskForm(false);
+  const handleOpenEditForm = () => setTaskForm(TASK_FORM.EDIT);
+  const handleOpenCreateForm = () => setTaskForm(TASK_FORM.CREATE);
+
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [idTask, setIdTask] = useState('');
 
@@ -28,41 +33,25 @@ export function TaskBoard() {
     dispatch(getTasks({ limit: 999 }));
   }, [dispatch]);
 
-  const handleOpenCreate = () => {
-    setCreate(true);
-  };
-  const handleCloseCreate = () => {
-    setCreate(false);
-  };
   const handleCreate = (data) => {
     dispatch(createTask(data))
       .unwrap()
       .then(() => {
         navigate('/home');
-        handleCloseCreate();
+        handleCloseForm();
       });
   };
 
-  const handleOpenEdit = () => {
-    setEdit(true);
-  };
-  const handleCloseEdit = () => {
-    setEdit(false);
-  };
   const handleEdit = (data) => {
     dispatch(editTask({ id: idTask, text: data.text }))
       .unwrap()
       .then(() => {
-        handleCloseEdit();
+        handleCloseForm();
       });
   };
 
-  const handleOpenConfirmModal = () => {
-    setOpenConfirmModal(true);
-  };
-  const handleCloseConfirmModal = () => {
-    setOpenConfirmModal(false);
-  };
+  const handleOpenConfirmModal = () => setOpenConfirmModal(true);
+  const handleCloseConfirmModal = () => setOpenConfirmModal(false);
   const handleDeleteTask = () => {
     dispatch(deleteTask({ id: idTask }))
       .unwrap()
@@ -90,7 +79,7 @@ export function TaskBoard() {
       <Box className={board.cont}>
         <Grid container spacing={2}>
           <TaskList
-            onAdd={handleOpenCreate}
+            onAdd={handleOpenCreateForm}
             onMore={handleOpenMenu}
             name="to do"
             id="toDo"
@@ -105,7 +94,7 @@ export function TaskBoard() {
                 }}
                 onEdit={() => {
                   setIdTask(el.id);
-                  handleOpenEdit();
+                  handleOpenEditForm();
                 }}
               />
             ))}
@@ -119,7 +108,7 @@ export function TaskBoard() {
                 onDelete={() => {
                   handleDeleteTaskById(el.id);
                 }}
-                onEdit={handleOpenEdit}
+                onEdit={handleOpenEditForm}
               />
             ))}
           </TaskList>
@@ -132,22 +121,22 @@ export function TaskBoard() {
                 onDelete={() => {
                   handleDeleteTaskById(el.id);
                 }}
-                onEdit={handleOpenEdit}
+                onEdit={handleOpenEditForm}
               />
             ))}
           </TaskList>
         </Grid>
       </Box>
       <TaskForm
-        onClose={handleCloseCreate}
-        open={openCreate}
+        onClose={handleCloseForm}
+        open={taskForm === TASK_FORM.CREATE}
         onSubmit={handleCreate}
         title="Create task"
         btnText="Add task"
       />
       <TaskForm
-        onClose={handleCloseEdit}
-        open={openEdit}
+        onClose={handleCloseForm}
+        open={taskForm === TASK_FORM.EDIT}
         onSubmit={handleEdit}
         title="Edit task"
         btnText="Save"

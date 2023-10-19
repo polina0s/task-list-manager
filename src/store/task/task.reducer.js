@@ -51,13 +51,11 @@ const taskSlice = createSlice({
     });
     builder.addCase(editTask.fulfilled, (state, action) => {
       state.isLoading = false;
-      console.log(action);
       state.tasks = state.tasks.map((task) => {
         if (task.id === action.payload.id) {
           return action.payload;
-        } else {
-          return task;
         }
+        return task;
       });
     });
   },
