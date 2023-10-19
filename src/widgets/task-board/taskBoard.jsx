@@ -17,11 +17,6 @@ import board from './taskBoard.module.scss';
 
 export function TaskBoard() {
   const [taskForm, setTaskForm] = useState(false);
-
-  const handleCloseForm = () => setTaskForm(false);
-  const handleOpenEditForm = () => setTaskForm(TASK_FORM.EDIT);
-  const handleOpenCreateForm = () => setTaskForm(TASK_FORM.CREATE);
-
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [idTask, setIdTask] = useState('');
 
@@ -32,6 +27,12 @@ export function TaskBoard() {
   useEffect(() => {
     dispatch(getTasks({ limit: 999 }));
   }, [dispatch]);
+
+  const handleCloseForm = () => setTaskForm(false);
+  const handleOpenEditForm = () => setTaskForm(TASK_FORM.EDIT);
+  const handleOpenCreateForm = () => setTaskForm(TASK_FORM.CREATE);
+  const handleOpenConfirmModal = () => setOpenConfirmModal(true);
+  const handleCloseConfirmModal = () => setOpenConfirmModal(false);
 
   const handleCreate = (data) => {
     dispatch(createTask(data))
@@ -49,14 +50,11 @@ export function TaskBoard() {
         handleCloseForm();
       });
   };
-
   const handleEditTaskById = (id) => {
     setIdTask(id);
     handleOpenEditForm();
   };
 
-  const handleOpenConfirmModal = () => setOpenConfirmModal(true);
-  const handleCloseConfirmModal = () => setOpenConfirmModal(false);
   const handleDeleteTask = () => {
     dispatch(deleteTask({ id: idTask }))
       .unwrap()
