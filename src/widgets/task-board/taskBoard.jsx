@@ -50,6 +50,11 @@ export function TaskBoard() {
       });
   };
 
+  const handleEditTaskById = (id) => {
+    setIdTask(id);
+    handleOpenEditForm();
+  };
+
   const handleOpenConfirmModal = () => setOpenConfirmModal(true);
   const handleCloseConfirmModal = () => setOpenConfirmModal(false);
   const handleDeleteTask = () => {
@@ -93,8 +98,7 @@ export function TaskBoard() {
                   handleDeleteTaskById(el.id);
                 }}
                 onEdit={() => {
-                  setIdTask(el.id);
-                  handleOpenEditForm();
+                  handleEditTaskById(el.id);
                 }}
               />
             ))}
@@ -108,7 +112,9 @@ export function TaskBoard() {
                 onDelete={() => {
                   handleDeleteTaskById(el.id);
                 }}
-                onEdit={handleOpenEditForm}
+                onEdit={() => {
+                  handleEditTaskById(el.id);
+                }}
               />
             ))}
           </TaskList>
@@ -121,7 +127,9 @@ export function TaskBoard() {
                 onDelete={() => {
                   handleDeleteTaskById(el.id);
                 }}
-                onEdit={handleOpenEditForm}
+                onEdit={() => {
+                  handleEditTaskById(el.id);
+                }}
               />
             ))}
           </TaskList>
