@@ -140,6 +140,18 @@ export class Api {
     return json;
   }
 
+  async takeToWork({ id }) {
+    await this.request(`tasks/${id}/take-to-work`, {
+      method: 'PATCH',
+    });
+  }
+
+  async done({ id }) {
+    await this.request(`tasks/${id}/done`, {
+      method: 'PATCH',
+    });
+  }
+
   async deleteTask({ id }) {
     await this.request(`tasks/${id}`, { method: 'DELETE' });
   }

@@ -9,7 +9,13 @@ import { ConfirmModal } from '../../components/confirm-modal';
 import { Task } from '../../components/task/task';
 import { TaskForm } from '../../components/task-form';
 import { TaskList } from '../../components/task-list';
-import { createTask, deleteTask, editTask, getTasks } from '../../store/task';
+import {
+  createTask,
+  deleteTask,
+  editTask,
+  editTaskStatus,
+  getTasks,
+} from '../../store/task';
 import { done, inProgress, todo } from '../../utils';
 import { filterTasksByStatus } from '../../utils';
 import { TASK_FORM } from '../../utils';
@@ -46,9 +52,7 @@ export function TaskBoard() {
   const handleEdit = (data) => {
     dispatch(editTask({ id: idTask, text: data.text }))
       .unwrap()
-      .then(() => {
-        handleCloseForm();
-      });
+      .then(() => handleCloseForm());
   };
   const handleEditTaskById = (id) => {
     setIdTask(id);
@@ -66,6 +70,14 @@ export function TaskBoard() {
   const handleDeleteTaskById = (id) => {
     setIdTask(id);
     handleOpenConfirmModal();
+  };
+
+  const handleTakeToWork = (id) => {
+    dispatch(editTaskStatus({ id: id, status: inProgress })).unwrap();
+  };
+
+  const handleDoneTask = (id) => {
+    dispatch(editTaskStatus({ id: id, status: done })).unwrap();
   };
 
   const todoTasks = useMemo(() => filterTasksByStatus(tasks, todo), [tasks]);
@@ -92,12 +104,9 @@ export function TaskBoard() {
                 name={el.text}
                 id={el.id}
                 key={el.id}
-                onDelete={() => {
-                  handleDeleteTaskById(el.id);
-                }}
-                onEdit={() => {
-                  handleEditTaskById(el.id);
-                }}
+                onDelete={() => handleDeleteTaskById(el.id)}
+                onEdit={() => handleEditTaskById(el.id)}
+                onChangeStatus={() => handleTakeToWork(el.id)}
               />
             ))}
           </TaskList>
@@ -107,12 +116,9 @@ export function TaskBoard() {
                 name={el.text}
                 id={el.id}
                 key={el.id}
-                onDelete={() => {
-                  handleDeleteTaskById(el.id);
-                }}
-                onEdit={() => {
-                  handleEditTaskById(el.id);
-                }}
+                onDelete={() => handleDeleteTaskById(el.id)}
+                onEdit={() => handleEditTaskById(el.id)}
+                onChangeStatus={() => handleDoneTask(el.id)}
               />
             ))}
           </TaskList>
@@ -122,12 +128,8 @@ export function TaskBoard() {
                 name={el.text}
                 id={el.id}
                 key={el.id}
-                onDelete={() => {
-                  handleDeleteTaskById(el.id);
-                }}
-                onEdit={() => {
-                  handleEditTaskById(el.id);
-                }}
+                onDelete={() => handleDeleteTaskById(el.id)}
+                onEdit={() => handleEditTaskById(el.id)}
               />
             ))}
           </TaskList>

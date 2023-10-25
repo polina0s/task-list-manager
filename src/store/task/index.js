@@ -1,1 +1,7 @@
-export { createTask, deleteTask, editTask, getTasks } from './task.thunk';
+export {
+  createTask,
+  deleteTask,
+  editTask,
+  editTaskStatus,
+  getTasks,
+} from './task.thunk';
