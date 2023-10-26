@@ -16,27 +16,30 @@ import {
   editTaskStatus,
   getTasks,
 } from '../../store/task';
+import { useTaskForm } from '../../utils';
 import { done, inProgress, todo } from '../../utils';
 import { filterTasksByStatus } from '../../utils';
-import { TASK_FORM } from '../../utils';
 import board from './taskBoard.module.scss';
 
 export function TaskBoard() {
-  const [taskForm, setTaskForm] = useState(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [idTask, setIdTask] = useState('');
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const tasks = useSelector((state) => state.task.tasks);
+  const {
+    handleOpenEditForm,
+    handleOpenCreateForm,
+    handleCloseForm,
+    isEditForm,
+    isCreateForm,
+  } = useTaskForm();
 
   useEffect(() => {
     dispatch(getTasks({ limit: 999 }));
   }, [dispatch]);
 
-  const handleCloseForm = () => setTaskForm(false);
-  const handleOpenEditForm = () => setTaskForm(TASK_FORM.EDIT);
-  const handleOpenCreateForm = () => setTaskForm(TASK_FORM.CREATE);
   const handleOpenConfirmModal = () => setOpenConfirmModal(true);
   const handleCloseConfirmModal = () => setOpenConfirmModal(false);
 
@@ -73,11 +76,11 @@ export function TaskBoard() {
   };
 
   const handleTakeToWork = (id) => {
-    dispatch(editTaskStatus({ id: id, status: inProgress })).unwrap();
+    dispatch(editTaskStatus({ id: id, status: inProgress }));
   };
 
   const handleDoneTask = (id) => {
-    dispatch(editTaskStatus({ id: id, status: done })).unwrap();
+    dispatch(editTaskStatus({ id: id, status: done }));
   };
 
   const todoTasks = useMemo(() => filterTasksByStatus(tasks, todo), [tasks]);
@@ -137,14 +140,14 @@ export function TaskBoard() {
       </Box>
       <TaskForm
         onClose={handleCloseForm}
-        open={taskForm === TASK_FORM.CREATE}
+        open={isCreateForm}
         onSubmit={handleCreate}
         title="Create task"
         btnText="Add task"
       />
       <TaskForm
         onClose={handleCloseForm}
-        open={taskForm === TASK_FORM.EDIT}
+        open={isEditForm}
         onSubmit={handleEdit}
         title="Edit task"
         btnText="Save"
