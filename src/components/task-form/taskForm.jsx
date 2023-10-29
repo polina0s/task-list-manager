@@ -22,7 +22,7 @@ export function TaskForm({ onClose, onSubmit, open, title, btnText, text }) {
     handleSubmit,
   } = useForm({
     mode: 'onBlur',
-    defaultValues: { text: text },
+    values: { text: text },
     shouldUnregister: true,
     resolver: yupResolver(schema),
   });

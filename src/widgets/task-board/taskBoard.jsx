@@ -15,6 +15,8 @@ import {
   editTask,
   editTaskStatus,
   getTasks,
+  selectAllTasks,
+  selectTask,
 } from '../../store/task';
 import { useTaskForm } from '../../utils';
 import { done, inProgress, todo } from '../../utils';
@@ -24,11 +26,12 @@ import board from './taskBoard.module.scss';
 export function TaskBoard() {
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [idTask, setIdTask] = useState('');
-  const [taskText, setTaskText] = useState('');
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const tasks = useSelector((state) => state.task.tasks);
+  const tasks = useSelector(selectAllTasks);
+  const selectedTask = useSelector((state) => selectTask(state, idTask));
+
   const {
     handleOpenEditForm,
     handleOpenCreateForm,
@@ -60,8 +63,7 @@ export function TaskBoard() {
         handleCloseForm();
       });
   };
-  const handleEditTaskById = (id, text) => {
-    setTaskText(text);
+  const handleEditTaskById = (id) => {
     setIdTask(id);
     handleOpenEditForm();
   };
@@ -153,7 +155,7 @@ export function TaskBoard() {
         onClose={handleCloseForm}
         open={isEditForm}
         onSubmit={handleEdit}
-        text={taskText}
+        text={selectedTask?.text}
         title="Edit task"
         btnText="Save"
       />
