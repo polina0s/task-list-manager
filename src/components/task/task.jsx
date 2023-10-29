@@ -13,9 +13,11 @@ export function Task({ name, id, onDelete, onEdit, onChangeStatus }) {
       <div className={task.titleCont}>
         <div className={task.nameCont}>
           <AutoAwesomeIcon className={task.titleIcon} color="secondary" />
-          <Title color="secondary">{name}</Title>
+          <Title className={task.name} color="secondary">
+            {name}
+          </Title>
         </div>
-        <div>
+        <div className={task.buttons}>
           <IconButton onClick={onEdit}>
             <EditIcon color="secondary" />
           </IconButton>

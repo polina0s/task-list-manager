@@ -15,14 +15,14 @@ const schema = yup.object().shape({
   text: yup.string().required('this field is required').trim().min(1),
 });
 
-export function TaskForm({ onClose, onSubmit, open, title, btnText }) {
+export function TaskForm({ onClose, onSubmit, open, title, btnText, text }) {
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm({
     mode: 'onBlur',
-    defaultValues: { text: '' },
+    defaultValues: { text: text },
     shouldUnregister: true,
     resolver: yupResolver(schema),
   });

@@ -24,6 +24,7 @@ import board from './taskBoard.module.scss';
 export function TaskBoard() {
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [idTask, setIdTask] = useState('');
+  const [taskText, setTaskText] = useState('');
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -55,9 +56,12 @@ export function TaskBoard() {
   const handleEdit = (data) => {
     dispatch(editTask({ id: idTask, text: data.text }))
       .unwrap()
-      .then(() => handleCloseForm());
+      .then(() => {
+        handleCloseForm();
+      });
   };
-  const handleEditTaskById = (id) => {
+  const handleEditTaskById = (id, text) => {
+    setTaskText(text);
     setIdTask(id);
     handleOpenEditForm();
   };
@@ -108,7 +112,7 @@ export function TaskBoard() {
                 id={el.id}
                 key={el.id}
                 onDelete={() => handleDeleteTaskById(el.id)}
-                onEdit={() => handleEditTaskById(el.id)}
+                onEdit={() => handleEditTaskById(el.id, el.text)}
                 onChangeStatus={() => handleTakeToWork(el.id)}
               />
             ))}
@@ -120,7 +124,7 @@ export function TaskBoard() {
                 id={el.id}
                 key={el.id}
                 onDelete={() => handleDeleteTaskById(el.id)}
-                onEdit={() => handleEditTaskById(el.id)}
+                onEdit={() => handleEditTaskById(el.id, el.text)}
                 onChangeStatus={() => handleDoneTask(el.id)}
               />
             ))}
@@ -132,7 +136,7 @@ export function TaskBoard() {
                 id={el.id}
                 key={el.id}
                 onDelete={() => handleDeleteTaskById(el.id)}
-                onEdit={() => handleEditTaskById(el.id)}
+                onEdit={() => handleEditTaskById(el.id, el.text)}
               />
             ))}
           </TaskList>
@@ -149,6 +153,7 @@ export function TaskBoard() {
         onClose={handleCloseForm}
         open={isEditForm}
         onSubmit={handleEdit}
+        text={taskText}
         title="Edit task"
         btnText="Save"
       />
