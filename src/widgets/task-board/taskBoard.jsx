@@ -10,13 +10,13 @@ import { Task } from '../../components/task/task';
 import { TaskForm } from '../../components/task-form';
 import { TaskList } from '../../components/task-list';
 import {
+  allTasksSelector,
   createTask,
   deleteTask,
   editTask,
   editTaskStatus,
   getTasks,
-  selectAllTasks,
-  selectTask,
+  taskByIdSelector,
 } from '../../store/task';
 import { useTaskForm } from '../../utils';
 import { done, inProgress, todo } from '../../utils';
@@ -29,8 +29,8 @@ export function TaskBoard() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const tasks = useSelector(selectAllTasks);
-  const selectedTask = useSelector((state) => selectTask(state, idTask));
+  const tasks = useSelector(allTasksSelector);
+  const selectedTask = useSelector((state) => taskByIdSelector(state, idTask));
 
   const {
     handleOpenEditForm,

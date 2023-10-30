@@ -1,3 +1,4 @@
+export { allTasksSelector, taskByIdSelector } from './task.selectors';
 export {
   createTask,
   deleteTask,
@@ -5,4 +6,3 @@ export {
   editTaskStatus,
   getTasks,
 } from './task.thunk';
-export { selectAllTasks, selectTask } from './taskSelector';
