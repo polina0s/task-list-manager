@@ -1,8 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import CloseIcon from '@mui/icons-material/Close';
+// import EastIcon from '@mui/icons-material/East';
+import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import { IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
 import Modal from '@mui/material/Modal';
+import Popover from '@mui/material/Popover';
+import { useState } from 'react';
+// import { CirclePicker } from 'react-color';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -27,6 +35,19 @@ export function TaskForm({ onClose, onSubmit, open, title, btnText, text }) {
     resolver: yupResolver(schema),
   });
 
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const openn = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
   return (
     <Modal open={open} onClose={onClose}>
       <Box
@@ -43,6 +64,39 @@ export function TaskForm({ onClose, onSubmit, open, title, btnText, text }) {
           <IconButton onClick={onClose}>
             <CloseIcon color="secondary" />
           </IconButton>
+        </div>
+        <div className={form.tagsCont}>
+          <Button onClick={handleClick}>
+            <LocalOfferOutlinedIcon
+              color="primary"
+              className={form.tagsBtnIcon}
+            />
+            <Title color="primary">add tags</Title>
+          </Button>
+          <Popover
+            id={id}
+            open={openn}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            slotProps={{ paper: { className: form.tagsForm } }}
+          >
+            <Title color="secondary" className={form.tagsFormTitle}>
+              Tags
+            </Title>
+            <div>
+              <FormGroup>
+                <FormControlLabel control={<Checkbox />}>
+                  <span className={form.tag}></span>
+                </FormControlLabel>
+                <FormControlLabel control={<Checkbox />} />
+                <FormControlLabel control={<Checkbox />} />
+              </FormGroup>
+            </div>
+          </Popover>
         </div>
         <Input
           className={form.input}

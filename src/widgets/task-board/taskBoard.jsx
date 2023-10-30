@@ -154,6 +154,7 @@ export function TaskBoard() {
       <TaskForm
         onClose={handleCloseForm}
         open={isEditForm}
+        // open="true"
         onSubmit={handleEdit}
         text={selectedTask?.text}
         title="Edit task"

@@ -14,7 +14,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .input {
@@ -30,4 +30,34 @@
 .select {
   width: 140px;
   margin-right: 10px;
+}
+
+.tagsCont {
+  display: flex;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.tagsBtnIcon {
+  margin-right: 5px;
+}
+
+
+/////////
+.tagsForm {
+  padding: 10px;
+  margin-top: 5px;
+  width: 350px;
+  height: 300px;
+  text-align: center;
+}
+
+.tagsFormTitle {
+  margin-bottom: 10px;
+}
+
+.tag {
+  width: 50px;
+  height: 10px;
+  background-color: black;
 }
