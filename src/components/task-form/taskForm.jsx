@@ -15,14 +15,14 @@ const schema = yup.object().shape({
   text: yup.string().required('this field is required').trim().min(1),
 });
 
-export function TaskForm({ onClose, onSubmit, open }) {
+export function TaskForm({ onClose, onSubmit, open, title, btnText, text }) {
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm({
     mode: 'onBlur',
-    defaultValues: { text: '' },
+    values: { text: text },
     shouldUnregister: true,
     resolver: yupResolver(schema),
   });
@@ -38,7 +38,7 @@ export function TaskForm({ onClose, onSubmit, open }) {
       >
         <div className={form.titleCont}>
           <Title color="secondary" variant="h6">
-            Create task
+            {title}
           </Title>
           <IconButton onClick={onClose}>
             <CloseIcon color="secondary" />
@@ -50,7 +50,7 @@ export function TaskForm({ onClose, onSubmit, open }) {
           helperText={errors?.text?.message}
           {...register('text')}
         />
-        <Button type="submit">Add task</Button>
+        <Button type="submit">{btnText}</Button>
       </Box>
     </Modal>
   );

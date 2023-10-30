@@ -1,1 +1,8 @@
-export { createTask, deleteTask, getTasks } from './task.thunk';
+export { allTasksSelector, taskByIdSelector } from './task.selectors';
+export {
+  createTask,
+  deleteTask,
+  editTask,
+  editTaskStatus,
+  getTasks,
+} from './task.thunk';

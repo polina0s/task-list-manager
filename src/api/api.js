@@ -127,6 +127,31 @@ export class Api {
     return json;
   }
 
+  async editTask({ id, text }) {
+    const response = await this.request(`tasks/${id}`, {
+      method: 'PATCH',
+      body: {
+        text,
+      },
+    });
+
+    const json = await response.json();
+
+    return json;
+  }
+
+  async takeToWork({ id }) {
+    await this.request(`tasks/${id}/take-to-work`, {
+      method: 'PATCH',
+    });
+  }
+
+  async done({ id }) {
+    await this.request(`tasks/${id}/done`, {
+      method: 'PATCH',
+    });
+  }
+
   async deleteTask({ id }) {
     await this.request(`tasks/${id}`, { method: 'DELETE' });
   }

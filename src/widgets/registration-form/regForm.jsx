@@ -15,9 +15,7 @@ export function RegForm() {
       .then(() => navigate('/home'));
   };
 
-  const redirect = () => {
-    navigate('/login');
-  };
+  const redirect = () => navigate('/login');
 
   return (
     <AuthForm

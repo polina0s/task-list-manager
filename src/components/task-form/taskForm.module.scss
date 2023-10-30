@@ -7,6 +7,7 @@
   border-radius: 5px;
   padding: 15px 20px;
   text-align: center;
+  width: 400px;
 }
 
 .titleCont {
@@ -19,4 +20,14 @@
 .input {
   width: 100%;
   margin-bottom: 15px;
+}
+
+.selectCont {
+  margin-bottom: 15px;
+  display: flex;
+}
+
+.select {
+  width: 140px;
+  margin-right: 10px;
 }

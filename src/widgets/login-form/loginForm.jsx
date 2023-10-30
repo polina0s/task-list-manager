@@ -15,9 +15,7 @@ export function LoginForm() {
       .then(() => navigate('/home'));
   };
 
-  const redirect = () => {
-    navigate('/');
-  };
+  const redirect = () => navigate('/');
 
   return (
     <AuthForm

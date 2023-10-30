@@ -1,7 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { filterTasksById } from '../../utils';
-import { createTask, deleteTask, getTasks } from './task.thunk';
+import {
+  createTask,
+  deleteTask,
+  editTask,
+  editTaskStatus,
+  getTasks,
+} from './task.thunk';
 
 const initialState = {
   isLoading: false,
@@ -42,6 +48,36 @@ const taskSlice = createSlice({
     builder.addCase(deleteTask.fulfilled, (state, action) => {
       state.isLoading = false;
       state.tasks = filterTasksById(state.tasks, action.payload);
+    });
+    builder.addCase(editTask.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(editTask.rejected, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(editTask.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.tasks = state.tasks.map((task) => {
+        if (task.id === action.payload.id) {
+          return action.payload;
+        }
+        return task;
+      });
+    });
+    builder.addCase(editTaskStatus.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(editTaskStatus.rejected, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(editTaskStatus.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.tasks = state.tasks.map((task) => {
+        if (task.id === action.payload.id) {
+          return { ...task, status: action.payload.status };
+        }
+        return task;
+      });
     });
   },
 });

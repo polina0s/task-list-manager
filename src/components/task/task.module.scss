@@ -19,4 +19,13 @@
 
 .nameCont {
   display: flex;
+  align-items: center;
+}
+
+.name {
+  overflow-wrap: anywhere;
+}
+
+.buttons {
+  display: flex;
 }

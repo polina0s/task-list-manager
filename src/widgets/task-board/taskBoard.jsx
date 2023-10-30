@@ -9,40 +9,45 @@ import { ConfirmModal } from '../../components/confirm-modal';
 import { Task } from '../../components/task/task';
 import { TaskForm } from '../../components/task-form';
 import { TaskList } from '../../components/task-list';
-import { createTask, deleteTask, getTasks } from '../../store/task';
+import {
+  allTasksSelector,
+  createTask,
+  deleteTask,
+  editTask,
+  editTaskStatus,
+  getTasks,
+  taskByIdSelector,
+} from '../../store/task';
+import { useTaskForm } from '../../utils';
 import { done, inProgress, todo } from '../../utils';
 import { filterTasksByStatus } from '../../utils';
 import board from './taskBoard.module.scss';
 
 export function TaskBoard() {
-  const [openForm, setOpenForm] = useState(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [idTask, setIdTask] = useState('');
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const tasks = useSelector((state) => state.task.tasks);
+  const tasks = useSelector(allTasksSelector);
+  const selectedTask = useSelector((state) => taskByIdSelector(state, idTask));
+
+  const {
+    handleOpenEditForm,
+    handleOpenCreateForm,
+    handleCloseForm,
+    isEditForm,
+    isCreateForm,
+  } = useTaskForm();
 
   useEffect(() => {
     dispatch(getTasks({ limit: 999 }));
   }, [dispatch]);
 
-  const handleOpenForm = () => {
-    setOpenForm(true);
-  };
+  const handleOpenConfirmModal = () => setOpenConfirmModal(true);
+  const handleCloseConfirmModal = () => setOpenConfirmModal(false);
 
-  const handleCloseForm = () => {
-    setOpenForm(false);
-  };
-
-  const handleOpenConfirmModal = () => {
-    setOpenConfirmModal(true);
-  };
-
-  const handleCloseConfirmModal = () => {
-    setOpenConfirmModal(false);
-  };
-
-  const handleSubmit = (data) => {
+  const handleCreate = (data) => {
     dispatch(createTask(data))
       .unwrap()
       .then(() => {
@@ -51,12 +56,17 @@ export function TaskBoard() {
       });
   };
 
-  const todoTasks = useMemo(() => filterTasksByStatus(tasks, todo), [tasks]);
-  const inProgressTasks = useMemo(
-    () => filterTasksByStatus(tasks, inProgress),
-    [tasks],
-  );
-  const doneTasks = useMemo(() => filterTasksByStatus(tasks, done), [tasks]);
+  const handleEdit = (data) => {
+    dispatch(editTask({ id: idTask, text: data.text }))
+      .unwrap()
+      .then(() => {
+        handleCloseForm();
+      });
+  };
+  const handleEditTaskById = (id) => {
+    setIdTask(id);
+    handleOpenEditForm();
+  };
 
   const handleDeleteTask = () => {
     dispatch(deleteTask({ id: idTask }))
@@ -66,11 +76,25 @@ export function TaskBoard() {
         setIdTask('');
       });
   };
-
   const handleDeleteTaskById = (id) => {
     setIdTask(id);
     handleOpenConfirmModal();
   };
+
+  const handleTakeToWork = (id) => {
+    dispatch(editTaskStatus({ id: id, status: inProgress }));
+  };
+
+  const handleDoneTask = (id) => {
+    dispatch(editTaskStatus({ id: id, status: done }));
+  };
+
+  const todoTasks = useMemo(() => filterTasksByStatus(tasks, todo), [tasks]);
+  const inProgressTasks = useMemo(
+    () => filterTasksByStatus(tasks, inProgress),
+    [tasks],
+  );
+  const doneTasks = useMemo(() => filterTasksByStatus(tasks, done), [tasks]);
 
   const handleOpenMenu = () => {};
 
@@ -79,7 +103,7 @@ export function TaskBoard() {
       <Box className={board.cont}>
         <Grid container spacing={2}>
           <TaskList
-            onAdd={handleOpenForm}
+            onAdd={handleOpenCreateForm}
             onMore={handleOpenMenu}
             name="to do"
             id="toDo"
@@ -89,9 +113,9 @@ export function TaskBoard() {
                 name={el.text}
                 id={el.id}
                 key={el.id}
-                onDelete={() => {
-                  handleDeleteTaskById(el.id);
-                }}
+                onDelete={() => handleDeleteTaskById(el.id)}
+                onEdit={() => handleEditTaskById(el.id, el.text)}
+                onChangeStatus={() => handleTakeToWork(el.id)}
               />
             ))}
           </TaskList>
@@ -101,9 +125,9 @@ export function TaskBoard() {
                 name={el.text}
                 id={el.id}
                 key={el.id}
-                onDelete={() => {
-                  handleDeleteTaskById(el.id);
-                }}
+                onDelete={() => handleDeleteTaskById(el.id)}
+                onEdit={() => handleEditTaskById(el.id, el.text)}
+                onChangeStatus={() => handleDoneTask(el.id)}
               />
             ))}
           </TaskList>
@@ -113,9 +137,8 @@ export function TaskBoard() {
                 name={el.text}
                 id={el.id}
                 key={el.id}
-                onDelete={() => {
-                  handleDeleteTaskById(el.id);
-                }}
+                onDelete={() => handleDeleteTaskById(el.id)}
+                onEdit={() => handleEditTaskById(el.id, el.text)}
               />
             ))}
           </TaskList>
@@ -123,8 +146,18 @@ export function TaskBoard() {
       </Box>
       <TaskForm
         onClose={handleCloseForm}
-        open={openForm}
-        onSubmit={handleSubmit}
+        open={isCreateForm}
+        onSubmit={handleCreate}
+        title="Create task"
+        btnText="Add task"
+      />
+      <TaskForm
+        onClose={handleCloseForm}
+        open={isEditForm}
+        onSubmit={handleEdit}
+        text={selectedTask?.text}
+        title="Edit task"
+        btnText="Save"
       />
       <ConfirmModal
         onClose={handleCloseConfirmModal}
