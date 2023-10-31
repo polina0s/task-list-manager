@@ -9,6 +9,7 @@ import { ConfirmModal } from '../../components/confirm-modal';
 import { Task } from '../../components/task/task';
 import { TaskForm } from '../../components/task-form';
 import { TaskList } from '../../components/task-list';
+import { allTagsSelector, createTag, getTags } from '../../store/tag';
 import {
   allTasksSelector,
   createTask,
@@ -29,6 +30,7 @@ export function TaskBoard() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const tags = useSelector(allTagsSelector);
   const tasks = useSelector(allTasksSelector);
   const selectedTask = useSelector((state) => taskByIdSelector(state, idTask));
 
@@ -41,8 +43,12 @@ export function TaskBoard() {
   } = useTaskForm();
 
   useEffect(() => {
-    dispatch(getTasks({ limit: 999 }));
+    dispatch(getTasks({ limit: 9999 }));
   }, [dispatch]);
+  useEffect(() => {
+    dispatch(getTags({ limit: 9999 }));
+  }, [dispatch]);
+  // console.log(tags.data);
 
   const handleOpenConfirmModal = () => setOpenConfirmModal(true);
   const handleCloseConfirmModal = () => setOpenConfirmModal(false);
@@ -97,6 +103,21 @@ export function TaskBoard() {
   const doneTasks = useMemo(() => filterTasksByStatus(tasks, done), [tasks]);
 
   const handleOpenMenu = () => {};
+
+  //
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const openTag = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
+  const handleAddTag = ({ text = 'yyy', color = 'red' }) => {
+    dispatch(createTag({ name: text, color: color }));
+  };
 
   return (
     <>
@@ -154,11 +175,17 @@ export function TaskBoard() {
       <TaskForm
         onClose={handleCloseForm}
         open={isEditForm}
-        // open="true"
         onSubmit={handleEdit}
         text={selectedTask?.text}
         title="Edit task"
         btnText="Save"
+        onTag={handleClick}
+        id={id}
+        anchorEl={anchorEl}
+        onCloseTag={handleClose}
+        openTag={openTag}
+        tags={tags}
+        onChangeTag={handleAddTag}
       />
       <ConfirmModal
         onClose={handleCloseConfirmModal}

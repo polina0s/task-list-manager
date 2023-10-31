@@ -156,6 +156,30 @@ export class Api {
     await this.request(`tasks/${id}`, { method: 'DELETE' });
   }
 
+  async getTags({ offset = 0, limit = 10 }) {
+    const query = queryString.stringify({ limit, offset }, { skipNull: true });
+
+    const response = await this.request(`tags?${query}`, { method: 'GET' });
+
+    const json = await response.json();
+
+    return json;
+  }
+
+  async createTag({ name, color }) {
+    const response = await this.request('tags', {
+      method: 'POST',
+      body: {
+        name: name,
+        color: color,
+      },
+    });
+
+    const json = await response.json();
+
+    return json;
+  }
+
   onRefresh() {}
 }
 
