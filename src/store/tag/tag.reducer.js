@@ -30,7 +30,6 @@ const tagSlice = createSlice({
     });
     builder.addCase(createTag.fulfilled, (state, action) => {
       state.isLoading = false;
-      console.log(action.payload);
       state.tags = [...state.tags, action.payload.data];
     });
   },

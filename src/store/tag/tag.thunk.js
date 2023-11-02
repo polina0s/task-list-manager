@@ -7,7 +7,6 @@ export const getTags = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await api.getTags(data);
-      console.log(response);
       return response;
     } catch (error) {
       return rejectWithValue(error);

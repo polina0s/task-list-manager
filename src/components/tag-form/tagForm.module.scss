@@ -1,16 +1,29 @@
-.tagsForm {
-  padding: 10px;
-  margin-top: 5px;
-  width: 350px;
+.cont {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--milk);
+  border-radius: 5px;
+  padding: 15px 20px;
   text-align: center;
+  width: 400px;
 }
 
-.tagsFormTitle {
-  margin-bottom: 10px;
+.titleCont {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
 }
 
-.tag {
-  width: 50px;
-  height: 10px;
-  background-color: black;
+.paletteCont {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+
+.input {
+  width: 100%;
 }

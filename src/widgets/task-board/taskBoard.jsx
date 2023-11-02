@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { ConfirmModal } from '../../components/confirm-modal';
+import { TagForm } from '../../components/tag-form';
 import { Task } from '../../components/task/task';
 import { TaskForm } from '../../components/task-form';
 import { TaskList } from '../../components/task-list';
@@ -19,9 +20,14 @@ import {
   getTasks,
   taskByIdSelector,
 } from '../../store/task';
-import { useTaskForm } from '../../utils';
-import { done, inProgress, todo } from '../../utils';
-import { filterTasksByStatus } from '../../utils';
+import {
+  done,
+  filterTasksByStatus,
+  inProgress,
+  todo,
+  useTagForm,
+  useTaskForm,
+} from '../../utils';
 import board from './taskBoard.module.scss';
 
 export function TaskBoard() {
@@ -42,13 +48,20 @@ export function TaskBoard() {
     isCreateForm,
   } = useTaskForm();
 
+  const {
+    // handleOpenEditTagForm,
+    handleOpenCreateTagForm,
+    handleCloseTagForm,
+    // isEditTagForm,
+    isCreateTagForm,
+  } = useTagForm();
+
   useEffect(() => {
     dispatch(getTasks({ limit: 9999 }));
   }, [dispatch]);
   useEffect(() => {
     dispatch(getTags({ limit: 9999 }));
   }, [dispatch]);
-  // console.log(tags.data);
 
   const handleOpenConfirmModal = () => setOpenConfirmModal(true);
   const handleCloseConfirmModal = () => setOpenConfirmModal(false);
@@ -104,8 +117,7 @@ export function TaskBoard() {
 
   const handleOpenMenu = () => {};
 
-  //
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(false);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -113,10 +125,9 @@ export function TaskBoard() {
     setAnchorEl(null);
   };
   const openTag = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
 
-  const handleAddTag = ({ text = 'yyy', color = 'red' }) => {
-    dispatch(createTag({ name: text, color: color }));
+  const handleAddTag = ({ name, color }) => {
+    dispatch(createTag({ name: name, color: color }));
   };
 
   return (
@@ -167,30 +178,44 @@ export function TaskBoard() {
       </Box>
       <TaskForm
         onClose={handleCloseForm}
-        open={isCreateForm}
+        openTaskForm={isCreateForm}
         onSubmit={handleCreate}
         title="Create task"
         btnText="Add task"
-      />
-      <TaskForm
-        onClose={handleCloseForm}
-        open={isEditForm}
-        onSubmit={handleEdit}
-        text={selectedTask?.text}
-        title="Edit task"
-        btnText="Save"
         onTag={handleClick}
-        id={id}
         anchorEl={anchorEl}
         onCloseTag={handleClose}
         openTag={openTag}
         tags={tags}
         onChangeTag={handleAddTag}
+        onOpenTagForm={handleOpenCreateTagForm}
+      />
+      <TaskForm
+        onClose={handleCloseForm}
+        openTaskForm={isEditForm}
+        onSubmit={handleEdit}
+        text={selectedTask?.text}
+        title="Edit task"
+        btnText="Save"
+        onTag={handleClick}
+        anchorEl={anchorEl}
+        onCloseTag={handleClose}
+        openTag={openTag}
+        tags={tags}
+        onChangeTag={handleAddTag}
+        onOpenTagForm={handleOpenCreateTagForm}
       />
       <ConfirmModal
         onClose={handleCloseConfirmModal}
         onDelete={handleDeleteTask}
         open={openConfirmModal}
+      />
+      <TagForm
+        onClose={handleCloseTagForm}
+        // onSubmit={}
+        open={isCreateTagForm}
+        title="Create tag"
+        btnText="Create tag"
       />
     </>
   );

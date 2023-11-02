@@ -1,49 +1,70 @@
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import Popover from '@mui/material/Popover';
+import { yupResolver } from '@hookform/resolvers/yup';
+import CloseIcon from '@mui/icons-material/Close';
+import { IconButton } from '@mui/material';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import { useState } from 'react';
+import { CirclePicker } from 'react-color';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
+import { Button } from '../button/button';
+import { Input } from '../input/input';
 import { Title } from '../title';
 import tag from './tagForm.module.scss';
 
-export function TagForm({ id, open, anchorEl, onClose, tags }) {
+const schema = yup.object().shape({
+  text: yup.string().required('this field is required').trim().min(1),
+});
+
+export function TagForm({ onClose, onSubmit, open, title, btnText }) {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm({
+    mode: 'onBlur',
+    values: { text: '' },
+    shouldUnregister: true,
+    resolver: yupResolver(schema),
+  });
+
+  const [tagColor, setTagColor] = useState('');
+
+  const handleChangeColor = (color) => {
+    setTagColor(color);
+    console.log(color);
+    console.log(tagColor);
+  };
+
   return (
-    <Popover
-      id={id}
-      open={open}
-      anchorEl={anchorEl}
-      onClose={onClose}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'left',
-      }}
-      slotProps={{ paper: { className: tag.tagsForm } }}
-    >
-      <Title color="secondary" className={tag.tagsFormTitle}>
-        Tags
-      </Title>
-      <div>
-        <FormGroup>
-          {tags ? (
-            tags.map((tag) => (
-              <FormControlLabel
-                control={<Checkbox />}
-                label={tag.name}
-                key={tag.id}
-              />
-            ))
-          ) : (
-            <Title>no tags</Title>
-          )}
-          {/* <FormControlLabel
-            control={<Checkbox />}
-            label="zalupa"
-            onChange={onChange}
-          />
-          <FormControlLabel control={<Checkbox />} label="konya" />
-          <FormControlLabel control={<Checkbox />} label="aaaaaaaa" /> */}
-        </FormGroup>
-      </div>
-    </Popover>
+    <Modal open={open} onClose={onClose}>
+      <Box
+        className={tag.cont}
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        autoComplete="off"
+      >
+        <div className={tag.titleCont}>
+          <Title color="secondary" variant="h6">
+            {title}
+          </Title>
+          <IconButton onClick={onClose}>
+            <CloseIcon color="secondary" />
+          </IconButton>
+        </div>
+        <Input
+          className={tag.input}
+          label="task text"
+          helperText={errors?.text?.message}
+          {...register('text')}
+        />
+        <div className={tag.paletteCont}>
+          <CirclePicker onChange={handleChangeColor} />
+        </div>
+        <Button type="submit">{btnText}</Button>
+      </Box>
+    </Modal>
   );
 }
