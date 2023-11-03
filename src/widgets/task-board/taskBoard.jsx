@@ -126,8 +126,12 @@ export function TaskBoard() {
   };
   const openTag = Boolean(anchorEl);
 
-  const handleAddTag = ({ name, color }) => {
-    dispatch(createTag({ name: name, color: color }));
+  const handleAddTag = (data) => {
+    dispatch(createTag({ name: data.text, color: data.color }))
+      .unwrap()
+      .then(() => {
+        handleCloseTagForm();
+      });
   };
 
   return (
@@ -212,7 +216,7 @@ export function TaskBoard() {
       />
       <TagForm
         onClose={handleCloseTagForm}
-        // onSubmit={}
+        onSubmit={handleAddTag}
         open={isCreateTagForm}
         title="Create tag"
         btnText="Create tag"

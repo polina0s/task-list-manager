@@ -23,13 +23,14 @@ export function TagPopover({ open, anchorEl, onClose, tags, onOpenTagForm }) {
         Tags
       </Title>
       <div>
-        <FormGroup>
+        <FormGroup className={tag.tagList}>
           {tags.length > 0 ? (
             tags.map((tag) => (
               <FormControlLabel
-                control={<Checkbox />}
+                control={<Checkbox color="secondary" className={tag.tag} />}
                 label={tag.name}
                 key={tag.id}
+                sx={{ backgroundColor: tag.color }}
               />
             ))
           ) : (

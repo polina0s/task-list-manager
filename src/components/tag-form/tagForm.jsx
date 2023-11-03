@@ -3,7 +3,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { useState } from 'react';
 import { CirclePicker } from 'react-color';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -22,19 +21,16 @@ export function TagForm({ onClose, onSubmit, open, title, btnText }) {
     register,
     formState: { errors },
     handleSubmit,
+    setValue,
   } = useForm({
     mode: 'onBlur',
-    values: { text: '' },
+    values: { text: '', color: '' },
     shouldUnregister: true,
     resolver: yupResolver(schema),
   });
 
-  const [tagColor, setTagColor] = useState('');
-
   const handleChangeColor = (color) => {
-    setTagColor(color);
-    console.log(color);
-    console.log(tagColor);
+    setValue('color', color.hex);
   };
 
   return (
@@ -56,7 +52,7 @@ export function TagForm({ onClose, onSubmit, open, title, btnText }) {
         </div>
         <Input
           className={tag.input}
-          label="task text"
+          label="tag text"
           helperText={errors?.text?.message}
           {...register('text')}
         />
