@@ -9,7 +9,7 @@ import * as yup from 'yup';
 
 import { Button } from '../button/button';
 import { Input } from '../input/input';
-import { TagPopover } from '../tag-popover';
+import { TagList } from '../tag-list';
 import { Title } from '../title';
 import form from './taskForm.module.scss';
 
@@ -30,7 +30,9 @@ export function TaskForm({
   text,
   onChangeTag,
   tags,
-  onOpenTagForm,
+  onOpenAddTagForm,
+  onCheck,
+  onOpenEditTag,
 }) {
   const {
     register,
@@ -68,13 +70,15 @@ export function TaskForm({
             />
             <Title color="primary">add tags</Title>
           </Button>
-          <TagPopover
+          <TagList
             open={openTag}
             anchorEl={anchorEl}
             onClose={onCloseTag}
             onChange={onChangeTag}
             tags={tags}
-            onOpenTagForm={onOpenTagForm}
+            onOpenTagForm={onOpenAddTagForm}
+            onCheck={onCheck}
+            onOpenEdit={onOpenEditTag}
           />
         </div>
         <Input

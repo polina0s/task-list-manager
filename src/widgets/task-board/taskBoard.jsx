@@ -49,10 +49,10 @@ export function TaskBoard() {
   } = useTaskForm();
 
   const {
-    // handleOpenEditTagForm,
+    handleOpenEditTagForm,
     handleOpenCreateTagForm,
     handleCloseTagForm,
-    // isEditTagForm,
+    isEditTagForm,
     isCreateTagForm,
   } = useTagForm();
 
@@ -134,6 +134,10 @@ export function TaskBoard() {
       });
   };
 
+  const handleEditTag = (data) => {
+    console.log(data);
+  };
+
   return (
     <>
       <Box className={board.cont}>
@@ -193,6 +197,8 @@ export function TaskBoard() {
         tags={tags}
         onChangeTag={handleAddTag}
         onOpenTagForm={handleOpenCreateTagForm}
+        // onEditTag={handleEditTag}
+        // onCheck={(e) => console.log(e.target.checked)}
       />
       <TaskForm
         onClose={handleCloseForm}
@@ -207,7 +213,8 @@ export function TaskBoard() {
         openTag={openTag}
         tags={tags}
         onChangeTag={handleAddTag}
-        onOpenTagForm={handleOpenCreateTagForm}
+        onOpenAddTagForm={handleOpenCreateTagForm}
+        onOpenEditTag={handleOpenEditTagForm}
       />
       <ConfirmModal
         onClose={handleCloseConfirmModal}
@@ -220,6 +227,13 @@ export function TaskBoard() {
         open={isCreateTagForm}
         title="Create tag"
         btnText="Create tag"
+      />
+      <TagForm
+        onClose={handleCloseTagForm}
+        onSubmit={handleEditTag}
+        open={isEditTagForm}
+        title="Edit tag"
+        btnText="Edit tag"
       />
     </>
   );

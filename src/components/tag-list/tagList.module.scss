@@ -5,12 +5,17 @@
   background-color: var(--milk);
 }
 
-.tagsFormTitle {
-  // margin-bottom: 5px;
+.tagCont {
+  display: flex;
+  align-items: center;
+  
 }
 
-.tag {
-  background-color: black;
+.tagColor {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
 }
 
 .tagList {
