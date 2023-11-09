@@ -24,7 +24,7 @@ export function TagForm({ onClose, onSubmit, open, title, btnText }) {
     setValue,
   } = useForm({
     mode: 'onBlur',
-    values: { text: '', color: '' },
+    values: { text: '', color: '', id: '' },
     shouldUnregister: true,
     resolver: yupResolver(schema),
   });

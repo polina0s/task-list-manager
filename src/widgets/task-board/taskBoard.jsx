@@ -196,9 +196,8 @@ export function TaskBoard() {
         openTag={openTag}
         tags={tags}
         onChangeTag={handleAddTag}
-        onOpenTagForm={handleOpenCreateTagForm}
-        // onEditTag={handleEditTag}
-        // onCheck={(e) => console.log(e.target.checked)}
+        onOpenAddTagForm={handleOpenCreateTagForm}
+        onOpenEditTag={handleOpenEditTagForm}
       />
       <TaskForm
         onClose={handleCloseForm}

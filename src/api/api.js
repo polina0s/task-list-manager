@@ -180,6 +180,17 @@ export class Api {
     return json;
   }
 
+  async editTag({ name, color, id }) {
+    const response = await this.request(`tags/${id}`, {
+      method: 'PATCH',
+      body: { name: name, color: color },
+    });
+
+    const json = await response.json();
+
+    return json;
+  }
+
   onRefresh() {}
 }
 
