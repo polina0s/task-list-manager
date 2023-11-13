@@ -208,7 +208,6 @@ export function TaskBoard() {
           onClose={handleClose}
           onChange={handleAddTag}
           onOpenTagForm={handleOpenCreateTagForm}
-          onOpenEditForm={handleOpenEditTagForm}
           tags={tags}
           handleEditTagById={handleEditTagById}
           // onCheck={}
