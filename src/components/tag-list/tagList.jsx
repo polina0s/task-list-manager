@@ -1,11 +1,8 @@
-import EditIcon from '@mui/icons-material/Edit';
-import { IconButton } from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Popover from '@mui/material/Popover';
 
 import { Button } from '../button/button';
+import { TagCheckbox } from '../tag-checkbox';
 import { Title } from '../title';
 import tagList from './tagList.module.scss';
 
@@ -13,10 +10,10 @@ export function TagList({
   open,
   anchorEl,
   onClose,
-  tags,
   onOpenTagForm,
-  onOpenEdit,
+  tags,
   onCheck,
+  handleEditTagById,
 }) {
   return (
     <Popover
@@ -27,35 +24,21 @@ export function TagList({
         vertical: 'bottom',
         horizontal: 'left',
       }}
-      slotProps={{ paper: { className: tagList.tagsForm } }}
+      slotProps={{ paper: { className: tagList.popover } }}
     >
-      <Title color="secondary" className={tagList.tagsFormTitle}>
-        Tags
-      </Title>
+      <Title color="secondary">Tags</Title>
       <div>
-        <FormGroup className={tagList.tagList}>
+        <FormGroup className={tagList.list}>
           {tags.length > 0 ? (
             tags.map((tag) => (
-              <div className={tagList.tagCont} key={tag.id}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      color="secondary"
-                      className={tagList.tag}
-                      onChange={onCheck}
-                    />
-                  }
-                  label={tag.name}
-                  key={tag.id}
-                />
-                <span
-                  className={tagList.tagColor}
-                  style={{ backgroundColor: tag.color }}
-                />
-                <IconButton onClick={onOpenEdit}>
-                  <EditIcon color="secondary" />
-                </IconButton>
-              </div>
+              <TagCheckbox
+                key={tag.id}
+                onCheck={onCheck}
+                onOpenEditForm={() => handleEditTagById(tag.id)}
+                label={tag.name}
+                id={tag.id}
+                color={tag.color}
+              />
             ))
           ) : (
             <Title
@@ -68,7 +51,7 @@ export function TagList({
             </Title>
           )}
         </FormGroup>
-        <Button onClick={onOpenTagForm}> Create new tag </Button>
+        <Button onClick={onOpenTagForm}>Create new tag </Button>
       </div>
     </Popover>
   );

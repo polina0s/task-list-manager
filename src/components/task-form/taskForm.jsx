@@ -9,7 +9,6 @@ import * as yup from 'yup';
 
 import { Button } from '../button/button';
 import { Input } from '../input/input';
-import { TagList } from '../tag-list';
 import { Title } from '../title';
 import form from './taskForm.module.scss';
 
@@ -20,19 +19,12 @@ const schema = yup.object().shape({
 export function TaskForm({
   onClose,
   onTag,
-  anchorEl,
-  onCloseTag,
-  openTag,
   onSubmit,
   openTaskForm,
   title,
   btnText,
   text,
-  onChangeTag,
-  tags,
-  onOpenAddTagForm,
-  onCheck,
-  onOpenEditTag,
+  children,
 }) {
   const {
     register,
@@ -70,16 +62,7 @@ export function TaskForm({
             />
             <Title color="primary">add tags</Title>
           </Button>
-          <TagList
-            open={openTag}
-            anchorEl={anchorEl}
-            onClose={onCloseTag}
-            onChange={onChangeTag}
-            tags={tags}
-            onOpenTagForm={onOpenAddTagForm}
-            onCheck={onCheck}
-            onOpenEdit={onOpenEditTag}
-          />
+          {children}
         </div>
         <Input
           className={form.input}

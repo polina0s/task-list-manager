@@ -16,7 +16,7 @@ const schema = yup.object().shape({
   text: yup.string().required('this field is required').trim().min(1),
 });
 
-export function TagForm({ onClose, onSubmit, open, title, btnText }) {
+export function TagForm({ onClose, onSubmit, open, title, btnText, text }) {
   const {
     register,
     formState: { errors },
@@ -24,7 +24,7 @@ export function TagForm({ onClose, onSubmit, open, title, btnText }) {
     setValue,
   } = useForm({
     mode: 'onBlur',
-    values: { text: '', color: '', id: '' },
+    values: { text: text, color: '' },
     shouldUnregister: true,
     resolver: yupResolver(schema),
   });

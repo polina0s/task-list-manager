@@ -25,3 +25,15 @@ export const createTag = createAsyncThunk(
     }
   },
 );
+
+export const editTag = createAsyncThunk(
+  'tags/editTag',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await api.editTag(data);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { createTag, getTags } from './index';
+import { createTag, editTag, getTags } from './index';
 
 const initialState = {
   isLoading: false,
@@ -31,6 +31,21 @@ const tagSlice = createSlice({
     builder.addCase(createTag.fulfilled, (state, action) => {
       state.isLoading = false;
       state.tags = [...state.tags, action.payload.data];
+    });
+    builder.addCase(editTag.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(editTag.rejected, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(editTag.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.tags = state.tags.map((tag) => {
+        if (tag.id === action.payload.data.id) {
+          return action.payload.data;
+        }
+        return tag;
+      });
     });
   },
 });
