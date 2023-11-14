@@ -1,4 +1,4 @@
-import { useLogout } from '../../utils/logout';
+import { useLogout } from '../../utils';
 import { Header } from '../../widgets/header';
 import { TaskBoard } from '../../widgets/task-board';
 

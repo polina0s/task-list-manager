@@ -1,7 +1,7 @@
 import { editTaskStatus } from '../store/task';
 import { done, inProgress } from './status';
 
-export const useActions = (dispatch) => {
+export const useTaskActions = (dispatch) => {
   const handleTakeToWork = (id) => {
     dispatch(editTaskStatus({ id: id, status: inProgress }));
   };

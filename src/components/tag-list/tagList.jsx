@@ -51,7 +51,7 @@ export function TagList({
             </Title>
           )}
         </FormGroup>
-        <Button onClick={onOpenTagForm}>Create new tag </Button>
+        <Button onClick={onOpenTagForm}>Create new tag</Button>
       </div>
     </Popover>
   );

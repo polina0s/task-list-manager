@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -29,9 +29,9 @@ import {
   filterTasksByStatus,
   inProgress,
   todo,
-  useActions,
   useConfirmModal,
   useTagForm,
+  useTaskActions,
   useTaskForm,
 } from '../../utils';
 import { TaskColumn } from './components/task-column';
@@ -64,7 +64,7 @@ export function TaskBoard() {
     isCreateTagForm,
   } = useTagForm();
 
-  const { handleTakeToWork, handleDoneTask } = useActions(dispatch);
+  const { handleTakeToWork, handleDoneTask } = useTaskActions(dispatch);
 
   const { openConfirmModal, handleOpenConfirmModal, handleCloseConfirmModal } =
     useConfirmModal();
@@ -118,14 +118,30 @@ export function TaskBoard() {
   );
   const doneTasks = useMemo(() => filterTasksByStatus(tasks, done), [tasks]);
 
-  const [anchorEl, setAnchorEl] = useState(false);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  // let anchorEl = useRef(false);
+  // // const [anchorEl, setAnchorEl] = useState(false);
+  // const handleClick = (event) => {
+  //   // setAnchorEl(event.currentTarget);
+  //   anchorEl.current = event.currentTarget;
+  //   console.log(event.currentTarget);
+  // };
+  // const handleClose = () => {
+  //   // setAnchorEl(false);
+  //   anchorEl.current = false;
+  // };
+  // const openTag = Boolean(anchorEl);
+
+  const buttonRef = useRef(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openTagList = Boolean(anchorEl);
+
+  const handleClick = () => {
+    setAnchorEl(buttonRef.current);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const openTag = Boolean(anchorEl);
 
   const handleAddTag = (data) => {
     dispatch(createTag({ name: data.text, color: data.color }))
@@ -149,6 +165,7 @@ export function TaskBoard() {
   };
 
   const handleOpenMenu = () => {};
+  console.log(selectedTag?.color);
 
   return (
     <>
@@ -186,7 +203,8 @@ export function TaskBoard() {
 
       <TaskForm
         onClose={handleCloseTaskForm}
-        onTag={handleClick}
+        onButtonAddTag={handleClick}
+        buttonRef={buttonRef}
         {...(isEditTaskForm
           ? {
               openTaskForm: isEditTaskForm,
@@ -203,10 +221,10 @@ export function TaskBoard() {
             })}
       >
         <TagList
-          open={openTag}
+          open={openTagList}
           anchorEl={anchorEl}
           onClose={handleClose}
-          onChange={handleAddTag}
+          // onChange={handleAddTag}
           onOpenTagForm={handleOpenCreateTagForm}
           tags={tags}
           handleEditTagById={handleEditTagById}
@@ -221,6 +239,7 @@ export function TaskBoard() {
               onSubmit: handleEditTag,
               open: isEditTagForm,
               text: selectedTag?.name,
+              color: selectedTag?.color,
               title: 'Edit tag',
               btnText: 'Edit tag',
             }

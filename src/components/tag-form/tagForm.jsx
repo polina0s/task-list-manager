@@ -4,7 +4,7 @@ import { IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { CirclePicker } from 'react-color';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { Button } from '../button/button';
@@ -16,18 +16,30 @@ const schema = yup.object().shape({
   text: yup.string().required('this field is required').trim().min(1),
 });
 
-export function TagForm({ onClose, onSubmit, open, title, btnText, text }) {
+export function TagForm({
+  onClose,
+  onSubmit,
+  open,
+  title,
+  btnText,
+  text,
+  color,
+}) {
   const {
     register,
     formState: { errors },
     handleSubmit,
     setValue,
+    watch,
+    control,
   } = useForm({
     mode: 'onBlur',
-    values: { text: text, color: '' },
+    values: { text: text, color: color ?? '' },
     shouldUnregister: true,
     resolver: yupResolver(schema),
   });
+
+  console.log(watch(), color);
 
   const handleChangeColor = (color) => {
     setValue('color', color.hex);
@@ -57,7 +69,13 @@ export function TagForm({ onClose, onSubmit, open, title, btnText, text }) {
           {...register('text')}
         />
         <div className={tag.paletteCont}>
-          <CirclePicker onChange={handleChangeColor} />
+          <Controller
+            render={({ field: { value } }) => (
+              <CirclePicker color={value} onChange={handleChangeColor} />
+            )}
+            name="color"
+            control={control}
+          />
         </div>
         <Button type="submit">{btnText}</Button>
       </Box>

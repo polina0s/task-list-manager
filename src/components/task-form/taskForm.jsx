@@ -18,13 +18,14 @@ const schema = yup.object().shape({
 
 export function TaskForm({
   onClose,
-  onTag,
+  onButtonAddTag,
   onSubmit,
   openTaskForm,
   title,
   btnText,
   text,
   children,
+  buttonRef,
 }) {
   const {
     register,
@@ -54,8 +55,8 @@ export function TaskForm({
             <CloseIcon color="secondary" />
           </IconButton>
         </div>
-        <div className={form.tagsCont}>
-          <Button onClick={onTag}>
+        <div className={form.tagsCont} ref={buttonRef}>
+          <Button onClick={onButtonAddTag}>
             <LocalOfferOutlinedIcon
               color="primary"
               className={form.tagsBtnIcon}
