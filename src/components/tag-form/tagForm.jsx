@@ -30,7 +30,6 @@ export function TagForm({
     formState: { errors },
     handleSubmit,
     setValue,
-    watch,
     control,
   } = useForm({
     mode: 'onBlur',
@@ -38,8 +37,6 @@ export function TagForm({
     shouldUnregister: true,
     resolver: yupResolver(schema),
   });
-
-  console.log(watch(), color);
 
   const handleChangeColor = (color) => {
     setValue('color', color.hex);

@@ -165,7 +165,6 @@ export function TaskBoard() {
   };
 
   const handleOpenMenu = () => {};
-  console.log(selectedTag?.color);
 
   return (
     <>
