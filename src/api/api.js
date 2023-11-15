@@ -191,6 +191,10 @@ export class Api {
     return json;
   }
 
+  async deleteTag({ id }) {
+    await this.request(`tags/${id}`, { method: 'DELETE' });
+  }
+
   onRefresh() {}
 }
 

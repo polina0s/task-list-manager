@@ -1,4 +1,5 @@
 export { filterTasksById, filterTasksByStatus } from './filterTasks';
+export { filterTagsById } from './fiterTags';
 export { done, inProgress, todo } from './status';
 export { tokenService } from './tokenService';
 export { useConfirmModal } from './useConfirmModal';

@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { filterTagsById } from '../../utils';
 import { createTag, editTag, getTags } from './index';
+import { deleteTag } from './tag.thunk';
 
 const initialState = {
   isLoading: false,
@@ -46,6 +48,16 @@ const tagSlice = createSlice({
         }
         return tag;
       });
+    });
+    builder.addCase(deleteTag.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(deleteTag.rejected, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(deleteTag.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.tags = filterTagsById(state.tags, action.payload);
     });
   },
 });

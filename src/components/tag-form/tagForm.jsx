@@ -13,7 +13,7 @@ import { Title } from '../title';
 import tag from './tagForm.module.scss';
 
 const schema = yup.object().shape({
-  text: yup.string().required('this field is required').trim().min(1),
+  text: yup.string().required('this field is required').trim().min(1).max(18),
 });
 
 export function TagForm({

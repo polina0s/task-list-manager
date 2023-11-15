@@ -14,6 +14,7 @@ export function TagList({
   tags,
   onCheck,
   handleEditTagById,
+  onDeleteTagFromList,
 }) {
   return (
     <Popover
@@ -38,6 +39,7 @@ export function TagList({
                 label={tag.name}
                 id={tag.id}
                 color={tag.color}
+                onDelete={() => onDeleteTagFromList(tag.id)}
               />
             ))
           ) : (

@@ -37,3 +37,15 @@ export const editTag = createAsyncThunk(
     }
   },
 );
+
+export const deleteTag = createAsyncThunk(
+  'tags/deleteTag',
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      await api.deleteTag({ id });
+      return id;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);

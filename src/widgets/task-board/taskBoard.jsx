@@ -12,6 +12,7 @@ import { TaskForm } from '../../components/task-form';
 import {
   allTagsSelector,
   createTag,
+  deleteTag,
   editTag,
   getTags,
   tagByIdSelector,
@@ -66,8 +67,13 @@ export function TaskBoard() {
 
   const { handleTakeToWork, handleDoneTask } = useTaskActions(dispatch);
 
-  const { openConfirmModal, handleOpenConfirmModal, handleCloseConfirmModal } =
-    useConfirmModal();
+  const {
+    handleCloseConfirmModal,
+    handleOpenTagConfirmModal,
+    handleOpenTaskConfirmModal,
+    isTagForm,
+    isTaskForm,
+  } = useConfirmModal();
 
   useEffect(() => {
     dispatch(getTasks({ limit: 9999 }));
@@ -108,7 +114,7 @@ export function TaskBoard() {
   };
   const handleDeleteTaskById = (id) => {
     setIdTask(id);
-    handleOpenConfirmModal();
+    handleOpenTaskConfirmModal();
   };
 
   const todoTasks = useMemo(() => filterTasksByStatus(tasks, todo), [tasks]);
@@ -117,19 +123,6 @@ export function TaskBoard() {
     [tasks],
   );
   const doneTasks = useMemo(() => filterTasksByStatus(tasks, done), [tasks]);
-
-  // let anchorEl = useRef(false);
-  // // const [anchorEl, setAnchorEl] = useState(false);
-  // const handleClick = (event) => {
-  //   // setAnchorEl(event.currentTarget);
-  //   anchorEl.current = event.currentTarget;
-  //   console.log(event.currentTarget);
-  // };
-  // const handleClose = () => {
-  //   // setAnchorEl(false);
-  //   anchorEl.current = false;
-  // };
-  // const openTag = Boolean(anchorEl);
 
   const buttonRef = useRef(null);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -161,6 +154,21 @@ export function TaskBoard() {
       .unwrap()
       .then(() => {
         handleCloseTagForm();
+      });
+  };
+
+  const handleDeleteTagById = (id) => {
+    console.log(id);
+    setIdTag(id);
+    handleOpenTagConfirmModal();
+  };
+
+  const handleDeleteTagFromList = () => {
+    dispatch(deleteTag({ id: idTag }))
+      .unwrap()
+      .then(() => {
+        handleCloseConfirmModal();
+        setIdTag('');
       });
   };
 
@@ -227,6 +235,7 @@ export function TaskBoard() {
           onOpenTagForm={handleOpenCreateTagForm}
           tags={tags}
           handleEditTagById={handleEditTagById}
+          onDeleteTagFromList={handleDeleteTagById}
           // onCheck={}
         ></TagList>
       </TaskForm>
@@ -252,9 +261,24 @@ export function TaskBoard() {
 
       <ConfirmModal
         onClose={handleCloseConfirmModal}
+        {...(isTaskForm
+          ? {
+              name: 'task',
+              open: isTaskForm,
+              onDelete: handleDeleteTask,
+            }
+          : {
+              name: 'tag',
+              open: isTagForm,
+              onDelete: handleDeleteTagFromList,
+            })}
+      />
+
+      {/* <ConfirmModal
+        onClose={handleCloseConfirmModal}
         onDelete={handleDeleteTask}
         open={openConfirmModal}
-      />
+      /> */}
     </>
   );
 }

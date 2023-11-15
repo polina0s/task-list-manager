@@ -1,3 +1,3 @@
 export { tagReducer } from './tag.reducer';
 export { allTagsSelector, tagByIdSelector } from './tag.selectors';
-export { createTag, editTag, getTags } from './tag.thunk';
+export { createTag, deleteTag, editTag, getTags } from './tag.thunk';
