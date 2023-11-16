@@ -13,12 +13,19 @@ export function TagCheckbox({
   id,
   color,
   onDelete,
+  checked = false,
 }) {
   return (
     <div className={tag.cont}>
       <div className={tag.checkboxCont}>
         <FormControlLabel
-          control={<Checkbox color="secondary" onChange={onCheck} />}
+          control={
+            <Checkbox
+              color="secondary"
+              onChange={(e) => onCheck({ id, checked: e.target.checked })}
+              checked={checked}
+            />
+          }
           label={label}
           id={id}
         />

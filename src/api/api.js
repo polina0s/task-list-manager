@@ -106,10 +106,10 @@ export class Api {
     }
   }
 
-  async createTask({ text }) {
+  async createTask({ text, tags = [] }) {
     const response = await this.request('tasks', {
       method: 'POST',
-      body: { text },
+      body: { text, tags },
     });
 
     const json = await response.json();

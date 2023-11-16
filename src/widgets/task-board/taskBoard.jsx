@@ -212,6 +212,19 @@ export function TaskBoard() {
         onClose={handleCloseTaskForm}
         onButtonAddTag={handleClick}
         buttonRef={buttonRef}
+        renderTagForm={({ onCheck, checkedTags }) => (
+          <TagList
+            open={openTagList}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            onOpenTagForm={handleOpenCreateTagForm}
+            tags={tags}
+            handleEditTagById={handleEditTagById}
+            onDeleteTagFromList={handleDeleteTagById}
+            onCheck={onCheck}
+            checkedTags={checkedTags}
+          />
+        )}
         {...(isEditTaskForm
           ? {
               openTaskForm: isEditTaskForm,
@@ -226,19 +239,7 @@ export function TaskBoard() {
               title: 'Create task',
               btnText: 'Add task',
             })}
-      >
-        <TagList
-          open={openTagList}
-          anchorEl={anchorEl}
-          onClose={handleClose}
-          // onChange={handleAddTag}
-          onOpenTagForm={handleOpenCreateTagForm}
-          tags={tags}
-          handleEditTagById={handleEditTagById}
-          onDeleteTagFromList={handleDeleteTagById}
-          // onCheck={}
-        ></TagList>
-      </TaskForm>
+      ></TaskForm>
 
       <TagForm
         onClose={handleCloseTagForm}
@@ -273,12 +274,6 @@ export function TaskBoard() {
               onDelete: handleDeleteTagFromList,
             })}
       />
-
-      {/* <ConfirmModal
-        onClose={handleCloseConfirmModal}
-        onDelete={handleDeleteTask}
-        open={openConfirmModal}
-      /> */}
     </>
   );
 }

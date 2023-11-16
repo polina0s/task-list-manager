@@ -5,10 +5,12 @@ import { IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useForm } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { Button } from '../button/button';
 import { Input } from '../input/input';
+import { Tag } from '../tag';
 import { Title } from '../title';
 import form from './taskForm.module.scss';
 
@@ -24,19 +26,33 @@ export function TaskForm({
   title,
   btnText,
   text,
-  children,
   buttonRef,
+  tags = [],
+  renderTagForm,
 }) {
   const {
     register,
     formState: { errors },
     handleSubmit,
+    control,
+    setValue,
+    getValues,
   } = useForm({
     mode: 'onBlur',
-    values: { text: text },
+    values: { text: text, tags: tags },
     shouldUnregister: true,
     resolver: yupResolver(schema),
   });
+
+  const setTags = ({ id, checked }) => {
+    const oldTags = getValues('tags');
+    if (checked) {
+      setValue('tags', [...oldTags, id]);
+    } else {
+      const newTags = oldTags.filter((tag) => tag !== id);
+      setValue('tags', newTags);
+    }
+  };
 
   return (
     <Modal open={openTaskForm} onClose={onClose}>
@@ -63,7 +79,16 @@ export function TaskForm({
             />
             <Title color="primary">add tags</Title>
           </Button>
-          {children}
+          <Controller
+            render={({ field: { value } }) =>
+              renderTagForm({
+                onCheck: setTags,
+                checkedTags: value,
+              })
+            }
+            name="tags"
+            control={control}
+          />
         </div>
         <Input
           className={form.input}
@@ -71,6 +96,11 @@ export function TaskForm({
           helperText={errors?.text?.message}
           {...register('text')}
         />
+        {/* <div className={form.taskTags}>
+          {tags.map((tag) => (
+            <Tag key={tag.id} color={tag.color} name={tag.name} />
+          ))}
+        </div> */}
         <Button type="submit">{btnText}</Button>
       </Box>
     </Modal>

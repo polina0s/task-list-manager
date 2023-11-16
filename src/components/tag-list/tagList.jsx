@@ -1,5 +1,6 @@
 import FormGroup from '@mui/material/FormGroup';
 import Popover from '@mui/material/Popover';
+import { useMemo } from 'react';
 
 import { Button } from '../button/button';
 import { TagCheckbox } from '../tag-checkbox';
@@ -15,7 +16,14 @@ export function TagList({
   onCheck,
   handleEditTagById,
   onDeleteTagFromList,
+  checkedTags = [],
 }) {
+  const checkedMap = useMemo(() => {
+    const checkedMap = new Map();
+    checkedTags.forEach((tag) => checkedMap.set(tag, true));
+    return checkedMap;
+  }, [checkedTags]);
+
   return (
     <Popover
       open={open}
@@ -40,6 +48,7 @@ export function TagList({
                 id={tag.id}
                 color={tag.color}
                 onDelete={() => onDeleteTagFromList(tag.id)}
+                checked={!!checkedMap.get(tag.id)}
               />
             ))
           ) : (
