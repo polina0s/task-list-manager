@@ -10,7 +10,6 @@ import * as yup from 'yup';
 
 import { Button } from '../button/button';
 import { Input } from '../input/input';
-import { Tag } from '../tag';
 import { Title } from '../title';
 import form from './taskForm.module.scss';
 
@@ -96,11 +95,6 @@ export function TaskForm({
           helperText={errors?.text?.message}
           {...register('text')}
         />
-        {/* <div className={form.taskTags}>
-          {tags.map((tag) => (
-            <Tag key={tag.id} color={tag.color} name={tag.name} />
-          ))}
-        </div> */}
         <Button type="submit">{btnText}</Button>
       </Box>
     </Modal>

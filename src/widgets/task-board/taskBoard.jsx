@@ -84,6 +84,7 @@ export function TaskBoard() {
   }, [dispatch]);
 
   const handleCreateTask = (data) => {
+    console.log(data);
     dispatch(createTask(data))
       .unwrap()
       .then(() => {
@@ -93,6 +94,7 @@ export function TaskBoard() {
   };
 
   const handleEditTask = (data) => {
+    console.log(data);
     dispatch(editTask({ id: idTask, text: data.text }))
       .unwrap()
       .then(() => {

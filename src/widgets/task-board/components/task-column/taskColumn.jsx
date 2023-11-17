@@ -13,18 +13,21 @@ export function TaskColumn({
 }) {
   return (
     <TaskList onAdd={openCreateTaskForm} onMore={openMenu} name={name} id={id}>
-      {tasks.map((el) => (
-        <Task
-          name={el.text}
-          id={el.id}
-          key={el.id}
-          onDelete={() => deleteTaskById(el.id)}
-          onEdit={() => editTaskById(el.id)}
-          {...(onChangeStatus
-            ? { onChangeStatus: () => onChangeStatus(el.id) }
-            : 'null')}
-        />
-      ))}
+      {tasks.map((el) => {
+        return (
+          <Task
+            tags={el.tags}
+            name={el.text}
+            id={el.id}
+            key={el.id}
+            onDelete={() => deleteTaskById(el.id)}
+            onEdit={() => editTaskById(el.id)}
+            {...(onChangeStatus
+              ? { onChangeStatus: () => onChangeStatus(el.id) }
+              : 'null')}
+          />
+        );
+      })}
     </TaskList>
   );
 }

@@ -127,11 +127,12 @@ export class Api {
     return json;
   }
 
-  async editTask({ id, text }) {
+  async editTask({ id, text, tags }) {
     const response = await this.request(`tasks/${id}`, {
       method: 'PATCH',
       body: {
         text,
+        tags,
       },
     });
 
