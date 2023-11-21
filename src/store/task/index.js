@@ -1,4 +1,8 @@
-export { allTasksSelector, taskByIdSelector } from './task.selectors';
+export {
+  allTasksSelector,
+  tagsByTaskIdSelector,
+  taskByIdSelector,
+} from './task.selectors';
 export {
   createTask,
   deleteTask,

@@ -1,8 +1,24 @@
-.tag {
+.cont {
+  display: flex;
   padding: 3px;
+  margin: 3px;
   font-size: 10px;
   border-radius: 3px;
-  border: 3px solid;
   font-size: 15px;
   color: var(--brown);
+  
+}
+
+.name {
+  margin: 0;
+}
+
+.button {
+  width: 10px;
+  height: 10px;
+}
+
+.buttonIcon {
+  width: 10px;
+  height: 10px;
 }

@@ -23,10 +23,12 @@ import {
   deleteTask,
   editTask,
   getTasks,
+  tagsByTaskIdSelector,
   taskByIdSelector,
 } from '../../store/task';
 import {
   done,
+  filterTagsById,
   filterTasksByStatus,
   inProgress,
   todo,
@@ -48,6 +50,9 @@ export function TaskBoard() {
   const tasks = useSelector(allTasksSelector);
   const selectedTask = useSelector((state) => taskByIdSelector(state, idTask));
   const selectedTag = useSelector((state) => tagByIdSelector(state, idTag));
+  const selectedTagsByTaskId = useSelector((state) =>
+    tagsByTaskIdSelector(state, idTask),
+  );
 
   const {
     handleOpenEditTaskForm,
@@ -94,13 +99,13 @@ export function TaskBoard() {
   };
 
   const handleEditTask = (data) => {
-    console.log(data);
-    dispatch(editTask({ id: idTask, text: data.text }))
+    dispatch(editTask({ id: idTask, text: data.text, tags: data.tags }))
       .unwrap()
       .then(() => {
         handleCloseTaskForm();
       });
   };
+
   const handleEditTaskById = (id) => {
     setIdTask(id);
     handleOpenEditTaskForm();
@@ -174,6 +179,12 @@ export function TaskBoard() {
       });
   };
 
+  const handleDeleteTagFromTask = (task, tagId) => {
+    const newTags = filterTagsById(task.tags, tagId);
+    console.log(task);
+    dispatch(editTask({ id: task.id, text: task.text, tags: newTags }));
+  };
+
   const handleOpenMenu = () => {};
 
   return (
@@ -189,6 +200,7 @@ export function TaskBoard() {
             openMenu={handleOpenMenu}
             deleteTaskById={handleDeleteTaskById}
             editTaskById={handleEditTaskById}
+            onDeleteTag={handleDeleteTagFromTask}
           />
           <TaskColumn
             name="in progress"
@@ -214,6 +226,7 @@ export function TaskBoard() {
         onClose={handleCloseTaskForm}
         onButtonAddTag={handleClick}
         buttonRef={buttonRef}
+        tags={selectedTagsByTaskId}
         renderTagForm={({ onCheck, checkedTags }) => (
           <TagList
             open={openTagList}

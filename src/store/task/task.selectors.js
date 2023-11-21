@@ -8,3 +8,8 @@ export const taskByIdSelector = createSelector(
     return tasks.find((task) => task.id === id);
   },
 );
+
+export const tagsByTaskIdSelector = createSelector(taskByIdSelector, (task) => {
+  const tags = task?.tags;
+  return tags?.map((tag) => tag.id);
+});
