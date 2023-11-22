@@ -210,6 +210,7 @@ export function TaskBoard() {
             openMenu={handleOpenMenu}
             deleteTaskById={handleDeleteTaskById}
             editTaskById={handleEditTaskById}
+            onDeleteTag={handleDeleteTagFromTask}
           />
           <TaskColumn
             name="done"
@@ -218,6 +219,7 @@ export function TaskBoard() {
             openMenu={handleOpenMenu}
             deleteTaskById={handleDeleteTaskById}
             editTaskById={handleEditTaskById}
+            onDeleteTag={handleDeleteTagFromTask}
           />
         </Grid>
       </Box>
