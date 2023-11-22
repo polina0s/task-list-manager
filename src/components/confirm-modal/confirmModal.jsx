@@ -7,13 +7,13 @@ import { Button } from '../button/button';
 import { Title } from '../title';
 import modal from './confirmModal.module.scss';
 
-export function ConfirmModal({ onClose, onDelete, open, id, name }) {
+export function ConfirmModal({ onClose, onDelete, open, id, children }) {
   return (
     <Modal open={open} onClose={onClose} id={id}>
       <Box className={modal.cont}>
         <div className={modal.titleCont}>
           <Title color="secondary" variant="h6">
-            Are you sure you want to delete the {name}?
+            {children}
           </Title>
           <IconButton onClick={onClose}>
             <CloseIcon color="secondary" />

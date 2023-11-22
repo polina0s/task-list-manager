@@ -5,7 +5,6 @@ export function TaskColumn({
   tasks,
   onChangeStatus,
   openCreateTaskForm,
-  openMenu,
   deleteTaskById,
   editTaskById,
   name,
@@ -13,7 +12,7 @@ export function TaskColumn({
   onDeleteTag,
 }) {
   return (
-    <TaskList onAdd={openCreateTaskForm} onMore={openMenu} name={name} id={id}>
+    <TaskList onAdd={openCreateTaskForm} name={name} id={id}>
       {tasks.map((el) => {
         return (
           <Task
@@ -26,7 +25,7 @@ export function TaskColumn({
             onDeleteTag={(tagId) => onDeleteTag(el, tagId)}
             {...(onChangeStatus
               ? { onChangeStatus: () => onChangeStatus(el.id) }
-              : '')}
+              : {})}
           />
         );
       })}

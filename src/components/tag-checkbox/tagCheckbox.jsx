@@ -27,7 +27,6 @@ export function TagCheckbox({
             />
           }
           label={label}
-          id={id}
           classes={{ label: tag.label }}
         />
         <span className={tag.color} style={{ backgroundColor: color }} />

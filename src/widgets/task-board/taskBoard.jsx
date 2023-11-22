@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ConfirmModal } from '../../components/confirm-modal';
 import { TagForm } from '../../components/tag-form';
-import { TagList } from '../../components/tag-list/tagList';
+import { TagList } from '../../components/tag-list';
 import { TaskForm } from '../../components/task-form';
 import {
   allTagsSelector,
@@ -89,7 +89,6 @@ export function TaskBoard() {
   }, [dispatch]);
 
   const handleCreateTask = (data) => {
-    console.log(data);
     dispatch(createTask(data))
       .unwrap()
       .then(() => {
@@ -165,7 +164,6 @@ export function TaskBoard() {
   };
 
   const handleDeleteTagById = (id) => {
-    console.log(id);
     setIdTag(id);
     handleOpenTagConfirmModal();
   };
@@ -184,8 +182,6 @@ export function TaskBoard() {
     dispatch(editTask({ id: task.id, text: task.text, tags: newTags }));
   };
 
-  const handleOpenMenu = () => {};
-
   return (
     <>
       <Box className={board.cont}>
@@ -196,7 +192,6 @@ export function TaskBoard() {
             tasks={todoTasks}
             onChangeStatus={handleTakeToWork}
             openCreateTaskForm={handleOpenCreateTaskForm}
-            openMenu={handleOpenMenu}
             deleteTaskById={handleDeleteTaskById}
             editTaskById={handleEditTaskById}
             onDeleteTag={handleDeleteTagFromTask}
@@ -206,7 +201,6 @@ export function TaskBoard() {
             id="inProgress"
             tasks={inProgressTasks}
             onChangeStatus={handleDoneTask}
-            openMenu={handleOpenMenu}
             deleteTaskById={handleDeleteTaskById}
             editTaskById={handleEditTaskById}
             onDeleteTag={handleDeleteTagFromTask}
@@ -215,7 +209,6 @@ export function TaskBoard() {
             name="done"
             id="done"
             tasks={doneTasks}
-            openMenu={handleOpenMenu}
             deleteTaskById={handleDeleteTaskById}
             editTaskById={handleEditTaskById}
             onDeleteTag={handleDeleteTagFromTask}
@@ -255,7 +248,7 @@ export function TaskBoard() {
               title: 'Create task',
               btnText: 'Add task',
             })}
-      ></TaskForm>
+      />
 
       <TagForm
         onClose={handleCloseTagForm}
@@ -280,12 +273,12 @@ export function TaskBoard() {
         onClose={handleCloseConfirmModal}
         {...(isTaskForm
           ? {
-              name: 'task',
+              children: 'Are you sure you want to delete the task?',
               open: isTaskForm,
               onDelete: handleDeleteTask,
             }
           : {
-              name: 'tag',
+              children: 'Are you sure you want to delete the tag?',
               open: isTagForm,
               onDelete: handleDeleteTagFromList,
             })}

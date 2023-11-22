@@ -13,7 +13,8 @@ import { Title } from '../title';
 import tag from './tagForm.module.scss';
 
 const schema = yup.object().shape({
-  text: yup.string().required('this field is required').trim().min(1).max(18),
+  text: yup.string().required('this field is required').trim().min(1),
+  color: yup.string().required(),
 });
 
 export function TagForm({
@@ -22,8 +23,8 @@ export function TagForm({
   open,
   title,
   btnText,
-  text,
-  color,
+  text = '',
+  color = '',
 }) {
   const {
     register,
