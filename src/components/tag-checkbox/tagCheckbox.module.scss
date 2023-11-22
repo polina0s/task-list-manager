@@ -17,6 +17,8 @@
   border-radius: 50%;
 }
 
-.btnCont {
-
+.label {
+    max-width: 130px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }

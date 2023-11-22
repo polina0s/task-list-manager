@@ -180,8 +180,7 @@ export function TaskBoard() {
   };
 
   const handleDeleteTagFromTask = (task, tagId) => {
-    const newTags = filterTagsById(task.tags, tagId);
-    console.log(task);
+    const newTags = filterTagsById(task.tags, tagId).map((tag) => tag.id);
     dispatch(editTask({ id: task.id, text: task.text, tags: newTags }));
   };
 

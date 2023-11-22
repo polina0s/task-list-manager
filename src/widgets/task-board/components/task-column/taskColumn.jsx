@@ -26,7 +26,7 @@ export function TaskColumn({
             onDeleteTag={(tagId) => onDeleteTag(el, tagId)}
             {...(onChangeStatus
               ? { onChangeStatus: () => onChangeStatus(el.id) }
-              : 'null')}
+              : '')}
           />
         );
       })}
