@@ -1,0 +1,24 @@
+.cont {
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkboxCont {
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.color {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.label {
+    max-width: 130px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

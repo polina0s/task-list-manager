@@ -1,71 +1,113 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { ConfirmModal } from '../../components/confirm-modal';
-import { Task } from '../../components/task/task';
+import { TagForm } from '../../components/tag-form';
+import { TagList } from '../../components/tag-list';
 import { TaskForm } from '../../components/task-form';
-import { TaskList } from '../../components/task-list';
+import {
+  allTagsSelector,
+  createTag,
+  deleteTag,
+  editTag,
+  getTags,
+  tagByIdSelector,
+} from '../../store/tag';
 import {
   allTasksSelector,
   createTask,
   deleteTask,
   editTask,
-  editTaskStatus,
   getTasks,
+  tagsByTaskIdSelector,
   taskByIdSelector,
 } from '../../store/task';
-import { useTaskForm } from '../../utils';
-import { done, inProgress, todo } from '../../utils';
-import { filterTasksByStatus } from '../../utils';
+import {
+  done,
+  filterTagsById,
+  filterTasksByStatus,
+  inProgress,
+  todo,
+  useConfirmModal,
+  useTagForm,
+  useTaskActions,
+  useTaskForm,
+} from '../../utils';
+import { TaskColumn } from './components/task-column';
 import board from './taskBoard.module.scss';
 
 export function TaskBoard() {
-  const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [idTask, setIdTask] = useState('');
+  const [idTag, setIdTag] = useState('');
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const tags = useSelector(allTagsSelector);
   const tasks = useSelector(allTasksSelector);
   const selectedTask = useSelector((state) => taskByIdSelector(state, idTask));
+  const selectedTag = useSelector((state) => tagByIdSelector(state, idTag));
+  const selectedTagsByTaskId = useSelector((state) =>
+    tagsByTaskIdSelector(state, idTask),
+  );
 
   const {
-    handleOpenEditForm,
-    handleOpenCreateForm,
-    handleCloseForm,
-    isEditForm,
-    isCreateForm,
+    handleOpenEditTaskForm,
+    handleOpenCreateTaskForm,
+    handleCloseTaskForm,
+    isEditTaskForm,
+    isCreateTaskForm,
   } = useTaskForm();
 
+  const {
+    handleOpenEditTagForm,
+    handleOpenCreateTagForm,
+    handleCloseTagForm,
+    isEditTagForm,
+    isCreateTagForm,
+  } = useTagForm();
+
+  const { handleTakeToWork, handleDoneTask } = useTaskActions(dispatch);
+
+  const {
+    handleCloseConfirmModal,
+    handleOpenTagConfirmModal,
+    handleOpenTaskConfirmModal,
+    isTagForm,
+    isTaskForm,
+  } = useConfirmModal();
+
   useEffect(() => {
-    dispatch(getTasks({ limit: 999 }));
+    dispatch(getTasks({ limit: 9999 }));
   }, [dispatch]);
 
-  const handleOpenConfirmModal = () => setOpenConfirmModal(true);
-  const handleCloseConfirmModal = () => setOpenConfirmModal(false);
+  useEffect(() => {
+    dispatch(getTags({ limit: 9999 }));
+  }, [dispatch]);
 
-  const handleCreate = (data) => {
+  const handleCreateTask = (data) => {
     dispatch(createTask(data))
       .unwrap()
       .then(() => {
         navigate('/home');
-        handleCloseForm();
+        handleCloseTaskForm();
       });
   };
 
-  const handleEdit = (data) => {
-    dispatch(editTask({ id: idTask, text: data.text }))
+  const handleEditTask = (data) => {
+    dispatch(editTask({ id: idTask, text: data.text, tags: data.tags }))
       .unwrap()
       .then(() => {
-        handleCloseForm();
+        handleCloseTaskForm();
       });
   };
+
   const handleEditTaskById = (id) => {
     setIdTask(id);
-    handleOpenEditForm();
+    handleOpenEditTaskForm();
   };
 
   const handleDeleteTask = () => {
@@ -78,15 +120,7 @@ export function TaskBoard() {
   };
   const handleDeleteTaskById = (id) => {
     setIdTask(id);
-    handleOpenConfirmModal();
-  };
-
-  const handleTakeToWork = (id) => {
-    dispatch(editTaskStatus({ id: id, status: inProgress }));
-  };
-
-  const handleDoneTask = (id) => {
-    dispatch(editTaskStatus({ id: id, status: done }));
+    handleOpenTaskConfirmModal();
   };
 
   const todoTasks = useMemo(() => filterTasksByStatus(tasks, todo), [tasks]);
@@ -96,73 +130,158 @@ export function TaskBoard() {
   );
   const doneTasks = useMemo(() => filterTasksByStatus(tasks, done), [tasks]);
 
-  const handleOpenMenu = () => {};
+  const buttonRef = useRef(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openTagList = Boolean(anchorEl);
+
+  const handleClick = () => {
+    setAnchorEl(buttonRef.current);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleAddTag = (data) => {
+    dispatch(createTag({ name: data.text, color: data.color }))
+      .unwrap()
+      .then(() => {
+        handleCloseTagForm();
+      });
+  };
+
+  const handleEditTagById = (id) => {
+    setIdTag(id);
+    handleOpenEditTagForm();
+  };
+
+  const handleEditTag = (data) => {
+    dispatch(editTag({ id: idTag, name: data.text, color: data.color }))
+      .unwrap()
+      .then(() => {
+        handleCloseTagForm();
+      });
+  };
+
+  const handleDeleteTagById = (id) => {
+    setIdTag(id);
+    handleOpenTagConfirmModal();
+  };
+
+  const handleDeleteTagFromList = () => {
+    dispatch(deleteTag({ id: idTag }))
+      .unwrap()
+      .then(() => {
+        handleCloseConfirmModal();
+        setIdTag('');
+      });
+  };
+
+  const handleDeleteTagFromTask = (task, tagId) => {
+    const newTags = filterTagsById(task.tags, tagId).map((tag) => tag.id);
+    dispatch(editTask({ id: task.id, text: task.text, tags: newTags }));
+  };
 
   return (
     <>
       <Box className={board.cont}>
         <Grid container spacing={2}>
-          <TaskList
-            onAdd={handleOpenCreateForm}
-            onMore={handleOpenMenu}
+          <TaskColumn
             name="to do"
             id="toDo"
-          >
-            {todoTasks.map((el) => (
-              <Task
-                name={el.text}
-                id={el.id}
-                key={el.id}
-                onDelete={() => handleDeleteTaskById(el.id)}
-                onEdit={() => handleEditTaskById(el.id, el.text)}
-                onChangeStatus={() => handleTakeToWork(el.id)}
-              />
-            ))}
-          </TaskList>
-          <TaskList onMore={handleOpenMenu} name="in progress" id="inProgress">
-            {inProgressTasks.map((el) => (
-              <Task
-                name={el.text}
-                id={el.id}
-                key={el.id}
-                onDelete={() => handleDeleteTaskById(el.id)}
-                onEdit={() => handleEditTaskById(el.id, el.text)}
-                onChangeStatus={() => handleDoneTask(el.id)}
-              />
-            ))}
-          </TaskList>
-          <TaskList onMore={handleOpenMenu} name="done" id="done">
-            {doneTasks.map((el) => (
-              <Task
-                name={el.text}
-                id={el.id}
-                key={el.id}
-                onDelete={() => handleDeleteTaskById(el.id)}
-                onEdit={() => handleEditTaskById(el.id, el.text)}
-              />
-            ))}
-          </TaskList>
+            tasks={todoTasks}
+            onChangeStatus={handleTakeToWork}
+            openCreateTaskForm={handleOpenCreateTaskForm}
+            deleteTaskById={handleDeleteTaskById}
+            editTaskById={handleEditTaskById}
+            onDeleteTag={handleDeleteTagFromTask}
+          />
+          <TaskColumn
+            name="in progress"
+            id="inProgress"
+            tasks={inProgressTasks}
+            onChangeStatus={handleDoneTask}
+            deleteTaskById={handleDeleteTaskById}
+            editTaskById={handleEditTaskById}
+            onDeleteTag={handleDeleteTagFromTask}
+          />
+          <TaskColumn
+            name="done"
+            id="done"
+            tasks={doneTasks}
+            deleteTaskById={handleDeleteTaskById}
+            editTaskById={handleEditTaskById}
+            onDeleteTag={handleDeleteTagFromTask}
+          />
         </Grid>
       </Box>
+
       <TaskForm
-        onClose={handleCloseForm}
-        open={isCreateForm}
-        onSubmit={handleCreate}
-        title="Create task"
-        btnText="Add task"
+        onClose={handleCloseTaskForm}
+        onButtonAddTag={handleClick}
+        buttonRef={buttonRef}
+        tags={selectedTagsByTaskId}
+        renderTagForm={({ onCheck, checkedTags }) => (
+          <TagList
+            open={openTagList}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            onOpenTagForm={handleOpenCreateTagForm}
+            tags={tags}
+            handleEditTagById={handleEditTagById}
+            onDeleteTagFromList={handleDeleteTagById}
+            onCheck={onCheck}
+            checkedTags={checkedTags}
+          />
+        )}
+        {...(isEditTaskForm
+          ? {
+              openTaskForm: isEditTaskForm,
+              onSubmit: handleEditTask,
+              text: selectedTask?.text,
+              title: 'Edit task',
+              btnText: 'Save',
+            }
+          : {
+              openTaskForm: isCreateTaskForm,
+              onSubmit: handleCreateTask,
+              title: 'Create task',
+              btnText: 'Add task',
+            })}
       />
-      <TaskForm
-        onClose={handleCloseForm}
-        open={isEditForm}
-        onSubmit={handleEdit}
-        text={selectedTask?.text}
-        title="Edit task"
-        btnText="Save"
+
+      <TagForm
+        onClose={handleCloseTagForm}
+        {...(isEditTagForm
+          ? {
+              onSubmit: handleEditTag,
+              open: isEditTagForm,
+              text: selectedTag?.name,
+              color: selectedTag?.color,
+              title: 'Edit tag',
+              btnText: 'Edit tag',
+            }
+          : {
+              onSubmit: handleAddTag,
+              open: isCreateTagForm,
+              title: 'Create tag',
+              btnText: 'Create tag',
+            })}
       />
+
       <ConfirmModal
         onClose={handleCloseConfirmModal}
-        onDelete={handleDeleteTask}
-        open={openConfirmModal}
+        {...(isTaskForm
+          ? {
+              children: 'Are you sure you want to delete this task?',
+              open: isTaskForm,
+              onDelete: handleDeleteTask,
+            }
+          : {
+              children: 'Are you sure you want to delete this tag?',
+              open: isTagForm,
+              onDelete: handleDeleteTagFromList,
+            })}
       />
     </>
   );

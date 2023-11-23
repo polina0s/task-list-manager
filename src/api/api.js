@@ -106,10 +106,10 @@ export class Api {
     }
   }
 
-  async createTask({ text }) {
+  async createTask({ text, tags = [] }) {
     const response = await this.request('tasks', {
       method: 'POST',
-      body: { text },
+      body: { text, tags },
     });
 
     const json = await response.json();
@@ -127,11 +127,12 @@ export class Api {
     return json;
   }
 
-  async editTask({ id, text }) {
+  async editTask({ id, text, tags }) {
     const response = await this.request(`tasks/${id}`, {
       method: 'PATCH',
       body: {
         text,
+        tags,
       },
     });
 
@@ -154,6 +155,45 @@ export class Api {
 
   async deleteTask({ id }) {
     await this.request(`tasks/${id}`, { method: 'DELETE' });
+  }
+
+  async getTags({ offset = 0, limit = 10 }) {
+    const query = queryString.stringify({ limit, offset }, { skipNull: true });
+
+    const response = await this.request(`tags?${query}`, { method: 'GET' });
+
+    const json = await response.json();
+
+    return json;
+  }
+
+  async createTag({ name, color }) {
+    const response = await this.request('tags', {
+      method: 'POST',
+      body: {
+        name: name,
+        color: color,
+      },
+    });
+
+    const json = await response.json();
+
+    return json;
+  }
+
+  async editTag({ name, color, id }) {
+    const response = await this.request(`tags/${id}`, {
+      method: 'PATCH',
+      body: { name: name, color: color },
+    });
+
+    const json = await response.json();
+
+    return json;
+  }
+
+  async deleteTag({ id }) {
+    await this.request(`tags/${id}`, { method: 'DELETE' });
   }
 
   onRefresh() {}

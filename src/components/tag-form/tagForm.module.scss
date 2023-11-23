@@ -1,6 +1,6 @@
 .cont {
   position: absolute;
-  top: 40%;
+  top: 42%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: var(--milk);
@@ -17,27 +17,13 @@
   margin-bottom: 5px;
 }
 
+.paletteCont {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+
 .input {
   width: 100%;
-  margin-bottom: 15px;
-}
-
-.selectCont {
-  margin-bottom: 15px;
-  display: flex;
-}
-
-.select {
-  width: 140px;
-  margin-right: 10px;
-}
-
-.tagsCont {
-  display: flex;
-  padding: 5px;
-  margin-bottom: 20px;
-}
-
-.tagsBtnIcon {
-  margin-right: 5px;
 }
