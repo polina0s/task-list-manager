@@ -273,12 +273,12 @@ export function TaskBoard() {
         onClose={handleCloseConfirmModal}
         {...(isTaskForm
           ? {
-              children: 'Are you sure you want to delete the task?',
+              children: 'Are you sure you want to delete this task?',
               open: isTaskForm,
               onDelete: handleDeleteTask,
             }
           : {
-              children: 'Are you sure you want to delete the tag?',
+              children: 'Are you sure you want to delete this tag?',
               open: isTagForm,
               onDelete: handleDeleteTagFromList,
             })}
