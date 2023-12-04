@@ -63,3 +63,15 @@ export const editTaskStatus = createAsyncThunk(
     }
   },
 );
+
+export const changeTaskStatus = createAsyncThunk(
+  'task/changeTaskStatus',
+  async (data, { rejectWithValue }) => {
+    try {
+      await api.changeTaskStatus(data);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);

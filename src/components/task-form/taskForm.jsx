@@ -15,7 +15,6 @@ import form from './taskForm.module.scss';
 
 const schema = yup.object().shape({
   text: yup.string().required('this field is required').trim().min(1),
-  tags: yup.string().required('this field is required').trim().min(1),
 });
 
 export function TaskForm({

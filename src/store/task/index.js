@@ -4,6 +4,7 @@ export {
   taskByIdSelector,
 } from './task.selectors';
 export {
+  changeTaskStatus,
   createTask,
   deleteTask,
   editTask,

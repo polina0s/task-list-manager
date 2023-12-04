@@ -2,12 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { filterTasksById } from '../../utils';
 import {
+  changeTaskStatus,
   createTask,
   deleteTask,
   editTask,
   editTaskStatus,
   getTasks,
-} from './task.thunk';
+} from './index';
 
 const initialState = {
   isLoading: false,
@@ -78,6 +79,15 @@ const taskSlice = createSlice({
         }
         return task;
       });
+    });
+    builder.addCase(changeTaskStatus.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(changeTaskStatus.rejected, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(changeTaskStatus.fulfilled, (state, action) => {
+      (state.isLoading = false), console.log(action.payload);
     });
   },
 });

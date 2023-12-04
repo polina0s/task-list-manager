@@ -196,6 +196,13 @@ export class Api {
     await this.request(`tags/${id}`, { method: 'DELETE' });
   }
 
+  async changeTaskStatus({ id, status }) {
+    this.request(`tasks/${id}/status`, {
+      method: 'PATCH',
+      body: { status: status },
+    });
+  }
+
   onRefresh() {}
 }
 
