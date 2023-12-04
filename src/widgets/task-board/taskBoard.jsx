@@ -2,6 +2,8 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { useEffect, useRef, useState } from 'react';
 import { useMemo } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -70,7 +72,8 @@ export function TaskBoard() {
     isCreateTagForm,
   } = useTagForm();
 
-  const { handleTakeToWork, handleDoneTask } = useTaskActions(dispatch);
+  const { handleToDo, handleTakeToWork, handleDoneTask } =
+    useTaskActions(dispatch);
 
   const {
     handleCloseConfirmModal,
@@ -184,105 +187,112 @@ export function TaskBoard() {
 
   return (
     <>
-      <Box className={board.cont}>
-        <Grid container spacing={2}>
-          <TaskColumn
-            name="to do"
-            id="toDo"
-            tasks={todoTasks}
-            onChangeStatus={handleTakeToWork}
-            openCreateTaskForm={handleOpenCreateTaskForm}
-            deleteTaskById={handleDeleteTaskById}
-            editTaskById={handleEditTaskById}
-            onDeleteTag={handleDeleteTagFromTask}
-          />
-          <TaskColumn
-            name="in progress"
-            id="inProgress"
-            tasks={inProgressTasks}
-            onChangeStatus={handleDoneTask}
-            deleteTaskById={handleDeleteTaskById}
-            editTaskById={handleEditTaskById}
-            onDeleteTag={handleDeleteTagFromTask}
-          />
-          <TaskColumn
-            name="done"
-            id="done"
-            tasks={doneTasks}
-            deleteTaskById={handleDeleteTaskById}
-            editTaskById={handleEditTaskById}
-            onDeleteTag={handleDeleteTagFromTask}
-          />
-        </Grid>
-      </Box>
+      <DndProvider backend={HTML5Backend}>
+        <Box className={board.cont}>
+          <Grid container spacing={2}>
+            <TaskColumn
+              name="to do"
+              id="toDo"
+              tasks={todoTasks}
+              moveToNextStatus={handleTakeToWork}
+              // onChangeStatus={handleTakeToWork}
+              openCreateTaskForm={handleOpenCreateTaskForm}
+              deleteTaskById={handleDeleteTaskById}
+              editTaskById={handleEditTaskById}
+              onDeleteTag={handleDeleteTagFromTask}
+            />
+            <TaskColumn
+              name="in progress"
+              id="inProgress"
+              tasks={inProgressTasks}
+              // onChangeStatus={handleDoneTask}
+              returnToPrevStatus={handleToDo}
+              moveToNextStatus={handleDoneTask}
+              deleteTaskById={handleDeleteTaskById}
+              editTaskById={handleEditTaskById}
+              onDeleteTag={handleDeleteTagFromTask}
+            />
+            <TaskColumn
+              name="done"
+              id="done"
+              tasks={doneTasks}
+              returnToPrevStatus={handleTakeToWork}
+              // moveToNextStatus={}
+              deleteTaskById={handleDeleteTaskById}
+              editTaskById={handleEditTaskById}
+              onDeleteTag={handleDeleteTagFromTask}
+            />
+          </Grid>
+        </Box>
 
-      <TaskForm
-        onClose={handleCloseTaskForm}
-        onButtonAddTag={handleClick}
-        buttonRef={buttonRef}
-        tags={selectedTagsByTaskId}
-        renderTagForm={({ onCheck, checkedTags }) => (
-          <TagList
-            open={openTagList}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            onOpenTagForm={handleOpenCreateTagForm}
-            tags={tags}
-            handleEditTagById={handleEditTagById}
-            onDeleteTagFromList={handleDeleteTagById}
-            onCheck={onCheck}
-            checkedTags={checkedTags}
-          />
-        )}
-        {...(isEditTaskForm
-          ? {
-              openTaskForm: isEditTaskForm,
-              onSubmit: handleEditTask,
-              text: selectedTask?.text,
-              title: 'Edit task',
-              btnText: 'Save',
-            }
-          : {
-              openTaskForm: isCreateTaskForm,
-              onSubmit: handleCreateTask,
-              title: 'Create task',
-              btnText: 'Add task',
-            })}
-      />
+        <TaskForm
+          onClose={handleCloseTaskForm}
+          onButtonAddTag={handleClick}
+          buttonRef={buttonRef}
+          tags={selectedTagsByTaskId}
+          renderTagForm={({ onCheck, checkedTags }) => (
+            <TagList
+              open={openTagList}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              onOpenTagForm={handleOpenCreateTagForm}
+              tags={tags}
+              handleEditTagById={handleEditTagById}
+              onDeleteTagFromList={handleDeleteTagById}
+              onCheck={onCheck}
+              checkedTags={checkedTags}
+            />
+          )}
+          {...(isEditTaskForm
+            ? {
+                openTaskForm: isEditTaskForm,
+                onSubmit: handleEditTask,
+                text: selectedTask?.text,
+                title: 'Edit task',
+                btnText: 'Save',
+              }
+            : {
+                openTaskForm: isCreateTaskForm,
+                onSubmit: handleCreateTask,
+                title: 'Create task',
+                btnText: 'Add task',
+              })}
+        />
 
-      <TagForm
-        onClose={handleCloseTagForm}
-        {...(isEditTagForm
-          ? {
-              onSubmit: handleEditTag,
-              open: isEditTagForm,
-              text: selectedTag?.name,
-              color: selectedTag?.color,
-              title: 'Edit tag',
-              btnText: 'Edit tag',
-            }
-          : {
-              onSubmit: handleAddTag,
-              open: isCreateTagForm,
-              title: 'Create tag',
-              btnText: 'Create tag',
-            })}
-      />
+        <TagForm
+          onClose={handleCloseTagForm}
+          {...(isEditTagForm
+            ? {
+                onSubmit: handleEditTag,
+                open: isEditTagForm,
+                text: selectedTag?.name,
+                color: selectedTag?.color,
+                title: 'Edit tag',
+                btnText: 'Edit tag',
+              }
+            : {
+                onSubmit: handleAddTag,
+                open: isCreateTagForm,
+                title: 'Create tag',
+                btnText: 'Create tag',
+              })}
+        />
 
-      <ConfirmModal
-        onClose={handleCloseConfirmModal}
-        {...(isTaskForm
-          ? {
-              children: 'Are you sure you want to delete this task?',
-              open: isTaskForm,
-              onDelete: handleDeleteTask,
-            }
-          : {
-              children: 'Are you sure you want to delete this tag?',
-              open: isTagForm,
-              onDelete: handleDeleteTagFromList,
-            })}
-      />
+        <ConfirmModal
+          onClose={handleCloseConfirmModal}
+          {...(isTaskForm
+            ? {
+                children: 'Are you sure you want to delete this task?',
+                open: isTaskForm,
+                onDelete: handleDeleteTask,
+              }
+            : {
+                children: 'Are you sure you want to delete this tag?',
+                open: isTagForm,
+                onDelete: handleDeleteTagFromList,
+              })}
+        />
+      </DndProvider>
     </>
   );
 }

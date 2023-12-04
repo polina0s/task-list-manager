@@ -87,7 +87,13 @@ const taskSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(changeTaskStatus.fulfilled, (state, action) => {
-      (state.isLoading = false), console.log(action.payload);
+      state.isLoading = false;
+      state.tasks = state.tasks.map((task) => {
+        if (task.id === action.payload.id) {
+          return { ...task, status: action.payload.status };
+        }
+        return task;
+      });
     });
   },
 });

@@ -1,6 +1,7 @@
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import EastIcon from '@mui/icons-material/East';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton } from '@mui/material';
 
@@ -13,6 +14,8 @@ export function Task({
   id,
   onDelete,
   onEdit,
+  returnToPrevStatus,
+  moveToNextStatus,
   onChangeStatus,
   tags,
   onDeleteTag,
@@ -33,9 +36,19 @@ export function Task({
           <IconButton onClick={onDelete}>
             <DeleteOutlineIcon color="secondary" />
           </IconButton>
+          {returnToPrevStatus ? (
+            <IconButton color="secondary" onClick={returnToPrevStatus}>
+              <ArrowBackIcon />
+            </IconButton>
+          ) : null}
+          {moveToNextStatus ? (
+            <IconButton color="secondary" onClick={moveToNextStatus}>
+              <ArrowForwardIcon />
+            </IconButton>
+          ) : null}
           {onChangeStatus ? (
             <IconButton color="secondary" onClick={onChangeStatus}>
-              <EastIcon />
+              <ArrowForwardIcon />
             </IconButton>
           ) : null}
         </div>

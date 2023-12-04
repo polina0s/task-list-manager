@@ -1,16 +1,21 @@
-import { editTaskStatus } from '../store/task';
-import { done, inProgress } from './status';
+import { changeTaskStatus } from '../store/task';
+import { done, inProgress, todo } from './status';
 
 export const useTaskActions = (dispatch) => {
+  const handleToDo = (id) => {
+    dispatch(changeTaskStatus({ id: id, status: todo }));
+  };
+
   const handleTakeToWork = (id) => {
-    dispatch(editTaskStatus({ id: id, status: inProgress }));
+    dispatch(changeTaskStatus({ id: id, status: inProgress }));
   };
 
   const handleDoneTask = (id) => {
-    dispatch(editTaskStatus({ id: id, status: done }));
+    dispatch(changeTaskStatus({ id: id, status: done }));
   };
 
   return {
+    handleToDo,
     handleTakeToWork,
     handleDoneTask,
   };
