@@ -22,6 +22,7 @@ export function Task({
   onDeleteTag,
 }) {
   const [{ isDragging }, drag] = useDrag(() => ({
+    item: { id },
     type: ItemTypes.TASK,
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),

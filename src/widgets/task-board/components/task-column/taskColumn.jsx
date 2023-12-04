@@ -1,5 +1,8 @@
+import { useDrop } from 'react-dnd';
+
 import { Task } from '../../../../components/task/task';
 import { TaskList } from '../../../../components/task-list';
+import { ItemTypes } from '../../../../utils';
 
 export function TaskColumn({
   tasks,
@@ -11,9 +14,24 @@ export function TaskColumn({
   onDeleteTag,
   returnToPrevStatus,
   moveToNextStatus,
+  onChangeStatus,
 }) {
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: ItemTypes.TASK,
+    drop: (item) => onChangeStatus(item.id),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  }));
+
   return (
-    <TaskList onAdd={openCreateTaskForm} name={name} id={id}>
+    <TaskList
+      onAdd={openCreateTaskForm}
+      name={name}
+      id={id}
+      ref={drop}
+      isOver={isOver}
+    >
       {tasks.map((el) => {
         return (
           <Task

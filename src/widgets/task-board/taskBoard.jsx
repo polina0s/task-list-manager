@@ -199,6 +199,7 @@ export function TaskBoard() {
               deleteTaskById={handleDeleteTaskById}
               editTaskById={handleEditTaskById}
               onDeleteTag={handleDeleteTagFromTask}
+              onChangeStatus={handleToDo}
             />
             <TaskColumn
               name="in progress"
@@ -209,6 +210,7 @@ export function TaskBoard() {
               deleteTaskById={handleDeleteTaskById}
               editTaskById={handleEditTaskById}
               onDeleteTag={handleDeleteTagFromTask}
+              onChangeStatus={handleTakeToWork}
             />
             <TaskColumn
               name="done"
@@ -218,6 +220,7 @@ export function TaskBoard() {
               deleteTaskById={handleDeleteTaskById}
               editTaskById={handleEditTaskById}
               onDeleteTag={handleDeleteTagFromTask}
+              onChangeStatus={handleDoneTask}
             />
           </Grid>
         </Box>
