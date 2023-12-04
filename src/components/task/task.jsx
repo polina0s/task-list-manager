@@ -4,7 +4,9 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton } from '@mui/material';
+import { useDrag } from 'react-dnd';
 
+import { ItemTypes } from '../../utils';
 import { Tag } from '../tag';
 import { Title } from '../title';
 import task from './task.module.scss';
@@ -19,8 +21,23 @@ export function Task({
   tags,
   onDeleteTag,
 }) {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.TASK,
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
+
   return (
-    <div className={task.cont} id={id}>
+    <div
+      className={task.cont}
+      id={id}
+      ref={drag}
+      style={{
+        opacity: isDragging ? 0.5 : 1,
+        cursor: 'grab',
+      }}
+    >
       <div className={task.titleCont}>
         <div className={task.nameCont}>
           <AutoAwesomeIcon className={task.titleIcon} color="secondary" />
