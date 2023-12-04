@@ -195,7 +195,6 @@ export function TaskBoard() {
               id="toDo"
               tasks={todoTasks}
               moveToNextStatus={handleTakeToWork}
-              // onChangeStatus={handleTakeToWork}
               openCreateTaskForm={handleOpenCreateTaskForm}
               deleteTaskById={handleDeleteTaskById}
               editTaskById={handleEditTaskById}
@@ -205,7 +204,6 @@ export function TaskBoard() {
               name="in progress"
               id="inProgress"
               tasks={inProgressTasks}
-              // onChangeStatus={handleDoneTask}
               returnToPrevStatus={handleToDo}
               moveToNextStatus={handleDoneTask}
               deleteTaskById={handleDeleteTaskById}
@@ -217,7 +215,6 @@ export function TaskBoard() {
               id="done"
               tasks={doneTasks}
               returnToPrevStatus={handleTakeToWork}
-              // moveToNextStatus={}
               deleteTaskById={handleDeleteTaskById}
               editTaskById={handleEditTaskById}
               onDeleteTag={handleDeleteTagFromTask}

@@ -3,7 +3,6 @@ import { TaskList } from '../../../../components/task-list';
 
 export function TaskColumn({
   tasks,
-  onChangeStatus,
   openCreateTaskForm,
   deleteTaskById,
   editTaskById,
@@ -30,9 +29,6 @@ export function TaskColumn({
               : {})}
             {...(moveToNextStatus
               ? { moveToNextStatus: () => moveToNextStatus(el.id) }
-              : {})}
-            {...(onChangeStatus
-              ? { onChangeStatus: () => onChangeStatus(el.id) }
               : {})}
           />
         );

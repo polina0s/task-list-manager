@@ -16,7 +16,6 @@ export function Task({
   onEdit,
   returnToPrevStatus,
   moveToNextStatus,
-  onChangeStatus,
   tags,
   onDeleteTag,
 }) {
@@ -43,11 +42,6 @@ export function Task({
           ) : null}
           {moveToNextStatus ? (
             <IconButton color="secondary" onClick={moveToNextStatus}>
-              <ArrowForwardIcon />
-            </IconButton>
-          ) : null}
-          {onChangeStatus ? (
-            <IconButton color="secondary" onClick={onChangeStatus}>
               <ArrowForwardIcon />
             </IconButton>
           ) : null}
