@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { api } from '../../api';
-import { done, inProgress } from '../../utils';
 
 export const createTask = createAsyncThunk(
   'tasks/creteTask',
@@ -51,12 +50,11 @@ export const editTask = createAsyncThunk(
   },
 );
 
-export const editTaskStatus = createAsyncThunk(
-  'tasks/editTaskStatus',
+export const changeTaskStatus = createAsyncThunk(
+  'task/changeTaskStatus',
   async (data, { rejectWithValue }) => {
     try {
-      if (data.status === inProgress) await api.takeToWork(data);
-      if (data.status === done) await api.done(data);
+      await api.changeTaskStatus(data);
       return data;
     } catch (error) {
       return rejectWithValue(error);

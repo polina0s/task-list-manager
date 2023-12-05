@@ -2,6 +2,8 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { useEffect, useRef, useState } from 'react';
 import { useMemo } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -70,7 +72,8 @@ export function TaskBoard() {
     isCreateTagForm,
   } = useTagForm();
 
-  const { handleTakeToWork, handleDoneTask } = useTaskActions(dispatch);
+  const { handleToDo, handleTakeToWork, handleDoneTask } =
+    useTaskActions(dispatch);
 
   const {
     handleCloseConfirmModal,
@@ -183,35 +186,43 @@ export function TaskBoard() {
   };
 
   return (
-    <>
+    <DndProvider backend={HTML5Backend}>
       <Box className={board.cont}>
         <Grid container spacing={2}>
           <TaskColumn
+            status={todo}
             name="to do"
             id="toDo"
             tasks={todoTasks}
-            onChangeStatus={handleTakeToWork}
+            moveToNextStatus={handleTakeToWork}
             openCreateTaskForm={handleOpenCreateTaskForm}
             deleteTaskById={handleDeleteTaskById}
             editTaskById={handleEditTaskById}
             onDeleteTag={handleDeleteTagFromTask}
+            onChangeStatus={handleToDo}
           />
           <TaskColumn
+            status={inProgress}
             name="in progress"
             id="inProgress"
             tasks={inProgressTasks}
-            onChangeStatus={handleDoneTask}
+            returnToPrevStatus={handleToDo}
+            moveToNextStatus={handleDoneTask}
             deleteTaskById={handleDeleteTaskById}
             editTaskById={handleEditTaskById}
             onDeleteTag={handleDeleteTagFromTask}
+            onChangeStatus={handleTakeToWork}
           />
           <TaskColumn
+            status={done}
             name="done"
             id="done"
             tasks={doneTasks}
+            returnToPrevStatus={handleTakeToWork}
             deleteTaskById={handleDeleteTaskById}
             editTaskById={handleEditTaskById}
             onDeleteTag={handleDeleteTagFromTask}
+            onChangeStatus={handleDoneTask}
           />
         </Grid>
       </Box>
@@ -283,6 +294,6 @@ export function TaskBoard() {
               onDelete: handleDeleteTagFromList,
             })}
       />
-    </>
+    </DndProvider>
   );
 }
