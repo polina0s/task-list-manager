@@ -9,7 +9,7 @@ import { Title } from '../title';
 import list from './taskList.module.scss';
 
 export const TaskList = forwardRef(function TaskList(
-  { name, onAdd, onMore, children, isOver },
+  { status, onAdd, onMore, children, isOver },
   ref,
 ) {
   const breakpoints = useBreakpoints();
@@ -22,7 +22,7 @@ export const TaskList = forwardRef(function TaskList(
       >
         <div className={list.header}>
           <Title className={list.name} variant="h6">
-            {name}
+            {status}
           </Title>
           <div>
             {onAdd && (

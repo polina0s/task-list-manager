@@ -9,7 +9,7 @@ export function TaskColumn({
   openCreateTaskForm,
   deleteTaskById,
   editTaskById,
-  name,
+  status,
   id,
   onDeleteTag,
   returnToPrevStatus,
@@ -27,7 +27,7 @@ export function TaskColumn({
   return (
     <TaskList
       onAdd={openCreateTaskForm}
-      name={name}
+      status={status}
       id={id}
       ref={drop}
       isOver={isOver}
@@ -35,7 +35,7 @@ export function TaskColumn({
       {tasks.map((el) => {
         return (
           <Task
-            status={name}
+            status={status}
             tags={el.tags}
             name={el.text}
             id={el.id}
