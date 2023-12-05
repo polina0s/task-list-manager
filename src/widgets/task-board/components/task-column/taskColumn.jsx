@@ -18,7 +18,7 @@ export function TaskColumn({
 }) {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.TASK,
-    drop: (item) => onChangeStatus(item.id),
+    drop: (item) => onChangeStatus(item.id, item.status),
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
@@ -35,6 +35,7 @@ export function TaskColumn({
       {tasks.map((el) => {
         return (
           <Task
+            status={name}
             tags={el.tags}
             name={el.text}
             id={el.id}

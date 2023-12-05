@@ -20,9 +20,10 @@ export function Task({
   moveToNextStatus,
   tags,
   onDeleteTag,
+  status,
 }) {
   const [{ isDragging }, drag] = useDrag(() => ({
-    item: { id },
+    item: { id, status },
     type: ItemTypes.TASK,
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),

@@ -2,16 +2,25 @@ import { changeTaskStatus } from '../store/task';
 import { done, inProgress, todo } from './status';
 
 export const useTaskActions = (dispatch) => {
-  const handleToDo = (id) => {
-    dispatch(changeTaskStatus({ id: id, status: todo }));
+  const handleToDo = (id, status) => {
+    if (status !== 'to do') {
+      dispatch(changeTaskStatus({ id: id, status: todo }));
+    }
+    return;
   };
 
-  const handleTakeToWork = (id) => {
-    dispatch(changeTaskStatus({ id: id, status: inProgress }));
+  const handleTakeToWork = (id, status) => {
+    if (status !== inProgress) {
+      dispatch(changeTaskStatus({ id: id, status: inProgress }));
+    }
+    return;
   };
 
-  const handleDoneTask = (id) => {
-    dispatch(changeTaskStatus({ id: id, status: done }));
+  const handleDoneTask = (id, status) => {
+    if (status !== done) {
+      dispatch(changeTaskStatus({ id: id, status: done }));
+    }
+    return;
   };
 
   return {
