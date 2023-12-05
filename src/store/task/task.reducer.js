@@ -6,7 +6,6 @@ import {
   createTask,
   deleteTask,
   editTask,
-  editTaskStatus,
   getTasks,
 } from './index';
 
@@ -61,21 +60,6 @@ const taskSlice = createSlice({
       state.tasks = state.tasks.map((task) => {
         if (task.id === action.payload.id) {
           return action.payload;
-        }
-        return task;
-      });
-    });
-    builder.addCase(editTaskStatus.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(editTaskStatus.rejected, (state) => {
-      state.isLoading = false;
-    });
-    builder.addCase(editTaskStatus.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.tasks = state.tasks.map((task) => {
-        if (task.id === action.payload.id) {
-          return { ...task, status: action.payload.status };
         }
         return task;
       });

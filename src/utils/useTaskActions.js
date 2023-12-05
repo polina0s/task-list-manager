@@ -6,21 +6,18 @@ export const useTaskActions = (dispatch) => {
     if (status !== todo) {
       dispatch(changeTaskStatus({ id: id, status: todo }));
     }
-    return;
   };
 
   const handleTakeToWork = (id, status) => {
     if (status !== inProgress) {
       dispatch(changeTaskStatus({ id: id, status: inProgress }));
     }
-    return;
   };
 
   const handleDoneTask = (id, status) => {
     if (status !== done) {
       dispatch(changeTaskStatus({ id: id, status: done }));
     }
-    return;
   };
 
   return {
