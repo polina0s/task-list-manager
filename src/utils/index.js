@@ -1,3 +1,4 @@
+export { colors } from './circlePickerColors';
 export { ItemTypes } from './dndItemTypes';
 export { filterTasksById, filterTasksByStatus } from './filterTasks';
 export { filterTagsById } from './fiterTags';

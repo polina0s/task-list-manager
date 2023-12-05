@@ -20,7 +20,10 @@ export const TaskList = forwardRef(function TaskList(
 
   return (
     <Grid item xs={breakpoints.md ? 12 : 4} ref={ref}>
-      <div className={list.cont} style={{ backgroundColor: isOver && 'red' }}>
+      <div
+        className={list.cont}
+        style={{ backgroundColor: isOver && 'var(--darkBrown' }}
+      >
         <div className={list.header}>
           <Title className={list.name} variant="h6">
             {name}

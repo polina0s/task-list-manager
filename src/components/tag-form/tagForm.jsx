@@ -7,6 +7,7 @@ import { CirclePicker } from 'react-color';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
+import { colors } from '../../utils';
 import { Button } from '../button/button';
 import { Input } from '../input/input';
 import { Title } from '../title';
@@ -72,20 +73,7 @@ export function TagForm({
               <CirclePicker
                 color={value}
                 onChange={handleChangeColor}
-                colors={[
-                  '#FFFFFF',
-                  '#90A4AE',
-                  '#A1887F',
-                  '#FF8A65',
-                  '#FFB74D',
-                  '#FFD54F',
-                  '#AED581',
-                  '#4DD0E1',
-                  '#9575CD',
-                  '#BA68C8',
-                  '#F06292',
-                  '#E57373',
-                ]}
+                colors={colors}
               />
             )}
             name="color"
