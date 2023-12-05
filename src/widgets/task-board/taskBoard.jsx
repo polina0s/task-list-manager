@@ -190,7 +190,8 @@ export function TaskBoard() {
       <Box className={board.cont}>
         <Grid container spacing={2}>
           <TaskColumn
-            status="todo"
+            status={todo}
+            name={todo}
             id="toDo"
             tasks={todoTasks}
             moveToNextStatus={handleTakeToWork}
@@ -201,7 +202,8 @@ export function TaskBoard() {
             onChangeStatus={handleToDo}
           />
           <TaskColumn
-            status="in progress"
+            status={inProgress}
+            name={inProgress}
             id="inProgress"
             tasks={inProgressTasks}
             returnToPrevStatus={handleToDo}
@@ -212,7 +214,8 @@ export function TaskBoard() {
             onChangeStatus={handleTakeToWork}
           />
           <TaskColumn
-            status="done"
+            status={done}
+            name={done}
             id="done"
             tasks={doneTasks}
             returnToPrevStatus={handleTakeToWork}

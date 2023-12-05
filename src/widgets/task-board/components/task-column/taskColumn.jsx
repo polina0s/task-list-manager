@@ -6,6 +6,7 @@ import { ItemTypes } from '../../../../utils';
 
 export function TaskColumn({
   tasks,
+  name,
   openCreateTaskForm,
   deleteTaskById,
   editTaskById,
@@ -27,7 +28,7 @@ export function TaskColumn({
   return (
     <TaskList
       onAdd={openCreateTaskForm}
-      status={status}
+      name={name}
       id={id}
       ref={drop}
       isOver={isOver}
