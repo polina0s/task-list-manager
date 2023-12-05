@@ -3,7 +3,7 @@ import { done, inProgress, todo } from './status';
 
 export const useTaskActions = (dispatch) => {
   const handleToDo = (id, status) => {
-    if (status !== 'to do') {
+    if (status !== todo) {
       dispatch(changeTaskStatus({ id: id, status: todo }));
     }
     return;

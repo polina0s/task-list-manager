@@ -191,7 +191,7 @@ export function TaskBoard() {
         <Box className={board.cont}>
           <Grid container spacing={2}>
             <TaskColumn
-              name="to do"
+              name="todo"
               id="toDo"
               tasks={todoTasks}
               moveToNextStatus={handleTakeToWork}
