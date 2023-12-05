@@ -191,7 +191,7 @@ export function TaskBoard() {
         <Grid container spacing={2}>
           <TaskColumn
             status={todo}
-            name={todo}
+            name="to do"
             id="toDo"
             tasks={todoTasks}
             moveToNextStatus={handleTakeToWork}
@@ -203,7 +203,7 @@ export function TaskBoard() {
           />
           <TaskColumn
             status={inProgress}
-            name={inProgress}
+            name="in progress"
             id="inProgress"
             tasks={inProgressTasks}
             returnToPrevStatus={handleToDo}
@@ -215,7 +215,7 @@ export function TaskBoard() {
           />
           <TaskColumn
             status={done}
-            name={done}
+            name="done"
             id="done"
             tasks={doneTasks}
             returnToPrevStatus={handleTakeToWork}
