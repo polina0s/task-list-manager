@@ -21,6 +21,17 @@ export const Router = createBrowserRouter([
               let { HomePage } = await import('../pages/home-page');
               return { Component: HomePage };
             },
+            children: [
+              {
+                path: ':id',
+                async lazy() {
+                  let { TaskPage } = await import(
+                    '../pages/task-page/taskPage'
+                  );
+                  return { Component: TaskPage };
+                },
+              },
+            ],
           },
         ],
       },

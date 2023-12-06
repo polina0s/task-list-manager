@@ -1,4 +1,5 @@
 import { useDrop } from 'react-dnd';
+import { useNavigate } from 'react-router';
 
 import { Task } from '../../../../components/task/task';
 import { TaskList } from '../../../../components/task-list';
@@ -25,6 +26,8 @@ export function TaskColumn({
     }),
   }));
 
+  const navigate = useNavigate();
+
   return (
     <TaskList
       onAdd={openCreateTaskForm}
@@ -42,7 +45,10 @@ export function TaskColumn({
             id={el.id}
             key={el.id}
             onDelete={() => deleteTaskById(el.id)}
-            onEdit={() => editTaskById(el.id)}
+            onEdit={() => {
+              navigate(`${el.id}`);
+              editTaskById(el.id);
+            }}
             onDeleteTag={(tagId) => onDeleteTag(el, tagId)}
             {...(returnToPrevStatus
               ? { returnToPrevStatus: () => returnToPrevStatus(el.id) }
