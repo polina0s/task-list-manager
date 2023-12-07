@@ -79,7 +79,7 @@ export function TaskPage() {
   };
 
   const handleDeleteTagFromList = () => {
-    dispatch(deleteTag({ id: idTag }))
+    dispatch(deleteTag({ id: idTag, dispatch: dispatch }))
       .unwrap()
       .then(() => {
         handleCloseConfirmModal();
