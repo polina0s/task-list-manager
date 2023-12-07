@@ -79,12 +79,13 @@ export function TaskForm({
             <Title color="primary">add tags</Title>
           </Button>
           <Controller
-            render={({ field: { value } }) =>
-              renderTagForm({
+            render={({ field: { value } }) => {
+              console.log(value);
+              return renderTagForm({
                 onCheck: setTags,
                 checkedTags: value,
-              })
-            }
+              });
+            }}
             name="tags"
             control={control}
           />

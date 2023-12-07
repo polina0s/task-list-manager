@@ -14,7 +14,6 @@ import {
   tagByIdSelector,
 } from '../../store/tag';
 import {
-  deleteTask,
   editTask,
   tagsByTaskIdSelector,
   taskByIdSelector,
@@ -22,18 +21,21 @@ import {
 import { useConfirmModal, useTagForm, useTaskForm } from '../../utils';
 
 export function TaskPage() {
-  let { id } = useParams();
-  const [idTask, setIdTask] = useState(id);
+  const { id } = useParams();
+  const taskId = +id;
+
   const [idTag, setIdTag] = useState('');
+  const tags = useSelector(allTagsSelector);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const selectedTagsByTaskId = useSelector((state) =>
-    tagsByTaskIdSelector(state, idTask),
+    tagsByTaskIdSelector(state, taskId),
   );
-  const tags = useSelector(allTagsSelector);
+
   const selectedTag = useSelector((state) => tagByIdSelector(state, idTag));
-  const selectedTask = useSelector((state) => taskByIdSelector(state, idTask));
-  console.log(selectedTask);
+  const selectedTask = useSelector((state) => taskByIdSelector(state, taskId));
+
   const { handleCloseTaskForm } = useTaskForm();
   const {
     handleOpenEditTagForm,
@@ -42,21 +44,19 @@ export function TaskPage() {
     isEditTagForm,
     isCreateTagForm,
   } = useTagForm();
-  const {
-    handleOpenTagConfirmModal,
-    handleCloseConfirmModal,
-    isTaskForm,
-    isTagForm,
-  } = useConfirmModal();
+  const { handleOpenTagConfirmModal, handleCloseConfirmModal, isTagForm } =
+    useConfirmModal();
+
   const buttonRef = useRef(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const openTagList = Boolean(anchorEl);
 
   const handleEditTask = (data) => {
-    dispatch(editTask({ id: idTask, text: data.text, tags: data.tags }))
+    dispatch(editTask({ id: taskId, text: data.text, tags: data.tags }))
       .unwrap()
       .then(() => {
         handleCloseTaskForm();
+        navigate('/home');
       });
   };
 
@@ -95,22 +95,9 @@ export function TaskPage() {
       });
   };
 
-  const handleDeleteTask = () => {
-    dispatch(deleteTask({ id: idTask }))
-      .unwrap()
-      .then(() => {
-        handleCloseConfirmModal();
-        setIdTask('');
-      });
-  };
+  const handleClick = () => setAnchorEl(buttonRef.current);
 
-  const handleClick = () => {
-    setAnchorEl(buttonRef.current);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleClose = () => setAnchorEl(null);
 
   return (
     <>
@@ -158,18 +145,11 @@ export function TaskPage() {
       />
       <ConfirmModal
         onClose={handleCloseConfirmModal}
-        {...(isTaskForm
-          ? {
-              children: 'Are you sure you want to delete this task?',
-              open: isTaskForm,
-              onDelete: handleDeleteTask,
-            }
-          : {
-              children: 'Are you sure you want to delete this tag?',
-              open: isTagForm,
-              onDelete: handleDeleteTagFromList,
-            })}
-      />
+        open={isTagForm}
+        onDelete={handleDeleteTagFromList}
+      >
+        Are you sure you want to delete this tag?
+      </ConfirmModal>
     </>
   );
 }
