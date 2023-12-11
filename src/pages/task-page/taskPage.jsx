@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 
@@ -48,10 +48,6 @@ export function TaskPage() {
   const { handleOpenTagConfirmModal, handleCloseConfirmModal, isTagForm } =
     useConfirmModal();
 
-  const buttonRef = useRef(null);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const openTagList = Boolean(anchorEl);
-
   const handleEditTask = (data) => {
     dispatch(editTask({ id: taskId, text: data.text, tags: data.tags }))
       .unwrap()
@@ -96,34 +92,28 @@ export function TaskPage() {
       });
   };
 
-  const handleClick = () => setAnchorEl(buttonRef.current);
-
-  const handleClose = () => setAnchorEl(null);
-
   return (
     <>
       <TaskForm
         isLoading={isLoading}
         onClose={() => navigate('/home')}
-        onButtonAddTag={handleClick}
-        buttonRef={buttonRef}
         tags={selectedTagsByTaskId}
         openTaskForm={true}
         onSubmit={handleEditTask}
         text={selectedTask?.text}
         title="Edit task"
         btnText="Save"
-        renderTagForm={({ onCheck, checkedTags }) => (
+        renderTagForm={({ onCheck, checkedTags, open, anchorEl, onClose }) => (
           <TagList
-            open={openTagList}
+            onCheck={onCheck}
+            checkedTags={checkedTags}
+            open={open}
             anchorEl={anchorEl}
-            onClose={handleClose}
+            onClose={onClose}
             onOpenTagForm={handleOpenCreateTagForm}
             tags={tags}
             handleEditTagById={handleEditTagById}
             onDeleteTagFromList={handleDeleteTagById}
-            onCheck={onCheck}
-            checkedTags={checkedTags}
           />
         )}
       />

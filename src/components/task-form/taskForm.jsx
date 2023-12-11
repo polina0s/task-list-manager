@@ -3,14 +3,15 @@ import CloseIcon from '@mui/icons-material/Close';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import { IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import Modal from '@mui/material/Modal';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { Button } from '../button/button';
 import { Input } from '../input/input';
-import { Loader } from '../loader';
 import { Title } from '../title';
 import form from './taskForm.module.scss';
 
@@ -20,13 +21,11 @@ const schema = yup.object().shape({
 
 export function TaskForm({
   onClose,
-  onButtonAddTag,
   onSubmit,
   openTaskForm,
   title,
   btnText,
   text,
-  buttonRef,
   tags = [],
   renderTagForm,
   isLoading,
@@ -45,6 +44,14 @@ export function TaskForm({
     resolver: yupResolver(schema),
   });
 
+  const buttonRef = useRef(null);
+
+  const handleClick = () => setAnchorEl(buttonRef.current);
+  const handleClose = () => setAnchorEl(null);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openTagList = Boolean(anchorEl);
+
   const setTags = ({ id, checked }) => {
     const oldTags = getValues('tags');
     if (checked) {
@@ -54,21 +61,6 @@ export function TaskForm({
       setValue('tags', newTags);
     }
   };
-
-  // if (isLoading)
-  //   return (
-  //     <Modal open={openTaskForm} onClose={onClose}>
-  //       <Box
-  //         className={form.cont}
-  //         component="form"
-  //         onSubmit={handleSubmit(onSubmit)}
-  //         noValidate
-  //         autoComplete="off"
-  //       >
-  //         <Loader />
-  //       </Box>
-  //     </Modal>
-  //   );
 
   return (
     <Modal open={openTaskForm} onClose={onClose}>
@@ -80,7 +72,7 @@ export function TaskForm({
         autoComplete="off"
       >
         {isLoading ? (
-          <Loader />
+          <CircularProgress color="secondary" />
         ) : (
           <>
             <div className={form.titleCont}>
@@ -92,7 +84,7 @@ export function TaskForm({
               </IconButton>
             </div>
             <div className={form.tagsCont} ref={buttonRef}>
-              <Button onClick={onButtonAddTag}>
+              <Button onClick={handleClick}>
                 <LocalOfferOutlinedIcon
                   color="primary"
                   className={form.tagsBtnIcon}
@@ -101,10 +93,12 @@ export function TaskForm({
               </Button>
               <Controller
                 render={({ field: { value } }) => {
-                  console.log(value);
                   return renderTagForm({
                     onCheck: setTags,
                     checkedTags: value,
+                    open: openTagList,
+                    anchorEl: anchorEl,
+                    onClose: handleClose,
                   });
                 }}
                 name="tags"
