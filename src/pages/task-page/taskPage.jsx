@@ -28,6 +28,7 @@ export function TaskPage() {
   const tags = useSelector(allTagsSelector);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isLoading = useSelector((state) => state.task.isLoading);
 
   const selectedTagsByTaskId = useSelector((state) =>
     tagsByTaskIdSelector(state, taskId),
@@ -102,6 +103,7 @@ export function TaskPage() {
   return (
     <>
       <TaskForm
+        isLoading={isLoading}
         onClose={() => navigate('/home')}
         onButtonAddTag={handleClick}
         buttonRef={buttonRef}

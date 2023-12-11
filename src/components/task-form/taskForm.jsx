@@ -10,6 +10,7 @@ import * as yup from 'yup';
 
 import { Button } from '../button/button';
 import { Input } from '../input/input';
+import { Loader } from '../loader';
 import { Title } from '../title';
 import form from './taskForm.module.scss';
 
@@ -28,6 +29,7 @@ export function TaskForm({
   buttonRef,
   tags = [],
   renderTagForm,
+  isLoading,
 }) {
   const {
     register,
@@ -53,6 +55,21 @@ export function TaskForm({
     }
   };
 
+  // if (isLoading)
+  //   return (
+  //     <Modal open={openTaskForm} onClose={onClose}>
+  //       <Box
+  //         className={form.cont}
+  //         component="form"
+  //         onSubmit={handleSubmit(onSubmit)}
+  //         noValidate
+  //         autoComplete="off"
+  //       >
+  //         <Loader />
+  //       </Box>
+  //     </Modal>
+  //   );
+
   return (
     <Modal open={openTaskForm} onClose={onClose}>
       <Box
@@ -62,41 +79,47 @@ export function TaskForm({
         noValidate
         autoComplete="off"
       >
-        <div className={form.titleCont}>
-          <Title color="secondary" variant="h6">
-            {title}
-          </Title>
-          <IconButton onClick={onClose}>
-            <CloseIcon color="secondary" />
-          </IconButton>
-        </div>
-        <div className={form.tagsCont} ref={buttonRef}>
-          <Button onClick={onButtonAddTag}>
-            <LocalOfferOutlinedIcon
-              color="primary"
-              className={form.tagsBtnIcon}
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <div className={form.titleCont}>
+              <Title color="secondary" variant="h6">
+                {title}
+              </Title>
+              <IconButton onClick={onClose}>
+                <CloseIcon color="secondary" />
+              </IconButton>
+            </div>
+            <div className={form.tagsCont} ref={buttonRef}>
+              <Button onClick={onButtonAddTag}>
+                <LocalOfferOutlinedIcon
+                  color="primary"
+                  className={form.tagsBtnIcon}
+                />
+                <Title color="primary">add tags</Title>
+              </Button>
+              <Controller
+                render={({ field: { value } }) => {
+                  console.log(value);
+                  return renderTagForm({
+                    onCheck: setTags,
+                    checkedTags: value,
+                  });
+                }}
+                name="tags"
+                control={control}
+              />
+            </div>
+            <Input
+              className={form.input}
+              label="task text"
+              helperText={errors?.text?.message}
+              {...register('text')}
             />
-            <Title color="primary">add tags</Title>
-          </Button>
-          <Controller
-            render={({ field: { value } }) => {
-              console.log(value);
-              return renderTagForm({
-                onCheck: setTags,
-                checkedTags: value,
-              });
-            }}
-            name="tags"
-            control={control}
-          />
-        </div>
-        <Input
-          className={form.input}
-          label="task text"
-          helperText={errors?.text?.message}
-          {...register('text')}
-        />
-        <Button type="submit">{btnText}</Button>
+            <Button type="submit">{btnText}</Button>
+          </>
+        )}
       </Box>
     </Modal>
   );
