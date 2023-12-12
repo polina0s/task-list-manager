@@ -3,7 +3,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import { IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import Modal from '@mui/material/Modal';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Controller } from 'react-hook-form';
 import * as yup from 'yup';
@@ -19,15 +21,14 @@ const schema = yup.object().shape({
 
 export function TaskForm({
   onClose,
-  onButtonAddTag,
   onSubmit,
   openTaskForm,
   title,
   btnText,
   text,
-  buttonRef,
   tags = [],
   renderTagForm,
+  isLoading,
 }) {
   const {
     register,
@@ -42,6 +43,12 @@ export function TaskForm({
     shouldUnregister: true,
     resolver: yupResolver(schema),
   });
+
+  const buttonRef = useRef(null);
+
+  const [open, setOpen] = useState(false);
+  const handleClick = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const setTags = ({ id, checked }) => {
     const oldTags = getValues('tags');
@@ -62,40 +69,49 @@ export function TaskForm({
         noValidate
         autoComplete="off"
       >
-        <div className={form.titleCont}>
-          <Title color="secondary" variant="h6">
-            {title}
-          </Title>
-          <IconButton onClick={onClose}>
-            <CloseIcon color="secondary" />
-          </IconButton>
-        </div>
-        <div className={form.tagsCont} ref={buttonRef}>
-          <Button onClick={onButtonAddTag}>
-            <LocalOfferOutlinedIcon
-              color="primary"
-              className={form.tagsBtnIcon}
+        {isLoading ? (
+          <CircularProgress color="secondary" />
+        ) : (
+          <>
+            <div className={form.titleCont}>
+              <Title color="secondary" variant="h6">
+                {title}
+              </Title>
+              <IconButton onClick={onClose}>
+                <CloseIcon color="secondary" />
+              </IconButton>
+            </div>
+            <div className={form.tagsCont} ref={buttonRef}>
+              <Button onClick={handleClick}>
+                <LocalOfferOutlinedIcon
+                  color="primary"
+                  className={form.tagsBtnIcon}
+                />
+                <Title color="primary">add tags</Title>
+              </Button>
+              <Controller
+                render={({ field: { value } }) => {
+                  return renderTagForm({
+                    onCheck: setTags,
+                    checkedTags: value,
+                    open: open,
+                    anchorEl: buttonRef.current,
+                    onClose: handleClose,
+                  });
+                }}
+                name="tags"
+                control={control}
+              />
+            </div>
+            <Input
+              className={form.input}
+              label="task text"
+              helperText={errors?.text?.message}
+              {...register('text')}
             />
-            <Title color="primary">add tags</Title>
-          </Button>
-          <Controller
-            render={({ field: { value } }) =>
-              renderTagForm({
-                onCheck: setTags,
-                checkedTags: value,
-              })
-            }
-            name="tags"
-            control={control}
-          />
-        </div>
-        <Input
-          className={form.input}
-          label="task text"
-          helperText={errors?.text?.message}
-          {...register('text')}
-        />
-        <Button type="submit">{btnText}</Button>
+            <Button type="submit">{btnText}</Button>
+          </>
+        )}
       </Box>
     </Modal>
   );

@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { api } from '../../api';
+import { getTasks } from '../task';
 
 export const getTags = createAsyncThunk(
   'tags/getTags',
@@ -40,9 +41,10 @@ export const editTag = createAsyncThunk(
 
 export const deleteTag = createAsyncThunk(
   'tags/deleteTag',
-  async ({ id }, { rejectWithValue }) => {
+  async ({ dispatch, id }, { rejectWithValue }) => {
     try {
       await api.deleteTag({ id });
+      dispatch(getTasks({ limit: 9999 }));
       return id;
     } catch (error) {
       return rejectWithValue(error);
