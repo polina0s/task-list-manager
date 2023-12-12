@@ -46,9 +46,9 @@ export function TaskForm({
 
   const buttonRef = useRef(null);
 
-  const [anchorEl, setAnchorEl] = useState(false);
-  const handleClick = () => setAnchorEl(true);
-  const handleClose = () => setAnchorEl(false);
+  const [open, setOpen] = useState(false);
+  const handleClick = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const setTags = ({ id, checked }) => {
     const oldTags = getValues('tags');
@@ -94,7 +94,7 @@ export function TaskForm({
                   return renderTagForm({
                     onCheck: setTags,
                     checkedTags: value,
-                    open: anchorEl,
+                    open: open,
                     anchorEl: buttonRef.current,
                     onClose: handleClose,
                   });
