@@ -13,10 +13,11 @@ import { logout } from './store/user/user.actions';
 import { tokenService } from './utils';
 
 api.onRefresh = async () => {
-  api
+  return api
     .refreshTokens()
-    .then(async () => {
+    .then(async (response) => {
       await api.enqueue();
+      return response;
     })
     .catch(() => {
       store.dispatch(logout());

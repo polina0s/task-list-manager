@@ -19,12 +19,33 @@ export class Api {
       },
     });
 
-    this.instance.interceptors.request.use(function (response) {
-      
-      if (response.status === 401) {
-        this.queue.push(() => this.instance);
-      }
-    });
+    this.instance.interceptors.response.use(
+      (res) => {
+        return res;
+      },
+      async (err) => {
+        const originalConfig = err.config;
+
+        if (err.response) {
+          if (err.response.status === 401 && !originalConfig.retry) {
+            originalConfig.retry = true;
+
+            try {
+              await this.onRefresh();
+              originalConfig.headers.Authorization = `Bearer ${this.access}`;
+
+              return this.instance(originalConfig);
+            } catch (error) {
+              if (error.response && error.response.data) {
+                return Promise.reject(error.response.data);
+              }
+              return Promise.reject(error);
+            }
+          }
+        }
+        return Promise.reject(err);
+      },
+    );
   }
 
   // async request(url, options = {}, repeat = true) {
@@ -101,6 +122,8 @@ export class Api {
       response.data.data.accessToken,
       response.data.data.refreshToken,
     );
+
+    return response;
   }
 
   clearQueue() {
@@ -120,8 +143,6 @@ export class Api {
       text,
       tags,
     });
-
-    console.log(response);
 
     return response.data;
   }
@@ -175,7 +196,7 @@ export class Api {
     await this.instance.patch(`tasks/${id}/status`, { status });
   }
 
-  onRefresh() {}
+  async onRefresh() {}
 }
 
 export const api = new Api();
