@@ -13,6 +13,11 @@ import { logout } from './store/user/user.actions';
 import { tokenService } from './utils';
 
 api.onRefresh = async () => {
+  if (api.isRefreshing) {
+    
+  }
+
+  api.isRefreshing = true;
   return api
     .refreshTokens()
     .then(async (response) => {
@@ -23,6 +28,9 @@ api.onRefresh = async () => {
       store.dispatch(logout());
       api.clearQueue();
       tokenService.removeTokens();
+    })
+    .finally(() => {
+      api.isRefreshing = false;
     });
 };
 

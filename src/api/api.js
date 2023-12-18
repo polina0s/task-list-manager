@@ -6,6 +6,7 @@ export class Api {
   constructor() {
     this.api = import.meta.env.VITE_API;
     this.queue = [];
+    this.isRefreshing = false;
 
     const { access, refresh } = tokenService.getTokens();
     this.access = access;
@@ -25,15 +26,19 @@ export class Api {
       },
       async (err) => {
         const originalConfig = err.config;
+        console.log(originalConfig);
 
         if (err.response) {
           if (err.response.status === 401 && !originalConfig.retry) {
+
+
+            
             originalConfig.retry = true;
 
             try {
               await this.onRefresh();
               originalConfig.headers.Authorization = `Bearer ${this.access}`;
-
+              console.log(originalConfig);
               return this.instance(originalConfig);
             } catch (error) {
               if (error.response && error.response.data) {
@@ -47,27 +52,6 @@ export class Api {
       },
     );
   }
-
-  // async request(url, options = {}, repeat = true) {
-  //   const response = await fetch(`${this.api}/${url}`, {
-  //     ...options,
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${this.access}`,
-  //       ...options?.headers,
-  //     },
-  //     body: options.body ? JSON.stringify(options.body) : undefined,
-  //   });
-
-  //   if (response.status === 401) {
-  //     if (repeat) {
-  //       this.queue.push(() => this.request(url, options, false));
-  //       this.onRefresh();
-  //     }
-  //   }
-
-  //   return response;
-  // }
 
   setTokens(access, refresh) {
     tokenService.saveTokens({
