@@ -12,26 +12,10 @@ import { store } from './store/store';
 import { logout } from './store/user/user.actions';
 import { tokenService } from './utils';
 
-api.onRefresh = async () => {
-  if (api.isRefreshing) {
-    
-  }
-
-  api.isRefreshing = true;
-  return api
-    .refreshTokens()
-    .then(async (response) => {
-      await api.enqueue();
-      return response;
-    })
-    .catch(() => {
-      store.dispatch(logout());
-      api.clearQueue();
-      tokenService.removeTokens();
-    })
-    .finally(() => {
-      api.isRefreshing = false;
-    });
+api.onRefreshError = async () => {
+  store.dispatch(logout());
+  api.clearQueue();
+  tokenService.removeTokens();
 };
 
 ReactDOM.createRoot(document.getElementById('root')).render(

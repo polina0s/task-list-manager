@@ -26,28 +26,38 @@ export class Api {
       },
       async (err) => {
         const originalConfig = err.config;
-        console.log(originalConfig);
 
-        if (err.response) {
-          if (err.response.status === 401 && !originalConfig.retry) {
-
-
-            
+        if (err.response?.status === 401 && !originalConfig?.retry) {
+          if (!this.isRefreshing) {
+            this.isRefreshing = true;
             originalConfig.retry = true;
-
             try {
-              await this.onRefresh();
+              await this.refreshTokens();
               originalConfig.headers.Authorization = `Bearer ${this.access}`;
-              console.log(originalConfig);
+
+              this.queue.forEach(({ config, resolve, reject }) => {
+                config.headers.Authorization = `Bearer ${this.access}`;
+
+                this.enqueue({ config, resolve, reject });
+              });
+              this.clearQueue();
               return this.instance(originalConfig);
             } catch (error) {
-              if (error.response && error.response.data) {
-                return Promise.reject(error.response.data);
-              }
+              this.onRefreshError();
               return Promise.reject(error);
+            } finally {
+              this.isRefreshing = false;
             }
           }
+
+          return new Promise((resolve, reject) => {
+            this.queue
+              .push({ config: originalConfig, resolve, reject })
+              .then(() => this.instance(originalConfig))
+              .catch((err) => Promise.reject(err));
+          });
         }
+
         return Promise.reject(err);
       },
     );
@@ -114,12 +124,11 @@ export class Api {
     this.queue = [];
   }
 
-  async enqueue() {
-    if (this.queue.length > 0) {
-      await Promise.all(this.queue.map((func) => func())).then(() => {
-        this.clearQueue();
-      });
-    }
+  async enqueue({ config, resolve, reject }) {
+    this.instance
+      .request(config)
+      .then((response) => resolve(response))
+      .catch((err) => reject(err));
   }
 
   async createTask({ text, tags = [] }) {
@@ -180,7 +189,7 @@ export class Api {
     await this.instance.patch(`tasks/${id}/status`, { status });
   }
 
-  async onRefresh() {}
+  async onRefreshError() {}
 }
 
 export const api = new Api();
