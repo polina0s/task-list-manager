@@ -12,17 +12,10 @@ import { store } from './store/store';
 import { logout } from './store/user/user.actions';
 import { tokenService } from './utils';
 
-api.onRefresh = async () => {
-  api
-    .refreshTokens()
-    .then(async () => {
-      await api.enqueue();
-    })
-    .catch(() => {
-      store.dispatch(logout());
-      api.clearQueue();
-      tokenService.removeTokens();
-    });
+api.onRefreshError = async () => {
+  store.dispatch(logout());
+  api.clearQueue();
+  tokenService.removeTokens();
 };
 
 ReactDOM.createRoot(document.getElementById('root')).render(
