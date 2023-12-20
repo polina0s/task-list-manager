@@ -33,14 +33,12 @@ export class Api {
             originalConfig.retry = true;
             try {
               await this.refreshTokens();
+
               originalConfig.headers.Authorization = `Bearer ${this.access}`;
 
-              this.queue.forEach(({ config, resolve, reject }) => {
-                config.headers.Authorization = `Bearer ${this.access}`;
-
-                this.enqueue({ config, resolve, reject });
-              });
+              this.enqueue();
               this.clearQueue();
+
               return this.instance(originalConfig);
             } catch (error) {
               this.onRefreshError();
@@ -50,12 +48,7 @@ export class Api {
             }
           }
 
-          return new Promise((resolve, reject) => {
-            this.queue
-              .push({ config: originalConfig, resolve, reject })
-              .then(() => this.instance(originalConfig))
-              .catch((err) => Promise.reject(err));
-          });
+          this.addToQueue(originalConfig);
         }
 
         return Promise.reject(err);
@@ -124,11 +117,23 @@ export class Api {
     this.queue = [];
   }
 
-  async enqueue({ config, resolve, reject }) {
-    this.instance
-      .request(config)
-      .then((response) => resolve(response))
-      .catch((err) => reject(err));
+  async enqueue() {
+    this.queue.forEach(({ config, resolve, reject }) => {
+      config.headers.Authorization = `Bearer ${this.access}`;
+      this.instance
+        .request(config)
+        .then((response) => resolve(response))
+        .catch((err) => reject(err));
+    });
+  }
+
+  addToQueue(config) {
+    return new Promise((resolve, reject) => {
+      this.queue
+        .push({ config, resolve, reject })
+        .then(() => this.instance(config))
+        .catch((err) => Promise.reject(err));
+    });
   }
 
   async createTask({ text, tags = [] }) {
